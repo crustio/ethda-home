@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  font-family: Montserrat, "Source Han Sans CN-blod", serif;
+}
+
+.nav-item {
+  @apply cursor-pointer relative;
+}
+
+.nav-item.active {
+  @apply text-primary;
+}
+
+.nav-item.active:after {
+  content: "";
+  @apply absolute left-0 -bottom-1 h-[1px] w-full bg-primary;
+}
+
+.title {
+  @apply text-[48px] font-bold;
+}
+
+.subtitle {
+  @apply text-[24px] font-bold;
+}
+
+.dot-text {
+  @apply pl-3 relative;
+}
+
+.dot-text:after {
+  content: '';
+  @apply block absolute left-0 top-[8px] w-[3px] h-[3px] bg-black rounded-full;
+}
+
+.desc {
+  @apply text-sm text-[#666];
+}
+
+.screen {
+  @apply border border-[#DAB68C] rounded-[20px] p-4;
+}
+
+.screen-dot {
+  @apply w-[8px] h-[8px] bg-[#DAB68C] rounded-full;
+}
+
+.screen-bar {
+  @apply bg-[#DAB68C] h-[8px] rounded-full bg-opacity-20;
+}
+
+.screen-content {
+  @apply bg-white bg-opacity-50 rounded-[16px] p-4 leading-6 text-[#55453C] text-sm;
+}
+
+.link-icon {
+  @apply cursor-pointer;
+}
+
+.link-icon:hover path {
+  @apply fill-white;
+}
+
+.feature-button {
+  @apply bg-white rounded-xl py-2 px-6 text-primary;
+  box-shadow: 0px 8px 14px 0px #D8B08233;
+}
+
+.why-button {
+  @apply bg-gradient-to-r from-[rgb(255,150,79)] to-[rgb(230,59,11)] py-3 px-6 rounded-2xl text-white font-semibold flex items-center gap-2;
+}
+
+.rower-header>div {
+  @apply py-5 px-6;
+}
+
+.rower>div {
+  @apply py-5 px-6 border-b border-b-[#F0E7E1] text-[14px] flex items-center border-x border-x-[#f0e7e1];
+}
+
+.rower>div.rower-primary {
+  @apply bg-[rgba(252,120,35,0.1)] border-b border-b-[rgba(252,120,35,0.2)] font-semibold border-x border-x-transparent;
+}
