@@ -18,7 +18,7 @@ export const Banner = () => {
             </button>
           </div>
           <div className={'-mt-10'}>
-            <Image src={'/banner.gif'} alt={'banner'} width={520} height={200} />
+            <img src={'/banner.gif'} alt={'banner'} width={520} height={200} />
           </div>
         </div>
       </div>
