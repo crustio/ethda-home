@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 export const Header = () => {
   const pathname = usePathname()
@@ -12,7 +13,13 @@ export const Header = () => {
         <div className={'flex items-center gap-8 text-white text-sm'}>
           <div className={`nav-item ${pathname === '/' ? 'active' : ''}`}>Home</div>
           <div className={`nav-item ${pathname === '/build' ? 'active' : ''}`}>Build</div>
-          <div className={`nav-item ${pathname === '/document' ? 'active' : ''}`}>Document</div>
+          <Link
+            href={'https://ipfs.io/ipfs/QmdMvxeQMzc8FyiKL7PeXkRDpsSmGr3CRSQSpXZtPtAiyV\n'}
+            target={'_blank'}
+            className={`block nav-item`}
+          >
+            Document
+          </Link>
         </div>
       </div>
     </header>

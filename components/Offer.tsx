@@ -4,7 +4,9 @@ export const Offer = () => {
       className={'bg-no-repeat pb-20'}
       style={{ backgroundImage: 'url(/offer-1.png)', backgroundSize: '900px', backgroundPosition: '300px top' }}
     >
-      <div className={'subtitle mt-20 mb-6'}>DApps Leverage EthDA for an On-chain Decentralized Storage Solution.</div>
+      <div className={'subtitle mt-20 mb-6'}>
+        <span className={'text-[25px] text-primary'}>DApps</span> Leverage EthDA for Decentralized Storage
+      </div>
       <div className='flex gap-6 mb-8'>
         <button className={'feature-button'}>Fully on-chain</button>
         <button className={'feature-button'}>ETH as fees</button>
@@ -17,8 +19,8 @@ export const Offer = () => {
             <div className='screen-dot' />
           </div>
           <div className={'screen-content'}>
-            With its array of application layer protocols, EthDA not only caters to the data availability network for Rollups but also
-            introduces an innovative, fully on-chain decentralized storage solution for the entire Ethereum ecosystem.
+            DApps use EthDA's dStorage infrastructures and toolset to store websites and user-generated data, making DApps fully-on-chain,
+            censorship-resistant and unstoppable.
           </div>
           <div className='flex mt-4'>
             <div className='screen-bar w-[40px]' />

@@ -1,12 +1,17 @@
+'use client'
 import { Banner } from '@/components/Banner'
-import Image from 'next/image'
 import { What } from '@/components/What'
 import { With } from '@/components/With'
 import { Offer } from '@/components/Offer'
 import { Footer } from '@/components/Footer'
 import { ArrowTopRightIcon } from '@radix-ui/react-icons'
+import { Competitive } from '@/components/Competitive'
+import * as Popover from '@radix-ui/react-popover'
+import { useState } from 'react'
 
 export default function Home() {
+  const [enter, setEnter] = useState(false)
+
   return (
     <>
       <Banner />
@@ -17,130 +22,91 @@ export default function Home() {
           <Offer />
         </div>
         <div
-          style={{ backgroundImage: 'url(/why-bg.png)', backgroundSize: '100%' }}
-          className={'py-20 mx-8 flex items-center justify-center py-16'}
+          style={{ backgroundImage: 'url(/why-bg.png)', backgroundSize: '100% 100%' }}
+          className={'py-24 mx-8 flex items-center justify-center py-16 bg-no-repeat'}
+          onMouseEnter={() => setEnter(true)}
+          onMouseLeave={() => setEnter(false)}
         >
           <div className={'w-[660px]'}>
             <div className='flex justify-end mb-12'>
-              <button className={'why-button'}>
-                Seamless
-                <ArrowTopRightIcon className={'w-[20px] h-[20px]'} />
-              </button>
+              <div className={'relative h-[48px]'}>
+                <Popover.Root>
+                  <Popover.Trigger asChild>
+                    <button className={`why-button ${enter ? 'active' : ''}`}>
+                      Seamless
+                      <ArrowTopRightIcon className={'w-[20px] h-[20px]'} />
+                    </button>
+                  </Popover.Trigger>
+                  <Popover.Portal>
+                    <Popover.Content sideOffset={5} align={'start'}>
+                      <div className={`why-popover w-[400px]`}>
+                        <div className={'text-[16px] font-medium mb-2'}>Native Blob-Carrying Transactions Support</div>
+                        <div className={'text-sm leading-7'}>
+                          EthDA bolsters on-chain availability and storage capabilities for large data sets through its native support for
+                          blob-carrying transactions, enabling sharding and storage of large data blocks.
+                        </div>
+                      </div>
+                    </Popover.Content>
+                  </Popover.Portal>
+                </Popover.Root>
+              </div>
             </div>
             <div className={'flex items-center justify-between mb-12'}>
-              <button className={'why-button'}>
-                Availibility
-                <ArrowTopRightIcon className={'w-[20px] h-[20px]'} />
-              </button>
+              <div className={'relative'}>
+                <Popover.Root>
+                  <Popover.Trigger asChild>
+                    <button className={`why-button ${enter ? 'active' : ''}`}>
+                      Security
+                      <ArrowTopRightIcon className={'w-[20px] h-[20px]'} />
+                    </button>
+                  </Popover.Trigger>
+                  <Popover.Portal>
+                    <Popover.Content side={'right'} align={'end'}>
+                      <div className={'why-popover active w-[380px]'} style={{ transform: 'translateX(-380px)' }}>
+                        <div className={'text-[16px] font-medium mb-2'}>Data Availability Sampling Mechanism</div>
+                        <div className={'text-sm leading-7'}>
+                          EthDA employs DAS to secure DA data storage, and derives security from Ethereum consensus by rolling-up storage
+                          proofs to Ethereum for fraud proving and trustless finality
+                        </div>
+                      </div>
+                    </Popover.Content>
+                  </Popover.Portal>
+                </Popover.Root>
+              </div>
               <div className={'text-[80px] font-bold leading-[90px]'}>
                 <div>Why</div>
                 <div>EthDA</div>
               </div>
-              <button />
+              <button className={'w-[100px]'} />
             </div>
             <div className='flex justify-end pr-20'>
-              <button className={'why-button'}>
-                Alignment
-                <ArrowTopRightIcon className={'w-[20px] h-[20px]'} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className={'py-14 bg-gradient-to-b from-[rgb(245,230,221)] to-[rgb(249,246,241)]'}>
-        <div className='text-center title mb-10'>Competitive Landscape</div>
-        <div className='container mx-auto'>
-          <div className='flex mb-2 rower-header'>
-            <div className={'w-1/6'}>&nbsp;</div>
-            <div className={'w-1/6'}>
-              <Image src={'/ethda.svg'} alt={'ethda'} width={101} height={22} />
-            </div>
-            <div className={'w-1/6'}>
-              <Image src={'/celestia.svg'} alt={'ethda'} width={110} height={28} />
-            </div>
-            <div className={'w-1/6'}>
-              <Image src={'/avail.svg'} alt={'ethda'} width={97} height={28} />
-            </div>
-            <div className={'w-1/6'}>
-              <Image src={'/eigenda.svg'} alt={'ethda'} width={134} height={28} />
-            </div>
-            <div className={'w-1/6'}>
-              <div className={'flex flex-col'}>
-                <Image src={'/eth.svg'} alt={'ethda'} width={144} height={30} />
-                <div className={'text-[10px] mt-1 pl-7'}>(Pre-EIP4844)</div>
+              <div className={'relative h-[48px]'}>
+                <Popover.Root>
+                  <Popover.Trigger asChild>
+                    <button className={`why-button ${enter ? 'active' : ''}`}>
+                      Alignment
+                      <ArrowTopRightIcon className={'w-[20px] h-[20px]'} />
+                    </button>
+                  </Popover.Trigger>
+                  <Popover.Portal>
+                    <Popover.Content sideOffset={5} align={'start'}>
+                      <div className={'why-popover w-[480px]'}>
+                        <div className={'text-[16px] font-medium mb-2'}>A Fully Ethereum-based Layer 2 Solution</div>
+                        <div className={'text-sm leading-7'}>
+                          As an Ethereum layer2 network, EthDA is fully aligned with Ethereum technologies and features, adhering to
+                          Ethereum’s danksharding roadmap in its design and implementation.
+                        </div>
+                      </div>
+                    </Popover.Content>
+                  </Popover.Portal>
+                </Popover.Root>
               </div>
             </div>
           </div>
-          <div className={'border border-2 border-[#f0e7e1] rounded-[4px]'}>
-            <div className='flex rower'>
-              <div className='w-1/6'>Technology</div>
-              <div className='w-1/6 rower-primary'>Ethereum Rollup</div>
-              <div className='w-1/6'>Tendermint</div>
-              <div className='w-1/6'>Substrate</div>
-              <div className='w-1/6'>Smart Contract</div>
-              <div className='w-1/6'>Ethereum</div>
-            </div>
-            <div className='flex rower'>
-              <div className='w-1/6'>Payment</div>
-              <div className='w-1/6 rower-primary'>$ETH</div>
-              <div className='w-1/6'>$TIA</div>
-              <div className='w-1/6'>TBD</div>
-              <div className='w-1/6'>$ETH</div>
-              <div className='w-1/6'>$ETH</div>
-            </div>
-            <div className='flex rower'>
-              <div className='w-1/6'>Data Retention</div>
-              <div className='w-1/6 rower-primary'>Permanent</div>
-              <div className='w-1/6'>Temporary</div>
-              <div className='w-1/6'>Temporary</div>
-              <div className='w-1/6'>Temporary</div>
-              <div className='w-1/6'>Temporary</div>
-            </div>
-            <div className='flex rower'>
-              <div className='w-1/6'>dStorage</div>
-              <div className='w-1/6 rower-primary'>Yes</div>
-              <div className='w-1/6'>No</div>
-              <div className='w-1/6'>No</div>
-              <div className='w-1/6'>No</div>
-              <div className='w-1/6'>Yes</div>
-            </div>
-            <div className='flex rower'>
-              <div className='w-1/6'>Data Availability sampling</div>
-              <div className='w-1/6 rower-primary'>Yes</div>
-              <div className='w-1/6'>Yes</div>
-              <div className='w-1/6'>Yes</div>
-              <div className='w-1/6'>No</div>
-              <div className='w-1/6'>No</div>
-            </div>
-            <div className='flex rower'>
-              <div className='w-1/6'>Proof schema</div>
-              <div className='w-1/6 rower-primary'>Fraud & Validity Proofs</div>
-              <div className='w-1/6'>Fraud Proofs</div>
-              <div className='w-1/6'>Validity Proofs</div>
-              <div className='w-1/6'>Validity Proofs</div>
-              <div className='w-1/6'>Validity Proofs</div>
-            </div>
-            <div className='flex rower'>
-              <div className='w-1/6'>Ability to scale</div>
-              <div className='w-1/6 rower-primary'>Yes</div>
-              <div className='w-1/6'>Yes</div>
-              <div className='w-1/6'>Yes</div>
-              <div className='w-1/6'>No</div>
-              <div className='w-1/6'>No</div>
-            </div>
-            <div className='flex rower'>
-              <div className='w-1/6'>Cosst</div>
-              <div className='w-1/6 rower-primary'>Low</div>
-              <div className='w-1/6'>Low</div>
-              <div className='w-1/6'>Low</div>
-              <div className='w-1/6'>TDB</div>
-              <div className='w-1/6'>High</div>
-            </div>
-          </div>
         </div>
       </div>
 
+      <Competitive />
       <Footer />
     </>
   )

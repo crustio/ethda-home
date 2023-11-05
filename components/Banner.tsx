@@ -1,5 +1,5 @@
 import { Header } from '@/components/Header'
-import Image from 'next/image'
+import Link from 'next/link'
 
 export const Banner = () => {
   return (
@@ -13,9 +13,15 @@ export const Banner = () => {
             </div>
             <div className={'text-[70px]'}>With Data</div>
             <div className={'text-[70px]'}>Availability Layer2</div>
-            <button className={'w-[200px] h-[58px] border border-white rounded-[12px] font-semibold text-[20px] mt-8'}>
-              Read the doc.
-            </button>
+            <Link
+              href={'https://ipfs.io/ipfs/QmdMvxeQMzc8FyiKL7PeXkRDpsSmGr3CRSQSpXZtPtAiyV\n'}
+              target={'_blank'}
+              className={
+                'flex items-center justify-center w-[200px] h-[58px] border border-white rounded-[12px] font-semibold text-[20px] mt-8'
+              }
+            >
+              Read the Doc.
+            </Link>
           </div>
           <div className={'-mt-10'}>
             <img src={'/banner.gif'} alt={'banner'} width={520} height={200} />

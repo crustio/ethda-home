@@ -8,7 +8,9 @@ export const With = () => {
       <div className='desc mb-8'>
         With ETHDA, Ethereum's scalability is enhanced by extending its data availability and storage at layer2
       </div>
-      <div className='subtitle mb-6'>Rollups Leverage EthDA for Data Availability.</div>
+      <div className='subtitle mb-6'>
+        <span className={'text-[25px] text-primary'}>Rollups</span> Leverage EthDA for Data Availability.
+      </div>
       <div className='flex gap-8'>
         <div className={'w-[660px]'}>
           <div className='flex gap-6 mb-8'>
@@ -18,17 +20,16 @@ export const With = () => {
           </div>
           <img src='/with-2.png' alt='with' width={'90%'} />
         </div>
-        <div className='screen w-[400px]'>
+        <div className='screen w-[380px] mt-8'>
           <div className='flex mb-4 gap-1'>
             <div className='screen-dot' />
             <div className='screen-dot' />
             <div className='screen-dot' />
           </div>
           <div className={'screen-content'}>
-            Rollups could also choose to post compressed transactions via blob-carrying transactions to EthDA. In this case, EthDA acts more
-            like a Plasma chain. Blobs are stored on EthDA in the form of a Merkle tree, and storage proofs are submitted to layer 1 smart
-            contracts. Rollup’s contracts on layer 1 could then use the storage proofs to check data availability. And in case of fraud
-            proving, rollup verifiers need to download transaction Blobs from EthDA.
+            Rollups post compressed transaction data to EthDA via EIP-4844 blob-carrying transactions. EthDA employs DAS scheme to store
+            blobs among a decentralized sequencer network, and posts storage proofs to Ethereum L1. Rollups check storage proofs to validate
+            data storage, and download transaction data blobs from EthDA for fraud proving.
           </div>
           <div className='flex mt-4'>
             <div className='screen-bar w-[120px]' />

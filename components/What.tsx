@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export const What = () => {
   return (
     <>
@@ -26,7 +28,9 @@ export const What = () => {
         </div>
         <div className={'flex justify-center w-[560px]'}>
           <div className={'text-right inline'}>
-            <button className={'border border-primary rounded-lg px-4 py-2 text-sm text-primary'}>Ethereum's Danksharding roadmap</button>
+            <Link href={'/'} className={'hover:underline border border-primary rounded-lg px-4 py-2 text-sm text-primary'}>
+              Ethereum's Danksharding roadmap
+            </Link>
             <img src={'/what-2.png'} alt={'what-2'} width={'100%'} />
           </div>
         </div>
