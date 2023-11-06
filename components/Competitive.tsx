@@ -84,7 +84,7 @@ export const Competitive = () => {
             <div className='w-1/6'>No</div>
           </div>
           <div className='flex rower'>
-            <div className='w-1/6'>Cosst</div>
+            <div className='w-1/6'>Cost</div>
             <div className='w-1/6 rower-primary'>Low</div>
             <div className='w-1/6'>Low</div>
             <div className='w-1/6'>Low</div>

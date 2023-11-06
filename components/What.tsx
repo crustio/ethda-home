@@ -14,7 +14,7 @@ export const What = () => {
       >
         <div className='w-[420px] shrink-0'>
           <div className='subtitle mb-6'>
-            <div>EthDA is an</div>
+            <div>EthDA is a</div>
             scalable Ethereum layer2
             <div>Data Availability solution.</div>
           </div>
@@ -28,7 +28,11 @@ export const What = () => {
         </div>
         <div className={'flex justify-center w-[560px]'}>
           <div className={'text-right inline'}>
-            <Link href={'/'} className={'hover:underline border border-primary rounded-lg px-4 py-2 text-sm text-primary'}>
+            <Link
+              target={'_blank'}
+              href={'https://ethereum.org/en/roadmap/danksharding'}
+              className={'underline border border-primary rounded-lg px-4 py-2 text-sm text-primary'}
+            >
               Ethereum's Danksharding roadmap
             </Link>
             <img src={'/what-2.png'} alt={'what-2'} width={'100%'} />

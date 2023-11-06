@@ -24,19 +24,19 @@ export const Footer = () => {
         <div className='flex justify-between items-center'>
           <div className={'text-gray-500 text-sm '}>Copyright © EthDA 2023 All Rights Reserved</div>
           <div className='flex gap-10'>
-            <Link href={''} className={'link-icon'}>
+            <Link href={'https://t.me/CrustNetwork'} target={'_blank'} className={'link-icon'}>
               <TelegramIcon />
             </Link>
-            <Link href={''} className={'link-icon'}>
+            <Link href={'https://crustnetwork.medium.com/'} target={'_blank'} className={'link-icon'}>
               <MediumIcon />
             </Link>
-            <Link href={''} className={'link-icon'}>
+            <Link href={'https://twitter.com/CrustNetwork'} target={'_blank'} className={'link-icon'}>
               <TwitterIcon />
             </Link>
-            <Link href={''} className={'link-icon'}>
+            <Link href={'https://github.com/crustio'} target={'_blank'} className={'link-icon'}>
               <GithubIcon />
             </Link>
-            <Link href={''} className={'link-icon'}>
+            <Link href={'https://discord.com/invite/Jbw2PAUSCR'} target={'_blank'} className={'link-icon'}>
               <DiscordIcon />
             </Link>
           </div>
