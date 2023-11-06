@@ -14,7 +14,7 @@ export const Header = () => {
           <div className={`nav-item ${pathname === '/' ? 'active' : ''}`}>Home</div>
           <div className={`nav-item ${pathname === '/build' ? 'active' : ''}`}>Build</div>
           <Link
-            href={'https://ipfs.io/ipfs/QmdMvxeQMzc8FyiKL7PeXkRDpsSmGr3CRSQSpXZtPtAiyV\n'}
+            href={'./docs/lightpaper.pdf'}
             target={'_blank'}
             className={`block nav-item`}
           >

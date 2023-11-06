@@ -14,7 +14,7 @@ export const Banner = () => {
             <div className={'text-[70px]'}>With Data</div>
             <div className={'text-[70px]'}>Availability Layer2</div>
             <Link
-              href={'https://ipfs.io/ipfs/QmdMvxeQMzc8FyiKL7PeXkRDpsSmGr3CRSQSpXZtPtAiyV\n'}
+              href={'./docs/lightpaper.pdf'}
               target={'_blank'}
               className={
                 'flex items-center justify-center w-[200px] h-[58px] border border-white rounded-[12px] font-semibold text-[20px] mt-8'
