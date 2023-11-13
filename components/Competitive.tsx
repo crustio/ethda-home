@@ -68,8 +68,8 @@ export const Competitive = () => {
             <div className='w-1/6'>No</div>
           </div>
           <div className='flex rower'>
-            <div className='w-1/6'>Proof schema</div>
-            <div className='w-1/6 rower-primary'>Fraud & Validity Proofs</div>
+            <div className='w-1/6'>Proof scheme</div>
+            <div className='w-1/6 rower-primary'>Validity Proofs</div>
             <div className='w-1/6'>Fraud Proofs</div>
             <div className='w-1/6'>Validity Proofs</div>
             <div className='w-1/6'>Validity Proofs</div>
