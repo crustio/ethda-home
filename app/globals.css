@@ -107,9 +107,50 @@ body {
 }
 
 .why-popover {
-  @apply absolute border border-primary p-4 rounded-2xl top-4 z-50 text-[#373C4F] bg-[rgba(250,247,243,.6)];
+  @apply absolute border border-primary p-4   rounded-2xl top-4 z-50 text-[#373C4F] bg-[rgba(250,247,243,.6)];
 }
 
 .why-popover.active {
   @apply text-white bg-gradient-to-br from-[#FC7823] to-[#FF2F00];
 }
+
+
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: left;
+  height: 62px;
+  font-weight: 300;
+
+}
+
+
+tr.no-border th {
+  border: none;
+}
+
+tr.title td {
+  width: 100px;
+}
+
+.table-container {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+
+th:first-child, td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: #f6ede6; 
+}
+
+
+

@@ -7,23 +7,33 @@ import { DiscordIcon } from '@/components/icons/Discord'
 
 export const Footer = () => {
   return (
-    <footer className={'bg-gray-900 py-20'}>
-      <div className='container mx-auto'>
-        <div className='flex justify-between'>
-          <div className={'text-white text-[24px] font-semibold'}>Sign up for EthDA updates</div>
-          <div className='flex'>
-            <div className={'border border-[#FF6933] rounded-l-md w-[300px] flex items-center px-4 text-xs'}>
-              <input type='text' className={'bg-transparent w-full outline-0 text-white'} placeholder={'Email Address'} />
+    <footer className={'bg-gray-900 py-20 mo:py-10'}>
+      <div className='container mx-auto mo:flex mo:flex-row justify-center mo:flex-wrap'>
+        <div className='flex justify-between mo:flex-col '>
+          <div className={'text-white text-[24px] mo:text-xl font-semibold mo:w-full mo:flex mo:justify-center'}>
+            Sign up for EthDA updates
+          </div>
+          <div className='flex mo:flex-col mo:mt-5'>
+            <div className={'border border-[#FF6933] rounded-l-md mo:rounded-[10px] w-[300px] mo:w-[356px] flex items-center px-4 text-xs'}>
+              <input
+                type='text'
+                className={'bg-transparent w-full mo:text-sm mo:font-light outline-0 text-white mo:h-[42px]'}
+                placeholder={'Email Address'}
+              />
             </div>
-            <button className={'bg-gradient-to-r from-[#FF6933] to-[#FF2F00] h-[36px] w-[120px] text-sm rounded-r-md text-white'}>
+            <button
+              className={
+                'mo:mt-5 bg-gradient-to-r mo:w-[356px] mo:h-[42px] mo:text-sm mo:font-light  from-[#FF6933] to-[#FF2F00] h-[36px] w-[120px]  text-sm rounded-r-md mo:rounded-r-[10px] mo:rounded-l-[10px]  text-white'
+              }
+            >
               SUBSCRIBE
             </button>
           </div>
         </div>
-        <div className={'bg-[#333] my-10 h-[1px] w-full'} />
-        <div className='flex justify-between items-center'>
+        <div className={'bg-[#333] my-10 mo:my-5 h-[1px] w-full'} />
+        <div className='flex justify-between items-center mo:flex-col mo:w-full '>
           <div className={'text-gray-500 text-sm '}>Copyright © EthDA 2023 All Rights Reserved</div>
-          <div className='flex gap-10'>
+          <div className='flex gap-10 mo:gap-[60px] mo:my-5 mo:w-full mo:justify-center'>
             <Link href={'https://t.me/CrustNetwork'} target={'_blank'} className={'link-icon'}>
               <TelegramIcon />
             </Link>
