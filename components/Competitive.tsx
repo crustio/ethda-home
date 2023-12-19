@@ -28,7 +28,7 @@ export const Competitive = () => {
             </tr>
             <tr>
               <td>
-                <div className=' mo:w-[150px]'>Technology</div>
+                <div className=' mo:w-[120px]'>Technology</div>
               </td>
               <td className='bg-[#F6E5DC]  font-medium'>
                 <div className=' mo:w-[200px] '>Ethereum Rollup</div>

@@ -24,10 +24,17 @@ export default function Home() {
   useEffect(() => {
     handleResize()
     window.addEventListener('resize', handleResize)
+
     return () => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  useEffect(() => {
+    if (isMobile) {
+      setEnter(true)
+    }
+  }, [isMobile])
 
   return (
     <>
@@ -41,15 +48,15 @@ export default function Home() {
         <div
           style={{ backgroundImage: 'url(/why-bg.png)', backgroundSize: '100% 100%' }}
           className={'py-24 mo:py-10 mx-8 mo:mx-0 flex items-center justify-center py-16 bg-no-repeat   '}
-          onMouseEnter={() => setEnter(true)}
-          onMouseLeave={() => setEnter(false)}
+          onMouseEnter={() => !isMobile && setEnter(true)}
+          onMouseLeave={() => !isMobile && setEnter(false)}
         >
           <div id='wrapperContainer' className={'w-[660px] mo:px-10 mo:w-full '}>
-            <div className=' mo:flex mo:justify-between   '>
+            <div className=' mo:flex mo:justify-between'>
               <div className={'relative hidden mo:inline'}>
                 <Popover.Root>
                   <Popover.Trigger asChild>
-                    <button className={`why-button ${enter ? 'active' : ''}`}>
+                    <button className={`why-button mo:py-3 mo:px-3 ${enter ? 'active' : ''}`}>
                       Security
                       <ArrowTopRightIcon className={'w-[20px] h-[20px]'} />
                     </button>
@@ -63,7 +70,7 @@ export default function Home() {
                         <div className={'text-[16px]  mo:text-lg mo:font-medium font-medium mb-2'}>
                           Data Availability Sampling Mechanism
                         </div>
-                        <div className={'text-sm mo:text-lg mo:font-medium leading-7'}>
+                        <div className={'text-sm mo:text-base mo:font-medium leading-7'}>
                           EthDA employs DAS to secure DA data storage, and derives security from Ethereum consensus by rolling-up storage
                           proofs to Ethereum for fraud proving and trustless finality
                         </div>
@@ -76,7 +83,7 @@ export default function Home() {
                 <div className={'relative h-[48px]'}>
                   <Popover.Root>
                     <Popover.Trigger asChild>
-                      <button className={`why-button ${enter ? 'active' : ''}`}>
+                      <button className={`why-button mo:py-3 mo:px-3 ${enter ? 'active' : ''}`}>
                         Seamless
                         <ArrowTopRightIcon className={'w-[20px] h-[20px]'} />
                       </button>
@@ -148,7 +155,7 @@ export default function Home() {
               <div className={'relative h-[48px]'}>
                 <Popover.Root>
                   <Popover.Trigger asChild>
-                    <button className={`why-button ${enter ? 'active' : ''}`}>
+                    <button className={`why-button mo:py-3 mo:px-3 ${enter ? 'active' : ''}`}>
                       Alignment
                       <ArrowTopRightIcon className={'w-[20px] h-[20px]'} />
                     </button>

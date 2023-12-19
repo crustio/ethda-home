@@ -44,7 +44,7 @@ export const Header = () => {
         <div className='container mx-auto flex justify-between items-center'>
           <Image src={'/logo.svg'} alt={'logo.svg'} width={119} height={26} />
           {isMobile ? (
-            <PoperMenu containerClassName={'!w-[150px] mo:right-[-1px]'} menus={currentMenus} className='absolute z-[9999]'>
+            <PoperMenu containerClassName={'!w-[150px] mo:right-[0px]'} menus={currentMenus} className='absolute z-[9999]'>
               <button className='text-[2rem] mo:text-2xl'>
                 <HiOutlineMenu className={' text-white'} />
               </button>

@@ -47,12 +47,12 @@ export const What = () => {
             </div>
           </div>
         </div>
-        <div className={'flex justify-center w-[560px] mo:w-full  '}>
-          <div className={'text-right mo:text-center inline mo:w-full  '}>
+        <div className={'flex justify-center w-[560px] mo:w-full'}>
+          <div className={'sm:text-right mo:text-center mo:w-full'}>
             <Link
               target={'_blank'}
               href={'https://ethereum.org/en/roadmap/danksharding'}
-              className={'underline border border-primary rounded-lg px-4 py-2 text-sm text-primary '}
+              className={'underline border border-primary rounded-lg px-4 mo:px-2 py-2 mo:py-1 text-sm text-primary mo:w-auto '}
             >
               Ethereum's Danksharding roadmap
             </Link>
