@@ -40,10 +40,10 @@ export const What = () => {
             )}
           </div>
           <div className={'desc flex flex-col gap-4 mo:text-base'}>
-            <div className={'dot-text'}>EthDA is running on a permissionless set of decentralized sequencers.</div>
+            <div className={'dot-text'}>EthDA is running with a permissionless set of decentralized sequencers.</div>
             <div className={'dot-text'}>EthDA leverages DAS for blob sharding and permanent storage.</div>
             <div className={'dot-text'}>
-              EthDA supports EIP-4844 blob-carrying transactions, serving as Data Availability for rollups and dStorage for DApps.
+              EthDA supports EIP-4844 blob-carrying transactions, serving as Data Availability for L2s and dStorage for DApps.
             </div>
           </div>
         </div>

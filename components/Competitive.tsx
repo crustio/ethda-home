@@ -23,7 +23,7 @@ export const Competitive = () => {
               </th>
               <th>
                 <Image src={'/eth.svg'} alt={'ethda'} width={144} height={30} />
-                <div className={'text-[10px] mt-1 pl-7'}>(Pre-EIP4844)</div>
+                <div className={'text-[10px] mt-1 pl-7'}>(Post-EIP4844)</div>
               </th>
             </tr>
             <tr>
@@ -31,7 +31,7 @@ export const Competitive = () => {
                 <div className=' mo:w-[120px]'>Technology</div>
               </td>
               <td className='bg-[#F6E5DC]  font-medium'>
-                <div className=' mo:w-[200px] '>Ethereum Rollup</div>
+                <div className=' mo:w-[200px] '>Ethereum L2</div>
               </td>
               <td>
                 <div className=' mo:w-[200px]'>Tendermint</div>
@@ -84,7 +84,7 @@ export const Competitive = () => {
               <td>Fraud Proofs</td>
               <td>Validity Proofs</td>
               <td>Validity Proofs</td>
-              <td>Validity Proofs</td>
+              <td>N/A</td>
             </tr>
             <tr>
               <td>Ability to scale</td>
@@ -92,7 +92,7 @@ export const Competitive = () => {
               <td>Yes</td>
               <td>Yes</td>
               <td>No</td>
-              <td>No</td>
+              <td>Yes</td>
             </tr>
             <tr>
               <td>Cost</td>

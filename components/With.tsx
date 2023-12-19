@@ -10,10 +10,10 @@ export const With = () => {
     >
       <div className={'title mo:text-center mo:text-[28px]'}>With EthDA</div>
       <div className='desc mb-8 just mo:text-base mo:text-center'>
-        With ETHDA, Ethereum's scalability is enhanced by extending its data availability and storage at layer2
+        With EthDA, Ethereum's scalability is enhanced by extending its data availability and storage at layer2
       </div>
       <div className='subtitle mb-6 mo:text-center'>
-        <span className={'text-[25px] mo:text-xl text-primary'}>Rollups</span> Leverage EthDA for Data Availability.
+        <span className={'text-[25px] mo:text-xl text-primary'}>L2s</span> Leverage EthDA for Data Availability.
       </div>
       <div className='flex gap-8 mo:flex-wrap mo:w-full'>
         <div className={'w-[660px] mo:w-full'}>
@@ -35,7 +35,7 @@ export const With = () => {
             <div className='screen-dot' />
           </div>
           <div className={'screen-content  mo:text-base'}>
-            Rollups post compressed transaction data to EthDA via EIP-4844 blob-carrying transactions. EthDA employs DAS scheme to store
+            Optimistic rollups post compressed transaction data to EthDA via EIP-4844 blob-carrying transactions. EthDA employs DAS scheme to store
             blobs among a decentralized sequencer network, and posts storage proofs to Ethereum L1. Rollups check storage proofs to validate
             data storage, and download transaction data blobs from EthDA for fraud proving.
           </div>

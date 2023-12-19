@@ -71,8 +71,7 @@ export default function Home() {
                           Data Availability Sampling Mechanism
                         </div>
                         <div className={'text-sm mo:text-base mo:font-medium leading-7'}>
-                          EthDA employs DAS to secure DA data storage, and derives security from Ethereum consensus by rolling-up storage
-                          proofs to Ethereum for fraud proving and trustless finality
+                          EthDA employs DAS to secure DA data storage, and derives security from Ethereum by verifying and settling state transitions on L1
                         </div>
                       </div>
                     </Popover.Content>
@@ -133,8 +132,7 @@ export default function Home() {
                       >
                         <div className={'text-[16px] font-medium mb-2'}>Data Availability Sampling Mechanism</div>
                         <div className={'text-sm leading-7'}>
-                          EthDA employs DAS to secure DA data storage, and derives security from Ethereum consensus by rolling-up storage
-                          proofs to Ethereum for fraud proving and trustless finality
+                        EthDA employs DAS to secure DA data storage, and derives security from Ethereum by verifying and settling state transitions on L1
                         </div>
                       </div>
                     </Popover.Content>
