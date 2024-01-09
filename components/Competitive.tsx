@@ -96,7 +96,7 @@ export const Competitive = () => {
             </tr>
             <tr>
               <td>Cost</td>
-              <td className='bg-[#F6E5DC]  font-medium'>Low</td>
+              <td className='bg-[#FFFFFF1A]  font-medium'>Low</td>
               <td>Low</td>
               <td>Low</td>
               <td>TDB</td>

@@ -14,6 +14,9 @@ const config: Config = {
         md: [{ min: '900px', max: '1280px' }],
         sm: { min: '900px' },
       },
+      width: {
+        container: '1280px',
+      },
       textColor: {
         primary: '#FC7823',
       },
