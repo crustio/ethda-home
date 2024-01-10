@@ -44,7 +44,7 @@ export const Header: FC<HeaderType> = ({
     }
   }, [])
 
-  const onChooseItem = (e) => {
+  const onChooseItem = (e: string) => {
     setChooseValue(e)
     setIsShow(false)
     document.body.classList.remove('overflow-hidden')
