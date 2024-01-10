@@ -39,7 +39,6 @@ function _PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
   const r = useRouter()
 
   const [show, toggleShow] = useToggle(false)
-  const [showText, setShowText] = useState(false)
   const ref = useAutoAnim<HTMLDivElement>('t-side')
   useClickAway(ref, () => show && toggleShow(false))
 
@@ -67,7 +66,7 @@ function _PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
           className={classNames('absolute w-[13.75rem] top-full right-0 mo:right-[-1rem]', containerClassName)}
         >
           <RxTriangleUp className={classNames('absolute text-white text-2xl right-0 top-[-2px] hidden mo:block', iconClassName)} />
-          <div className='py-[.625rem] mo:py-[.375rem] w-full bg-white mt-[.625rem] mo:mt-[.625rem] rounded-lg z-10 relative'>
+          <div className='py-[.625rem] mo:py-[.375rem] w-full bg-white  mt-[.625rem] mo:mt-[.625rem] rounded-lg z-10 relative'>
             {menus.map((item, i) => (
               <Fragment key={`poper_menu_item${i}`}>
                 {item.topSplit && i > 0 && <div className='h-[1px] my-[.625rem] mo:my-[2px] mx-4 bg-[#eeeeee]' />}

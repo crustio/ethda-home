@@ -160,19 +160,13 @@ th:first-child, td:first-child {
 }
 
 
-.one {
-  border-left-width:1px;
-  height: 442px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    transparent 50%,
-    #ccc 50%,
-    #ccc 100%
-  );
-  background-size: 10px 1px;
-  background-repeat: repeat-x;
+.custom-background {
+  background-image: linear-gradient(to left, #000000 50%, transparent 10%), linear-gradient(to left, #000000 30%, transparent 10%), linear-gradient(to top, #000000 40%, transparent 10%), linear-gradient(to top, #000000 30%, transparent 10%);
+  background-position: left top, left bottom, left top, right top;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 10px 1px, 0, 1px 9px, 1px 9px;
 }
+
 
 
 
