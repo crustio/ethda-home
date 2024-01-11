@@ -52,8 +52,6 @@ const BlobTX = () => {
   }
 
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    console.log('e.target.files', e.target.files)
-
     setFile(e.target.files?.item(0))
   }, [])
 
@@ -144,7 +142,7 @@ const BlobTX = () => {
                   </DivBox>
                   <div className='mt-5 mo:mt-10 flex justify-center'>
                     <button
-                      onClick={() => onTranscode}
+                      onClick={onTranscode}
                       className={` ${
                         !file?.name && !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
                       } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center w-[136px] h-12 text-center`}
@@ -167,7 +165,7 @@ const BlobTX = () => {
                     <button
                       onClick={() => handleBlobClick(false)}
                       className={` w-[195px] md:w-[180px] h-[50px] flex ${
-                        !selectedBlob && 'custom-background'
+                        !selectedBlob || 'custom-background'
                       } items-center border-[#000000] justify-center mt-[30px] md:text-sm  border-dashed text-base font-medium `}
                     >
                       Blob2(Image data)
@@ -214,8 +212,6 @@ const BlobTX = () => {
             <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
               <ConnectKitButton.Custom>
                 {({ isConnected, show, truncatedAddress, ensName }) => {
-                  console.log('ensName', ensName)
-
                   if (isConnected) {
                     setIsClickStart(true)
                     setAddress(truncatedAddress)
