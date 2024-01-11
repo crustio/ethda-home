@@ -50,6 +50,12 @@ export const Header: FC<HeaderType> = ({
     document.body.classList.remove('overflow-hidden')
   }
 
+  useEffect(() => {
+    if (!isShow) {
+      document.body.classList.remove('overflow-hidden')
+    }
+  }, [isShow])
+
   const currentMenus = [
     {
       text: 'Home',

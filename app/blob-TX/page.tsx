@@ -5,6 +5,11 @@ import { ConnectKitButton } from 'connectkit'
 import styled from 'styled-components'
 import { LoadingFull } from '@/components/ALoading'
 import { SuccessFull } from '@/components/ASuccess'
+
+import { BlobClient, EncodeBlobs } from '@ethda/blobs'
+import { ethers } from 'ethers'
+import { BLOB_SIZE, BlobTxFieldElementsPerBlob } from '@ethda/blobs'
+
 const StyledButton = styled.button`
   cursor: pointer;
   position: relative;
@@ -49,6 +54,8 @@ const BlobTX = () => {
   }
 
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    console.log('e.target.files', e.target.files)
+
     setFile(e.target.files?.item(0))
   }, [])
 
@@ -56,8 +63,22 @@ const BlobTX = () => {
     inputImgRef.current?.click()
   }
 
-  const onTranscode = () => {
-    console.log('inputImgRef', file)
+  const onTranscode = async () => {
+    console.log('inputImgRef', file, inputText, file?.size)
+
+    const textContent = 'Hello, this is some text content.'
+
+    const textBlob: any = new Blob([textContent], { type: 'text/plain' })
+    console.log('textBlob', textBlob)
+
+    const content: any = inputText
+    const blobs = EncodeBlobs(Buffer.from(textBlob, 'utf-8'))
+    console.log('blobs', blobs)
+
+    //   const signer = new ethers.Wallet('<private_key>', new ethers.providers.JsonRpcProvider('https://rpc.ethda.io'))
+    //   const blobClient = new BlobClient(signer)
+    //   const hash = await blobClient.sendTx(blobs)
+    //   const receipt = await blobClient.getTxReceipt(hash)
   }
 
   return (
@@ -96,10 +117,11 @@ const BlobTX = () => {
                   <div className=' text-2xl font-normal mo:mt-10'>Input</div>
                   <div className=' mt-[50px] mo:mt-10 font-medium md:text-sm mb-5'>Type text here</div>
 
-                  <DivBox className=' w-full h-[68px] px-2  '>
+                  <DivBox className=' w-full h-[68px] px-2'>
                     <input
                       placeholder='Please Enter ...'
                       maxLength={30}
+                      onChange={(e) => setInputText(e.target.value)}
                       className=' mt-2 input-Text mo:w-full w-[425px] md:w-[380px] h-[55px] '
                     />
                   </DivBox>
@@ -108,7 +130,6 @@ const BlobTX = () => {
                   <DivBox className=' mt-5 w-full  h-[290px] md:h-[295px] border-[#000000] mo:mt-10 '>
                     <div className=' flex items-center justify-center h-full flex-col  '>
                       <input type='file' hidden ref={inputImgRef} accept='image/*' onChange={onFileChange} />
-
                       <div
                         onClick={handleFileSelect}
                         className=' cursor-pointer w-[100px] h-[100px] bg-[#FFF8F4] border-2  border-dashed rounded-[5px] border-[#FC7823] flex items-center justify-center'
@@ -125,7 +146,7 @@ const BlobTX = () => {
                   </DivBox>
                   <div className='mt-5 mo:mt-10 flex justify-center'>
                     <button
-                      onClick={onTranscode}
+                      onClick={() => onTranscode}
                       className={` ${
                         !file?.name && !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
                       } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center w-[136px] h-12 text-center`}
