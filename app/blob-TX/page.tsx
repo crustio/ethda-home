@@ -5,10 +5,8 @@ import { ConnectKitButton } from 'connectkit'
 import styled from 'styled-components'
 import { LoadingFull } from '@/components/ALoading'
 import { SuccessFull } from '@/components/ASuccess'
-
 import { BlobClient, EncodeBlobs } from '@ethda/blobs'
 import { ethers } from 'ethers'
-import { BLOB_SIZE, BlobTxFieldElementsPerBlob } from '@ethda/blobs'
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -66,14 +64,14 @@ const BlobTX = () => {
   const onTranscode = async () => {
     console.log('inputImgRef', file, inputText, file?.size)
 
-    const textContent = 'Hello, this is some text content.'
+    // const textContent = 'Hello, this is some text content.'
 
-    const textBlob: any = new Blob([textContent], { type: 'text/plain' })
-    console.log('textBlob', textBlob)
+    // const textBlob: any = new Blob([textContent], { type: 'text/plain' })
+    // console.log('textBlob', textBlob)
 
-    const content: any = inputText
-    const blobs = EncodeBlobs(Buffer.from(textBlob, 'utf-8'))
-    console.log('blobs', blobs)
+    // const content: any = inputText
+    // const blobs = EncodeBlobs(Buffer.from(textBlob, 'utf-8'))
+    // console.log('blobs', blobs)
 
     //   const signer = new ethers.Wallet('<private_key>', new ethers.providers.JsonRpcProvider('https://rpc.ethda.io'))
     //   const blobClient = new BlobClient(signer)

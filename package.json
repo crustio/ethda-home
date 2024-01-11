@@ -18,6 +18,7 @@
     "ethers": "^6.9.2",
     "fs": "0.0.1-security",
     "next": "14.0.1",
+    "pino-pretty": "^10.3.1",
     "prettier": "^3.0.3",
     "react": "^18",
     "react-dom": "^18",
