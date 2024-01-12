@@ -144,7 +144,7 @@ const BlobTX = () => {
                     <button
                       onClick={onTranscode}
                       className={` ${
-                        !file?.name && !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
+                        !file?.name || !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
                       } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center w-[136px] h-12 text-center`}
                     >
                       Transcode
@@ -165,7 +165,7 @@ const BlobTX = () => {
                     <button
                       onClick={() => handleBlobClick(false)}
                       className={` w-[195px] md:w-[180px] h-[50px] flex ${
-                        !selectedBlob || 'custom-background'
+                        !selectedBlob && 'custom-background'
                       } items-center border-[#000000] justify-center mt-[30px] md:text-sm  border-dashed text-base font-medium `}
                     >
                       Blob2(Image data)

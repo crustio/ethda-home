@@ -1,4 +1,4 @@
-import classNames, { ArgumentArray } from 'classnames'
+import classNames from 'classnames'
 import { FC } from 'react'
 
 type SuccessType = {
