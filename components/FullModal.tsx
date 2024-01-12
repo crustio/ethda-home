@@ -65,7 +65,12 @@ const FullModal: FC<FullModalProps> = ({ menus, keys = 'text', onChooseItem, cho
                   >
                     {item[keys]}
                   </span>
-                  <RiArrowRightUpLine size={22} />
+                  <RiArrowRightUpLine
+                    className={classNames({
+                      'text-[#FC7823]': pathname === item.to.split('/')[1],
+                    })}
+                    size={22}
+                  />
                 </div>
               </div>
             </Fragment>
