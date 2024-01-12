@@ -6,7 +6,8 @@ import styled from 'styled-components'
 import { LoadingFull } from '@/components/ALoading'
 import { SuccessFull } from '@/components/ASuccess'
 import { BlobClient, EncodeBlobs } from '@ethda/blobs'
-import { ethers } from 'ethers'
+import { ethers, parseEther } from 'ethers'
+import { useSendTransaction } from 'wagmi'
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -46,6 +47,7 @@ const BlobTX = () => {
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string>('')
+  const { data: hash, sendTransaction } = useSendTransaction()
 
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
@@ -62,20 +64,35 @@ const BlobTX = () => {
   const onTranscode = async () => {
     console.log('inputImgRef', file, inputText, file?.size)
 
-    // const textContent = 'Hello, this is some text content.'
+    const textBlob: any = new Blob([inputText], { type: 'text/plain' })
+    console.log('textBlob', textBlob)
+    // const blob = new Blob([file], { type: file?.type })
+    // console.log('blob', blob)
 
-    // const textBlob: any = new Blob([textContent], { type: 'text/plain' })
-    // console.log('textBlob', textBlob)
+    const data = {
+      content: inputText,
+    }
+    const url = 'https://blobscan-devnet.ethda.io/backend/convert/blob'
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log('Response:', result)
+      })
+
+    // sendTransaction({ to, value: parseEther(value) })
+    // const textContent = 'Hello, this is some text content.'
 
     // const content: any = inputText
     // const blobs = EncodeBlobs(Buffer.from(textBlob, 'utf-8'))
     // console.log('blobs', blobs)
-
-    //   const signer = new ethers.Wallet('<private_key>', new ethers.providers.JsonRpcProvider('https://rpc.ethda.io'))
-    //   const blobClient = new BlobClient(signer)
-    //   const hash = await blobClient.sendTx(blobs)
-    //   const receipt = await blobClient.getTxReceipt(hash)
   }
+  console.log('hhashhashhashash', hash)
 
   const onSwitchTo = () => {
     window.open('https://www.eip4844.com', '_blank')
@@ -122,7 +139,7 @@ const BlobTX = () => {
                   <DivBox className=' w-full h-[68px] px-2'>
                     <input
                       placeholder='Please Enter ...'
-                      maxLength={30}
+                      maxLength={40}
                       onChange={(e) => setInputText(e.target.value)}
                       className=' mt-2 input-Text mo:w-full w-[425px] md:w-[380px] h-[55px] '
                     />
@@ -182,7 +199,7 @@ const BlobTX = () => {
                     </button>
                   </div>
 
-                  <ContentBox className='  overflow-y-auto  h-[442px] pl-5 py-5   '>2</ContentBox>
+                  <ContentBox className='  overflow-y-auto  h-[442px] pl-5 py-5   '></ContentBox>
                   <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5 '>
                     <button
                       className={`border mo:w-full bg-[#BABABA] cursor-not-allowed  px-6 text-base font-semibold items-center flex  rounded-xl text-[#FFFFFF]  justify-center  h-12 text-center`}

@@ -168,5 +168,9 @@ th:first-child, td:first-child {
 }
 
 
+input {
+  outline: none; 
+}
+
 
 
