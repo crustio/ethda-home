@@ -225,10 +225,10 @@ const BlobTX = () => {
             <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
               <ConnectKitButton.Custom>
                 {({ isConnected, show, truncatedAddress, ensName }) => {
-                  // if (isConnected) {
-                  //   setIsClickStart(true)
-                  //   setAddress(truncatedAddress)
-                  // }
+                  if (isConnected) {
+                    setIsClickStart(true)
+                    setAddress(truncatedAddress)
+                  }
 
                   return (
                     <StyledButton onClick={show}>
