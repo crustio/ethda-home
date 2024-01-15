@@ -1,22 +1,31 @@
 import { getDefaultConfig } from 'connectkit'
-import { createClient } from 'viem'
-import { arbitrumSepolia } from 'viem/chains'
 import { createConfig } from 'wagmi'
+import { CoinbaseWalletConnector } from '@wagmi/core/connectors/coinbaseWallet'
+import { defineChain } from 'viem/utils'
 
 const walletConnectProjectId = '2222222'
 
-// const config = createConfig(
-//   getDefaultConfig({
-//     autoConnect: true,
-//     appName: 'EthDa',
-//     chains: [arbitrumSepolia],
-//     alchemyId: process.env.ALCHEMY_ID, // or infuraId
-//     walletConnectProjectId,
-
-//     appUrl: 'https://family.co',
-//     appIcon: 'https://family.co/logo.png',
-//   }),
-// )
+export const ethda = defineChain({
+  id: 177,
+  network: 'ethda',
+  name: 'Ethda',
+  nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ['https://rpc-devnet.ethda.io'],
+    },
+    public: {
+      http: ['https://rpc-devnet.ethda.io'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Etherscan',
+      url: 'https://scan-devnet.ethda.io',
+    },
+  },
+  contracts: {},
+})
 
 const config = createConfig(
   getDefaultConfig({
@@ -25,6 +34,14 @@ const config = createConfig(
     walletConnectProjectId,
     // Required
     appName: 'EthDa',
+    connectors: [
+      new CoinbaseWalletConnector({
+        chains: [ethda],
+        options: {
+          appName: 'Ethda',
+        },
+      }),
+    ],
     // Optional
     appDescription: 'Your App Description',
     appUrl: 'https://family.co', // your app's url

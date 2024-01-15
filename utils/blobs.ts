@@ -39,8 +39,6 @@ export function commitmentsToVersionedHashes(commitment: any) {
 }
 
 export function EncodeBlobs(data: any) {
-  console.log('datadadsada', data)
-
   const len = data.length
   if (len === 0) {
     throw Error('invalid blob data')

@@ -5,10 +5,14 @@ import { ConnectKitButton } from 'connectkit'
 import styled from 'styled-components'
 import { LoadingFull } from '@/components/ALoading'
 import { SuccessFull } from '@/components/ASuccess'
-import { useSendTransaction } from 'wagmi'
+import { useSendTransaction, useWalletClient } from 'wagmi'
 import { EncodeBlobs } from '@/utils'
 import { ethers } from 'ethers'
 import { BlobClient } from '@/client'
+import { ethda } from '@/utils/wagmi'
+import { parseTransaction, serializeTransaction } from 'viem'
+import { BlobEIP4844Transaction } from '@ethereumjs/tx'
+import { Common } from '@ethereumjs/common'
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -61,7 +65,11 @@ const BlobTX = () => {
     inputImgRef.current?.click()
   }
 
+  const { data: walletClient } = useWalletClient({ chainId: ethda.id })
+
   const onTranscode = async () => {
+    if (!walletClient) return
+
     console.log('inputImgRef', file, inputText, file?.size)
 
     const textBlob: any = new Blob([inputText], { type: 'text/plain' })
@@ -83,10 +91,106 @@ const BlobTX = () => {
       .then((response) => response.json())
       .then(async (result) => {
         console.log('Response:', result)
-        const blobs = EncodeBlobs(Buffer.from(inputText, 'utf-8'))
-        const signer = new ethers.Wallet('PRIVATE KEY', new ethers.providers.JsonRpcProvider('https://rpc.ethda.io'))
-        const blobClient = new BlobClient(signer)
-        const hash = await blobClient.sendTx(blobs, {}, result)
+        const [account] = await walletClient.getAddresses()
+        console.log(account)
+
+        const { result: nonce } = await fetch('https://rpc-devnet.ethda.io', {
+          method: 'POST',
+          body: JSON.stringify({
+            method: 'eth_getTransactionCount',
+            params: [account, 'latest'],
+            id: 1,
+            jsonrpc: '2.0',
+          }),
+        }).then((r) => r.json())
+
+        const gasLimit = 21000n
+        const gasPrice = 1000000000n
+
+        const request = await walletClient.prepareTransactionRequest({
+          account,
+          nonce,
+          gas: gasLimit,
+          gasPrice: gasPrice,
+          to: ethers.constants.AddressZero,
+          value: 0n,
+          data: '0x',
+          type: 'legacy',
+          chain: ethda,
+        })
+
+        const res = await walletClient?.signTransaction(request)
+        const transaction = parseTransaction(('0x' + res) as `0x${string}`)
+        if (!transaction) return
+
+        const common = Common.custom(
+          {
+            name: 'ethda',
+            networkId: 177,
+            chainId: 177,
+          },
+          {
+            eips: [1559, 3860, 4844],
+          },
+        )
+
+        const blobs = EncodeBlobs(Buffer.from('ethda', 'utf-8'))
+        const kzgP = new Uint8Array([
+          128, 209, 129, 167, 219, 145, 156, 232, 65, 136, 109, 157, 211, 149, 15, 101, 168, 202, 99, 123, 239, 51, 207, 92, 170, 216, 8,
+          167, 86, 21, 231, 113, 183, 247, 7, 78, 178, 32, 43, 60, 224, 148, 251, 235, 117, 140, 139, 232,
+        ])
+        const kzgC = new Uint8Array([
+          148, 223, 83, 117, 161, 245, 247, 45, 152, 96, 182, 38, 227, 71, 59, 188, 37, 6, 190, 166, 115, 64, 94, 198, 3, 24, 64, 85, 21,
+          197, 175, 89, 124, 125, 85, 199, 123, 47, 102, 173, 35, 168, 229, 62, 147, 170, 204, 188,
+        ])
+        const vh = new Uint8Array([
+          1, 133, 62, 107, 6, 15, 91, 21, 95, 64, 106, 124, 163, 249, 18, 223, 95, 147, 135, 61, 157, 245, 106, 211, 25, 4, 219, 132, 101,
+          101, 219, 210,
+        ])
+
+        const blobTx = new BlobEIP4844Transaction(
+          {
+            chainId: 177n,
+            nonce,
+            to: ethers.constants.AddressZero,
+            data: '0x',
+            value: 0n,
+            maxPriorityFeePerGas: 1000000000n,
+            maxFeePerGas: 1000000000n,
+            gasLimit: transaction.gas,
+            maxFeePerBlobGas: 2000_000_000_000n,
+            blobVersionedHashes: [vh],
+            blobs: blobs,
+            kzgCommitments: [kzgC],
+            kzgProofs: [kzgP],
+            v: (transaction?.v ?? 0n) - 2n * 177n - 35n,
+            r: transaction.r,
+            s: transaction.s,
+          },
+          { common },
+        )
+        console.log(blobTx)
+
+        const rawData = blobTx.serializeNetworkWrapper()
+
+        const hex = Buffer.from(rawData).toString('hex')
+
+        const { result: txr } = await fetch('https://rpc-devnet.ethda.io', {
+          method: 'POST',
+          body: JSON.stringify({
+            method: 'eth_sendRawTransaction',
+            params: ['0x' + hex],
+            id: 1,
+            jsonrpc: '2.0',
+          }),
+        })
+          .then((r) => r.json())
+          .catch((e) => console.error(e))
+
+        console.log(blobTx)
+        console.log(txr)
+
+        console.log(res)
       })
   }
   console.log('hhashhashhashash', hash)
