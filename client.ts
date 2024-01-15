@@ -1,3 +1,4 @@
+'use strict'
 import { resolve } from 'path'
 import { constants, ethers } from 'ethers'
 
@@ -26,7 +27,7 @@ export class BlobClient {
     // loadTrustedSetup(SETUP_FILE_PATH)
   }
 
-  async sanityCheck(tx) {
+  async sanityCheck(tx: any) {
     let { chainId, nonce, to, value, data, maxPriorityFeePerGas, maxFeePerGas, gasLimit, maxFeePerBlobGas } = tx
 
     if (!chainId) {
@@ -106,7 +107,7 @@ export class BlobClient {
     const message = [nonce, maxFeePerGas, gasLimit, to, value, data, 1001n, 0, 0]
 
     const signHash = keccak256(RLP.encode(message))
-    const pk = getBytes((this._signer as ethers.Wallet).privateKey)
+    const pk: any = getBytes((this._signer as ethers.Wallet).privateKey)
     let { v, r, s } = ecsign(signHash, pk)
     v = 2n * 1001n + 8n + v
     console.log(message, nonce, v, Buffer.from(r).toString('hex'), Buffer.from(s).toString('hex'))

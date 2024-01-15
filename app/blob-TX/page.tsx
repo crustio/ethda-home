@@ -87,7 +87,6 @@ const BlobTX = () => {
         const signer = new ethers.Wallet('PRIVATE KEY', new ethers.providers.JsonRpcProvider('https://rpc.ethda.io'))
         const blobClient = new BlobClient(signer)
         const hash = await blobClient.sendTx(blobs, {}, result)
-        const receipt = await blobClient.getTxReceipt(hash)
       })
   }
   console.log('hhashhashhashash', hash)
