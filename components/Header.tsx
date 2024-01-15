@@ -80,7 +80,7 @@ export const Header: FC<HeaderType> = ({
     push(address)
   }
   return (
-    <header className={classNames('py-5 border-b border-b-[rgba(255,255,255,.2)] mo:bg-[#FCE1D6] mo:border-b-[#FCE1D6]', className)}>
+    <header className={classNames('py-5 border-b border-b-[rgba(255,255,255,.2)]', className)}>
       <div className=' mo:mx-[30px] '>
         <div className={classNames('flex justify-between items-center', containerClassName)}>
           <Image src={logo} alt={'logo.svg'} width={119} height={26} />

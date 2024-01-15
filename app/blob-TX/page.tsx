@@ -5,9 +5,10 @@ import { ConnectKitButton } from 'connectkit'
 import styled from 'styled-components'
 import { LoadingFull } from '@/components/ALoading'
 import { SuccessFull } from '@/components/ASuccess'
-import { BlobClient, EncodeBlobs } from '@ethda/blobs'
-import { ethers, parseEther } from 'ethers'
 import { useSendTransaction } from 'wagmi'
+import { EncodeBlobs } from '@/utils'
+import { ethers } from 'ethers'
+import { BlobClient } from '@/client'
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -48,7 +49,6 @@ const BlobTX = () => {
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string>('')
   const { data: hash, sendTransaction } = useSendTransaction()
-
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
   }
@@ -81,16 +81,14 @@ const BlobTX = () => {
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((result) => {
+      .then(async (result) => {
         console.log('Response:', result)
+        const blobs = EncodeBlobs(Buffer.from(inputText, 'utf-8'))
+        const signer = new ethers.Wallet('PRIVATE KEY', new ethers.providers.JsonRpcProvider('https://rpc.ethda.io'))
+        const blobClient = new BlobClient(signer)
+        const hash = await blobClient.sendTx(blobs, {}, result)
+        const receipt = await blobClient.getTxReceipt(hash)
       })
-
-    // sendTransaction({ to, value: parseEther(value) })
-    // const textContent = 'Hello, this is some text content.'
-
-    // const content: any = inputText
-    // const blobs = EncodeBlobs(Buffer.from(textBlob, 'utf-8'))
-    // console.log('blobs', blobs)
   }
   console.log('hhashhashhashash', hash)
 
@@ -101,7 +99,7 @@ const BlobTX = () => {
   return (
     <div className=' font-[Montserrat]  '>
       <Header
-        className={` ${!clickStart ? 'bg-[#FBE8DE]' : 'bg-[#FFFFFFCC]'}  py-[27px]`}
+        className={` ${!clickStart ? 'bg-[#FBE8DE]  mo:bg-[#FCE1D6] mo:border-b-[#FCE1D6]' : 'bg-[#FFFFFFCC]'}  py-[27px]`}
         containerClassName='!w-full  pl-9 pr-[31px] mo:w-full mo:pl-0 mo:pr-0 '
         logo={` b-EthDA.svg`}
         headerTextClassName='!text-[#000000] gap-[50px]'
@@ -154,7 +152,7 @@ const BlobTX = () => {
                         <input type='file' hidden ref={inputImgRef} accept='image/*' onChange={onFileChange} />
                         <div
                           onClick={handleFileSelect}
-                          className=' cursor-pointer w-[100px] h-[100px] bg-[#FFF8F4] border-2  border-dashed rounded-[5px] border-[#FC7823] flex items-center justify-center'
+                          className=' cursor-pointer w-[100px] h-[100px] bg-[#FFF8F4] border  border-dashed rounded-[5px] border-[#FC7823] flex items-center justify-center'
                         >
                           <img src='chooseAnyImg.svg'></img>
                         </div>
