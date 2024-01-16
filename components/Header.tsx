@@ -62,11 +62,15 @@ export const Header: FC<HeaderType> = ({
       to: '/',
     },
     {
-      text: 'Build',
-      to: '',
+      text: 'Explorer',
+      to: '/',
     },
     {
-      text: 'Blob TX',
+      text: 'Blobscan',
+      to: '/',
+    },
+    {
+      text: 'Try BlobTX',
       to: '/blob-TX',
     },
 
@@ -102,9 +106,18 @@ export const Header: FC<HeaderType> = ({
               <div onClick={() => onSwitchTo('/')} className={`nav-item ${pathname === '/' ? 'active' : ''}`}>
                 Home
               </div>
+              <div onClick={() => onSwitchTo('/')} className={`nav-item ${pathname === '/' ? 'active' : ''}`}>
+                Explorer
+              </div>
+              <div
+                onClick={() => onSwitchTo('https://blobscan-devnet.ethda.io/')}
+                className={`nav-item ${pathname === '/' ? 'active' : ''}`}
+              >
+                Blobscan
+              </div>
               <div className={`nav-item ${pathname === '/build' ? 'active' : ''}`}>Build</div>
               <div onClick={() => onSwitchTo('blob-TX')} className={`nav-item ${pathname === '/blob-TX' ? 'active' : ''}`}>
-                Blob TX
+                Try BlobTx
               </div>
               <Link href={'./docs/lightpaper.pdf'} target={'_blank'} className={`block nav-item`}>
                 Document

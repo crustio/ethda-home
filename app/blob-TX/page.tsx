@@ -91,6 +91,7 @@ const BlobTX = () => {
       .then((response) => response.json())
       .then(async (result) => {
         console.log('Response:', result)
+
         const [account] = await walletClient.getAddresses()
         console.log(account)
 
@@ -103,6 +104,8 @@ const BlobTX = () => {
             jsonrpc: '2.0',
           }),
         }).then((r) => r.json())
+
+        console.log('nononcence', nonce)
 
         const gasLimit = 21000n
         const gasPrice = 1000000000n
@@ -120,6 +123,8 @@ const BlobTX = () => {
         })
 
         const res = await walletClient?.signTransaction(request)
+        console.log('rresresreses', res, request)
+
         const transaction = parseTransaction(('0x' + res) as `0x${string}`)
         if (!transaction) return
 
@@ -159,17 +164,17 @@ const BlobTX = () => {
             maxFeePerGas: 1000000000n,
             gasLimit: transaction.gas,
             maxFeePerBlobGas: 2000_000_000_000n,
-            blobVersionedHashes: [vh],
             blobs: blobs,
-            kzgCommitments: [kzgC],
-            kzgProofs: [kzgP],
+            blobVersionedHashes: result.versionedHashes[0].data,
+            kzgCommitments: result.commitments[0].data,
+            kzgProofs: result.proofs[0].data,
             v: (transaction?.v ?? 0n) - 2n * 177n - 35n,
             r: transaction.r,
             s: transaction.s,
           },
           { common },
         )
-        console.log(blobTx)
+        console.log('blblobTxobTx', blobTx)
 
         const rawData = blobTx.serializeNetworkWrapper()
 
@@ -197,6 +202,22 @@ const BlobTX = () => {
 
   const onSwitchTo = () => {
     window.open('https://www.eip4844.com', '_blank')
+  }
+
+  const onSendTransaction = async () => {
+    if (!walletClient) return
+    const rs = await walletClient.getChainId()
+    console.log('walletClientwalletClient', rs)
+
+    const [account] = await walletClient.getAddresses()
+
+    const hash = await walletClient.sendTransaction({
+      account,
+      chain: ethda,
+      to: '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
+      value: 1000000000000000000n,
+    })
+    console.log('hahashhashsh', hash)
   }
 
   return (
@@ -303,6 +324,7 @@ const BlobTX = () => {
                   <ContentBox className='  overflow-y-auto  h-[442px] pl-5 py-5   '></ContentBox>
                   <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5 '>
                     <button
+                      onClick={onSendTransaction}
                       className={`border mo:w-full bg-[#BABABA] cursor-not-allowed  px-6 text-base font-semibold items-center flex  rounded-xl text-[#FFFFFF]  justify-center  h-12 text-center`}
                     >
                       Send Transaction
