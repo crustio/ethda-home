@@ -8,7 +8,7 @@ import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
 import { ConnectKitButton } from 'connectkit'
 import { ethers } from 'ethers'
-import { ChangeEvent, useCallback, useRef, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { parseTransaction, stringToHex } from 'viem'
 import { useSendTransaction, useWalletClient } from 'wagmi'
@@ -166,7 +166,7 @@ const BlobTX = () => {
         eips: [1559, 3860, 4844],
       },
     )
-   
+
     const blobTx = new BlobEIP4844Transaction(
       {
         chainId: 177n,
@@ -359,10 +359,11 @@ const BlobTX = () => {
               <ConnectKitButton.Custom>
                 {({ isConnected, show, truncatedAddress, ensName }) => {
                   if (isConnected) {
-                    setIsClickStart(true)
-                    setAddress(truncatedAddress)
+                    setTimeout(() => {
+                      setIsClickStart(true)
+                      setAddress(truncatedAddress)
+                    })
                   }
-
                   return (
                     <StyledButton onClick={show}>
                       <span className=' ml-[17px] mo:ml-5 pr-[17px]  text-base  font-medium'>Connect wallet to start</span>
