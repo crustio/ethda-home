@@ -2,6 +2,7 @@
 import { LoadingFull } from '@/components/ALoading'
 import { SuccessFull } from '@/components/ASuccess'
 import { Header } from '@/components/Header'
+import { DecodeBlobs, EncodeBlobs, createMetaDataForBlobs } from '@/utils'
 import { ethda } from '@/utils/wagmi'
 import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
@@ -9,7 +10,7 @@ import { ConnectKitButton } from 'connectkit'
 import { ethers } from 'ethers'
 import { ChangeEvent, useCallback, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { parseTransaction } from 'viem'
+import { parseTransaction, stringToHex } from 'viem'
 import { useSendTransaction, useWalletClient } from 'wagmi'
 
 const StyledButton = styled.button`
@@ -50,7 +51,6 @@ const BlobTX = () => {
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string>('')
-  const { data: hash, sendTransaction } = useSendTransaction()
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
   }
@@ -64,20 +64,18 @@ const BlobTX = () => {
   }
 
   const { data: walletClient } = useWalletClient({ chainId: ethda.id })
-  const [transData, setTransData] = useState<{ text: Uint8Array; img: Uint8Array }>()
+  const [transData, setTransData] = useState<{ text: Uint8Array; img: Uint8Array; imgType: string }>()
 
   const onTranscode = async () => {
     if (!walletClient || !file || file.size > 128 * 1024) return
     console.log('inputImgRef', file, inputText, file?.size)
-    const base64 = btoa(inputText)
-    const uint8Array = new Uint8Array(new ArrayBuffer(base64.length))
-    for (let i = 0; i < base64.length; i++) {
-      uint8Array[i] = base64.charCodeAt(i)
-    }
-
     const fr = new FileReader()
     fr.onload = () => {
-      setTransData({ text: Buffer.from(inputText, 'utf-8').valueOf(), img: Buffer.from(fr.result as ArrayBuffer).valueOf() })
+      setTransData({
+        text: Buffer.from(inputText, 'utf-8').valueOf(),
+        img: Buffer.from(fr.result as ArrayBuffer).valueOf(),
+        imgType: file.type,
+      })
     }
     fr.readAsArrayBuffer(file)
   }
@@ -94,7 +92,9 @@ const BlobTX = () => {
     const commitments: Uint8Array[] = []
     const proofs: Uint8Array[] = []
     const versionHashs: Uint8Array[] = []
+    const encodeBlobs: Uint8Array[] = []
     const url = 'https://blobscan-devnet.ethda.io/backend/convert/blob'
+
     for (let index = 0; index < data.length; index++) {
       const result = await fetch(url, {
         method: 'POST',
@@ -108,14 +108,25 @@ const BlobTX = () => {
       commitments.push((result.commitments as any[]).map((item) => new Uint8Array(item.data))[0])
       proofs.push((result.proofs as any[]).map((item) => new Uint8Array(item.data))[0])
       versionHashs.push((result.versionedHashes as any[]).map((item) => new Uint8Array(Object.values(item)))[0])
+      const encoded = EncodeBlobs(data[index])
+      if (encoded.length > 1) {
+        throw 'blob too large!'
+      }
+      // console.info('decode:', DecodeBlobs(encoded[0]))
+      encodeBlobs.push(encoded[0])
     }
-    return { commitments, proofs, versionHashs }
+
+    return { commitments, proofs, versionHashs, encodeBlobs }
   }
+
   const onSendTx = async () => {
     if (!walletClient || !transData) return
-    const blobs = [transData.text]
-    const { commitments, proofs, versionHashs } = await getConvertOfZkg(blobs)
+    const blobs = [transData.text, transData.img]
+    const { commitments, proofs, versionHashs, encodeBlobs } = await getConvertOfZkg(blobs)
     const [account] = await walletClient.getAddresses()
+
+    const blobsMeta = createMetaDataForBlobs(account, ['text/plain', 'image/png'])
+    const blobsMetadataHex = stringToHex(JSON.stringify(blobsMeta))
     const { result: nonce } = await fetch('https://rpc-devnet.ethda.io', {
       method: 'POST',
       body: JSON.stringify({
@@ -126,7 +137,7 @@ const BlobTX = () => {
       }),
     }).then((r) => r.json())
 
-    const gasLimit = 21000n
+    const gasLimit = 21000n + BigInt(blobsMetadataHex.length) * 10n
     const gasPrice = 1000000000n
 
     const request = await walletClient.prepareTransactionRequest({
@@ -136,7 +147,7 @@ const BlobTX = () => {
       gasPrice: gasPrice,
       to: ethers.constants.AddressZero,
       value: 0n,
-      data: '0x',
+      data: blobsMetadataHex,
       type: 'legacy',
       chain: ethda,
     })
@@ -155,21 +166,20 @@ const BlobTX = () => {
         eips: [1559, 3860, 4844],
       },
     )
-
-    // const data = stringToHex(`["text/plain","image/png"]`)
+   
     const blobTx = new BlobEIP4844Transaction(
       {
         chainId: 177n,
         nonce,
         to: ethers.constants.AddressZero,
-        data: '0x',
+        data: blobsMetadataHex,
         value: 0n,
         maxPriorityFeePerGas: 1000000000n,
         maxFeePerGas: 1000000000n,
         gasLimit: transaction.gas,
         maxFeePerBlobGas: 2000_000_000_000n,
         blobVersionedHashes: versionHashs,
-        blobs: blobs,
+        blobs: encodeBlobs,
         kzgCommitments: commitments,
         kzgProofs: proofs,
         v: (transaction.v || 0n) - 2n * 177n - 35n,
@@ -302,7 +312,7 @@ const BlobTX = () => {
                     </button>
                   </div>
 
-                  <ContentBox className='overflow-y-auto  h-[442px] pl-5 py-5 whitespace-pre'>
+                  <ContentBox className='overflow-y-auto  h-[442px] p-5 break-all whitespace-normal '>
                     {transData && <>{JSON.stringify(ub8a2numa(selectedBlob ? transData.text : transData.img))}</>}
                   </ContentBox>
                   <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5 '>
