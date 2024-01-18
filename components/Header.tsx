@@ -63,11 +63,11 @@ export const Header: FC<HeaderType> = ({
     },
     {
       text: 'Explorer',
-      to: '/',
+      to: 'https://scan-devnet.ethda.io',
     },
     {
       text: 'Blobscan',
-      to: '/',
+      to: 'https://blobscan-devnet.ethda.io/',
     },
     {
       text: 'Try BlobTX',
@@ -76,11 +76,15 @@ export const Header: FC<HeaderType> = ({
 
     {
       text: 'Document',
-      to: './docs/lightpaper.pdf',
+      to: 'https://docs.ethda.io/',
     },
   ]
 
   const onSwitchTo = (address: string) => {
+    if (!address.startsWith('/')) {
+      window.open(address, '_blank')
+      return
+    }
     push(address)
   }
   return (
@@ -106,12 +110,15 @@ export const Header: FC<HeaderType> = ({
               <div onClick={() => onSwitchTo('/')} className={`nav-item ${pathname === '/' ? 'active' : ''}`}>
                 Home
               </div>
-              <div onClick={() => onSwitchTo('/')} className={`nav-item ${pathname === '/' ? 'active' : ''}`}>
+              <div
+                onClick={() => onSwitchTo('https://scan-devnet.ethda.io')}
+                className={`nav-item ${pathname === '/Explorer' ? 'active' : ''}`}
+              >
                 Explorer
               </div>
               <div
                 onClick={() => onSwitchTo('https://blobscan-devnet.ethda.io/')}
-                className={`nav-item ${pathname === '/' ? 'active' : ''}`}
+                className={`nav-item ${pathname === '/Blobscan' ? 'active' : ''}`}
               >
                 Blobscan
               </div>
@@ -119,7 +126,7 @@ export const Header: FC<HeaderType> = ({
               <div onClick={() => onSwitchTo('blob-TX')} className={`nav-item ${pathname === '/blob-TX' ? 'active' : ''}`}>
                 Try BlobTx
               </div>
-              <Link href={'./docs/lightpaper.pdf'} target={'_blank'} className={`block nav-item`}>
+              <Link href={'https://docs.ethda.io/'} target={'_blank'} className={`block nav-item`}>
                 Document
               </Link>
             </div>

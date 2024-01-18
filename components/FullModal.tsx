@@ -34,6 +34,10 @@ const FullModal: FC<FullModalProps> = ({ menus, keys = 'text', onChooseItem, cho
     if (item.onClick) {
       item.onClick()
     }
+    if (!item.to.startsWith('/')) {
+      window.open(item.to, '_blank')
+      return
+    }
 
     r.push(item.to as string)
 
@@ -60,7 +64,7 @@ const FullModal: FC<FullModalProps> = ({ menus, keys = 'text', onChooseItem, cho
                 <div className=' text-[22px] inline-block  font-medium border-b border-[#D9D9D9] border-solid  pb-5 w-full  mo:flex mo:w-full items-center  mo:justify-between'>
                   <span
                     className={classNames({
-                      'text-[#FC7823]': pathname === item.to.split('/')[1],
+                      'text-[#FC7823]': item.to.startsWith('/') && pathname === item.to.split('/')[1],
                     })}
                   >
                     {item[keys]}
