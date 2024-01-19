@@ -15,7 +15,7 @@ export const Banner = () => {
             <div className={'text-[70px] mo:text-[38px]'}>Availability Layer2</div>
             <div className='mo:flex justify-center'>
               <Link
-                href={'./docs/lightpaper.pdf'}
+                href={'https://docs.ethda.io/'}
                 target={'_blank'}
                 className={
                   'flex items-center justify-center w-[200px] h-[58px] border border-white rounded-[12px] font-semibold text-[20px] mo:text-2xl mt-8'

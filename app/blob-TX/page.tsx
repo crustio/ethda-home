@@ -121,6 +121,7 @@ const BlobTX = () => {
 
   const onSendTx = async () => {
     if (!walletClient || !transData) return
+    setLoading({ loading: true })
     const blobs = [transData.text, transData.img]
     const { commitments, proofs, versionHashs, encodeBlobs } = await getConvertOfZkg(blobs)
     const [account] = await walletClient.getAddresses()
@@ -205,6 +206,7 @@ const BlobTX = () => {
     })
       .then((r) => r.json())
       .catch((e) => console.error(e))
+    setLoading({ loading: false, success: true })
   }
 
   const onSwitchTo = () => {
@@ -232,7 +234,10 @@ const BlobTX = () => {
                   <div className='rounded-lg border-[#FC7823] md:text-sm  border  h-[42px] items-center flex text-[#FC7823] px-[15px]'>
                     {address?.replace('••••', '.....')}
                   </div>
-                  <div className='flex mr-10 mo:mr-0 gap-[13px] items-center'>
+                  <div
+                    onClick={() => window.open('https://blobscan-devnet.ethda.io/blobs', '_blank')}
+                    className=' cursor-pointer flex mr-10 mo:mr-0 gap-[13px] items-center'
+                  >
                     <img className='ml-5 mo:h-[32px]' src='deal.svg' />
                     <span className='text-[#FC7823] font-normal text-base'>History</span>
                   </div>
@@ -253,6 +258,7 @@ const BlobTX = () => {
                     <input
                       placeholder='Please Enter ...'
                       maxLength={40}
+                      value={inputText}
                       onChange={(e) => setInputText(e.target.value)}
                       className=' mt-2 input-Text mo:w-full w-[425px] md:w-[380px] h-[55px] '
                     />
@@ -313,7 +319,7 @@ const BlobTX = () => {
                   </div>
 
                   <ContentBox className='overflow-y-auto  h-[442px] p-5 break-all whitespace-normal '>
-                    {transData && <>{JSON.stringify(ub8a2numa(selectedBlob ? transData.text : transData.img))}</>}
+                    {transData && transData.text && <>{JSON.stringify(ub8a2numa(selectedBlob ? transData.text : transData.img))}</>}
                   </ContentBox>
                   <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5 '>
                     <button
@@ -385,9 +391,14 @@ const BlobTX = () => {
       {loading.loading && <LoadingFull />}
       {loading.success && (
         <SuccessFull
-          onLeftButton={() => {}}
+          onLeftButton={() => {
+            window.open('')
+          }}
           onRightButton={() => {
             setLoading({ success: false })
+            setInputText('')
+            setFile(null)
+            setTransData({ text: '', img: '', imgType: '' } as any)
           }}
         />
       )}

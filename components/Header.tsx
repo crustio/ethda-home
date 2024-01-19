@@ -81,7 +81,9 @@ export const Header: FC<HeaderType> = ({
   ]
 
   const onSwitchTo = (address: string) => {
-    if (!address.startsWith('/')) {
+    console.log('addraddressess', address)
+
+    if (address.startsWith('http')) {
       window.open(address, '_blank')
       return
     }
