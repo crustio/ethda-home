@@ -2,17 +2,17 @@
 import { LoadingFull } from '@/components/ALoading'
 import { SuccessFull } from '@/components/ASuccess'
 import { Header } from '@/components/Header'
-import { DecodeBlobs, EncodeBlobs, createMetaDataForBlobs } from '@/utils'
+import { DecodeBlobs, EncodeBlobs, createMetaDataForBlobs, sleep } from '@/utils'
 import { ethda } from '@/utils/wagmi'
 import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
-import { ConnectKitButton } from 'connectkit'
+import { Avatar, ChainIcon, ConnectKitButton } from 'connectkit'
 import { ethers } from 'ethers'
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { parseTransaction, stringToHex } from 'viem'
 import { useSendTransaction, useWalletClient } from 'wagmi'
-
+import { useAccount } from 'wagmi'
 const StyledButton = styled.button`
   cursor: pointer;
   position: relative;
@@ -51,6 +51,7 @@ const BlobTX = () => {
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string>('')
+  const account = useAccount()
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
   }
@@ -68,7 +69,6 @@ const BlobTX = () => {
 
   const onTranscode = async () => {
     if (!walletClient || !file || file.size > 128 * 1024) return
-    console.log('inputImgRef', file, inputText, file?.size)
     const fr = new FileReader()
     fr.onload = () => {
       setTransData({
@@ -117,6 +117,28 @@ const BlobTX = () => {
     }
 
     return { commitments, proofs, versionHashs, encodeBlobs }
+  }
+
+  const loopGetResult = async ({ result }: any) => {
+    while (true) {
+      await sleep(5000)
+      const data = await fetch('https://rpc-devnet.ethda.io', {
+        method: 'POST',
+        body: JSON.stringify({
+          method: 'eth_getTransactionReceipt',
+          params: [result],
+          id: 1,
+          jsonrpc: '2.0',
+        }),
+      })
+        .then((r) => r.json())
+        .catch((e) => console.error(e))
+        .finally(() => setLoading({ loading: false, success: false }))
+      if (data.result && 'status' in data.result && data.result.status === '0x1') {
+        return data
+      }
+      setLoading({ loading: false, success: false })
+    }
   }
 
   const onSendTx = async () => {
@@ -189,13 +211,11 @@ const BlobTX = () => {
       },
       { common },
     )
-    console.log(blobTx)
-
     const rawData = blobTx.serializeNetworkWrapper()
 
     const hex = Buffer.from(rawData).toString('hex')
 
-    const { result: txr } = await fetch('https://rpc-devnet.ethda.io', {
+    const value = await fetch('https://rpc-devnet.ethda.io', {
       method: 'POST',
       body: JSON.stringify({
         method: 'eth_sendRawTransaction',
@@ -205,7 +225,8 @@ const BlobTX = () => {
       }),
     })
       .then((r) => r.json())
-      .catch((e) => console.error(e))
+      .then(loopGetResult)
+      .catch((e) => setLoading({ loading: false, success: false }))
     setLoading({ loading: false, success: true })
   }
 
@@ -235,7 +256,7 @@ const BlobTX = () => {
                     {address?.replace('••••', '.....')}
                   </div>
                   <div
-                    onClick={() => window.open('https://blobscan-devnet.ethda.io/blobs', '_blank')}
+                    onClick={() => window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')}
                     className=' cursor-pointer flex mr-10 mo:mr-0 gap-[13px] items-center'
                   >
                     <img className='ml-5 mo:h-[32px]' src='deal.svg' />
@@ -252,7 +273,7 @@ const BlobTX = () => {
                     <img src='/share3.svg' className=' mx-2' /> blob-carrying transactions (Blob TX)
                   </div>
                   <div className=' text-2xl mo:text-[26px] font-normal mo:mt-10'>Input</div>
-                  <div className=' mt-[50px] mo:mt-10 font-medium mo:text-lg md:text-sm mb-5'>Type text here</div>
+                  <div className=' mt-[36px] md:mt-[40px] mo:mt-10 font-medium mo:text-lg md:text-sm mb-5'>Type text here</div>
 
                   <DivBox className=' w-full h-[68px] px-2'>
                     <input
@@ -265,10 +286,10 @@ const BlobTX = () => {
                   </DivBox>
 
                   <div className=' text-base md:text-sm font-medium mt-[27px] mo:text-lg  mo:mt-10'>
-                    Attach an image,not exceeding 128KB
+                    Attach an image, not exceeding 128KB
                   </div>
                   <div className=' mo:px-[50px]'>
-                    <DivBox className=' mt-5 w-full  h-[290px] md:h-[295px] border-[#000000] mo:mt-10  '>
+                    <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-10  '>
                       <div className=' flex items-center justify-center h-full flex-col '>
                         <input type='file' hidden ref={inputImgRef} accept='image/*' onChange={onFileChange} />
                         <div
@@ -392,13 +413,13 @@ const BlobTX = () => {
       {loading.success && (
         <SuccessFull
           onLeftButton={() => {
-            window.open('https://blobscan-devnet.ethda.io/blobs', '_blank')
+            window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')
           }}
           onRightButton={() => {
             setLoading({ success: false })
             setInputText('')
             setFile(null)
-            setTransData({ text: '', img: '', imgType: '' } as any)
+            setTransData(null as any)
           }}
         />
       )}
