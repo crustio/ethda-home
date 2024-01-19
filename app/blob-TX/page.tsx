@@ -125,7 +125,7 @@ const BlobTX = () => {
     const { commitments, proofs, versionHashs, encodeBlobs } = await getConvertOfZkg(blobs)
     const [account] = await walletClient.getAddresses()
 
-    const blobsMeta = createMetaDataForBlobs(account, ['text/plain', 'image/png'])
+    const blobsMeta = createMetaDataForBlobs(account, ['text/plain', transData.imgType])
     const blobsMetadataHex = stringToHex(JSON.stringify(blobsMeta))
     const { result: nonce } = await fetch('https://rpc-devnet.ethda.io', {
       method: 'POST',
