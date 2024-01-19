@@ -1,9 +1,15 @@
 import { getDefaultConfig } from 'connectkit'
-import { createConfig } from 'wagmi'
+import { configureChains, createConfig, mainnet } from 'wagmi'
 import { CoinbaseWalletConnector } from '@wagmi/core/connectors/coinbaseWallet'
 import { defineChain } from 'viem/utils'
-
+import { publicProvider } from 'wagmi/providers/public'
+import { alchemyProvider } from 'wagmi/providers/alchemy'
 const walletConnectProjectId = '2222222'
+
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [mainnet],
+  [alchemyProvider({ apiKey: 'yourAlchemyApiKey' }), publicProvider()],
+)
 
 export const ethda = defineChain({
   id: 177,
@@ -38,10 +44,12 @@ const config = createConfig(
       new CoinbaseWalletConnector({
         chains: [ethda],
         options: {
+          headlessMode: true,
           appName: 'Ethda',
         },
       }),
     ],
+    publicClient,
     // Optional
     appDescription: 'Your App Description',
     appUrl: 'https://family.co', // your app's url

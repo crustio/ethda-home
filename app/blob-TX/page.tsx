@@ -392,7 +392,7 @@ const BlobTX = () => {
       {loading.success && (
         <SuccessFull
           onLeftButton={() => {
-            window.open('')
+            window.open('https://blobscan-devnet.ethda.io/blobs', '_blank')
           }}
           onRightButton={() => {
             setLoading({ success: false })
