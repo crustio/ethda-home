@@ -1,17 +1,17 @@
 'use client'
 import { LoadingFull } from '@/components/ALoading'
-import { SuccessFull } from '@/components/ASuccess'
+import { AToastFull } from '@/components/AToast'
 import { Header } from '@/components/Header'
-import { DecodeBlobs, EncodeBlobs, createMetaDataForBlobs, sleep } from '@/utils'
+import { EncodeBlobs, createMetaDataForBlobs, sleep } from '@/utils'
 import { ethda } from '@/utils/wagmi'
 import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
-import { Avatar, ChainIcon, ConnectKitButton } from 'connectkit'
+import { ConnectKitButton } from 'connectkit'
 import { ethers } from 'ethers'
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, Fragment, useCallback, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { parseTransaction, stringToHex } from 'viem'
-import { useSendTransaction, useWalletClient } from 'wagmi'
+import { useWalletClient } from 'wagmi'
 import { useAccount } from 'wagmi'
 const StyledButton = styled.button`
   cursor: pointer;
@@ -46,7 +46,7 @@ const ContentBox = styled(Wrapper)(({}) => ({
 const BlobTX = () => {
   const [clickStart, setIsClickStart] = useState(false)
   const [address, setAddress] = useState<string | undefined>('')
-  const [loading, setLoading] = useState<any>({ loading: false, success: false })
+  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: true })
   const inputImgRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
@@ -133,11 +133,13 @@ const BlobTX = () => {
       })
         .then((r) => r.json())
         .catch((e) => console.error(e))
-        .finally(() => setLoading({ loading: false, success: false }))
+        .finally(() => setLoading({ loading: false, success: false, error: true }))
       if (data.result && 'status' in data.result && data.result.status === '0x1') {
+        setLoading({ loading: false, success: true, error: false })
         return data
+      } else {
+        setLoading({ loading: false, success: false, error: true })
       }
-      setLoading({ loading: false, success: false })
     }
   }
 
@@ -226,8 +228,7 @@ const BlobTX = () => {
     })
       .then((r) => r.json())
       .then(loopGetResult)
-      .catch((e) => setLoading({ loading: false, success: false }))
-    setLoading({ loading: false, success: true })
+      .catch((e) => setLoading({ loading: false, success: false, error: true }))
   }
 
   const onSwitchTo = () => {
@@ -235,11 +236,11 @@ const BlobTX = () => {
   }
 
   return (
-    <div className=' font-[Montserrat]  '>
+    <div className=' font-[Montserrat]'>
       <Header
         className={` ${!clickStart ? 'bg-[#FBE8DE]  mo:bg-[#FCE1D6] mo:border-b-[#FCE1D6]' : 'bg-[#FFFFFFCC]'}  py-[27px]`}
-        containerClassName='!w-full  pl-9 pr-[31px] mo:w-full mo:pl-0 mo:pr-0 '
-        logo={` b-EthDA.svg`}
+        containerClassName='!w-full pl-9 pr-[31px] mo:w-full mo:pl-0 mo:pr-0 '
+        logo={`b-EthDA.svg`}
         headerTextClassName='!text-[#000000] gap-[50px]'
       />
       <div className={` ${!clickStart && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)]  '} min-h-screen bg-cover `}>
@@ -411,16 +412,54 @@ const BlobTX = () => {
       </div>
       {loading.loading && <LoadingFull />}
       {loading.success && (
-        <SuccessFull
-          onLeftButton={() => {
-            window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')
-          }}
-          onRightButton={() => {
-            setLoading({ success: false })
-            setInputText('')
-            setFile(null)
-            setTransData(null as any)
-          }}
+        <AToastFull
+          chilren={
+            <Fragment>
+              <img src='success.svg' />
+              <div className='font-medium text-xl text-[#FC7823] mt-[-35px]'>Success</div>
+              <div className='flex gap-[38px] mt-[40px] mb-5'>
+                <button
+                  onClick={() => {
+                    window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')
+                  }}
+                  className='w-[141px] border h-[36px] rounded-lg border-[#000000] px-[21px] font-medium text-base'
+                >
+                  View History
+                </button>
+                <button
+                  onClick={() => {
+                    setLoading({ success: false })
+                    setInputText('')
+                    setFile(null)
+                    setTransData(null as any)
+                  }}
+                  className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
+                >
+                  Send more
+                </button>
+              </div>
+            </Fragment>
+          }
+        />
+      )}
+      {loading.error && (
+        <AToastFull
+          chilren={
+            <Fragment>
+              <img src='failed.svg' />
+              <div className='font-medium text-xl text-[#FC7823] mt-[-35px]'>Failed</div>
+              <div className='flex gap-[38px] mt-[40px] mb-5'>
+                <button
+                  onClick={() => {
+                    setLoading({ success: false, error: false, loading: false })
+                  }}
+                  className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
+                >
+                  Send Again
+                </button>
+              </div>
+            </Fragment>
+          }
         />
       )}
     </div>
