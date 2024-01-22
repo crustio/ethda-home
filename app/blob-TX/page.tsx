@@ -8,11 +8,12 @@ import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
 import { ConnectKitButton } from 'connectkit'
 import { ethers } from 'ethers'
-import { ChangeEvent, Fragment, useCallback, useRef, useState } from 'react'
+import { ChangeEvent, Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { parseTransaction, stringToHex } from 'viem'
-import { useWalletClient } from 'wagmi'
-import { useAccount } from 'wagmi'
+import { useWalletClient, useAccount } from 'wagmi'
+import web3 from 'web3'
+
 const StyledButton = styled.button`
   cursor: pointer;
   position: relative;
@@ -56,10 +57,49 @@ const BlobTX = () => {
     setSelectedBlob(blob)
   }
 
+  const allowDrop = (event: { preventDefault: () => void }) => {
+    event.preventDefault()
+  }
+
+  const handleDrop = (event: { preventDefault: () => void; dataTransfer: { files: { item: (arg0: number) => any } } }) => {
+    event.preventDefault()
+
+    const files = event.dataTransfer.files?.item(0)
+    const fileSizeInKB = files.size / 1024
+    if (fileSizeInKB > 128) {
+      return
+    }
+    setFile(files)
+  }
+
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.files?.item(0))
+    const file = e.target.files?.item(0)
+    if (!file) return
+    const fileSizeInKB = file.size / 1024
+    if (fileSizeInKB > 128) {
+      return
+    }
+    setFile(file)
   }, [])
 
+  console.log('accountaccount', account)
+
+  useEffect(() => {
+    if (!account?.isConnected) {
+      setIsClickStart(false)
+    }
+  }, [account?.isConnected])
+
+  useEffect(() => {
+    if (loading.loading || loading.success || loading.error) {
+      document.body.classList.add('overflow-hidden')
+    } else {
+      document.body.classList.remove('overflow-hidden')
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden')
+    }
+  }, [loading])
   const handleFileSelect = () => {
     inputImgRef.current?.click()
   }
@@ -243,15 +283,17 @@ const BlobTX = () => {
         logo={`b-EthDA.svg`}
         headerTextClassName='!text-[#000000] gap-[50px]'
       />
-      <div className={` ${!clickStart && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)]  '} min-h-screen bg-cover `}>
+      <div className={` ${!clickStart && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '}  min-h-screen bg-cover `}>
         {clickStart ? (
-          <div>
-            <div style={{ background: 'linear-gradient(180deg, #F3F3F3 0%, rgba(243, 243, 243, 0.30) 100%)' }}>
+          <div className='bg-[url(/black_bg.svg)] mo:bg-none bg-cover h-auto overflow-hidden '>
+            <div>
               <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px]   '>
                 <div className=' flex  flex-row items-center mo:justify-between mo:h-[102px]'>
                   <div className='mo:hidden w-full h-[120px] mo:h-[42px] items-center flex text-2xl md:text-lg font-normal'>
-                    <button onClick={onSwitchTo}> Experience EIP-4844</button> <img src='/share3.svg' className=' mx-2' /> blob-carrying
-                    transactions (Blob TX)
+                    <button onClick={onSwitchTo} className='flex flex-row items-center'>
+                      Experience EIP-4844 <img src='/share3.svg' className=' mx-2' />
+                    </button>
+                    blob-carrying transactions (Blob TX)
                   </div>
                   <div className='rounded-lg border-[#FC7823] md:text-sm  border  h-[42px] items-center flex text-[#FC7823] px-[15px]'>
                     {address?.replace('••••', '.....')}
@@ -291,16 +333,16 @@ const BlobTX = () => {
                   </div>
                   <div className=' mo:px-[50px]'>
                     <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-10  '>
-                      <div className=' flex items-center justify-center h-full flex-col '>
-                        <input type='file' hidden ref={inputImgRef} accept='image/*' onChange={onFileChange} />
+                      <div onDrop={handleDrop} onDragOver={allowDrop} className=' flex items-center justify-center h-full flex-col '>
+                        <input type='file' hidden ref={inputImgRef} accept='.png, .jpg, .jpeg, .gif, .svg' onChange={onFileChange} />
                         <div
                           onClick={handleFileSelect}
                           className=' cursor-pointer w-[100px] h-[100px] bg-[#FFF8F4] border  border-dashed rounded-[5px] border-[#FC7823] flex items-center justify-center'
                         >
                           <img src='chooseAnyImg.svg'></img>
                         </div>
-                        <div className=' mt-5 mo:mt-[30px] text-center flex flex-col'>
-                          <span>{file?.name}</span>
+                        <div className=' mt-5 mo:mt-[30px] text-center flex flex-col  overflow-hidden truncate w-40'>
+                          <span className=' overflow-hidden truncate'>{file?.name}</span>
                           <button className=' text-base font-semibold' onClick={handleFileSelect}>
                             Browse
                           </button>
@@ -308,7 +350,7 @@ const BlobTX = () => {
                       </div>
                     </DivBox>
                   </div>
-                  <div className='mt-5 mo:mt-10 flex justify-center mb-5'>
+                  <div className='mt-5 mo:mt-10 flex justify-center mb-20'>
                     <button
                       onClick={onTranscode}
                       className={` ${
@@ -340,7 +382,7 @@ const BlobTX = () => {
                     </button>
                   </div>
 
-                  <ContentBox className='overflow-y-auto  h-[442px] p-5 break-all whitespace-normal '>
+                  <ContentBox className='overflow-y-auto overflow-x-hidden  h-[442px] p-5 break-all whitespace-normal '>
                     {transData && transData.text && <>{JSON.stringify(ub8a2numa(selectedBlob ? transData.text : transData.img))}</>}
                   </ContentBox>
                   <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5 '>
@@ -357,13 +399,11 @@ const BlobTX = () => {
           </div>
         ) : (
           <div className='mo:w-full mx-auto w-container md:w-full md:px-[30px] mo:px-[30px]'>
-            <div
-              onClick={onSwitchTo}
-              className=' cursor-pointer flex justify-center  pt-[119px] mo:flex-wrap mo:items-center text-[54px] mo:text-[26px] md:text-[46px]'
-            >
-              <span className='font-medium    mo:font-bold  mr-3'>Experience</span>
-              <span className=' font-semibold   mo:font-bold underline mr-3'> EIP-4844</span>
-              <img className=' w-[30px] ' src='/share.svg'></img>
+            <div className=' flex justify-center  pt-[119px] mo:flex-wrap mo:items-center text-[54px] mo:text-[26px] md:text-[46px]'>
+              <span className='font-medium cursor-default  mo:font-bold  mr-3'>Experience</span>
+              <span onClick={onSwitchTo} className='flex font-semibold cursor-pointer mo:font-bold underline'>
+                EIP-4844 <img className=' ml-3 w-[30px] ' src='/share.svg'></img>
+              </span>
             </div>
             <div className=' md:text-[46px] cursor-default flex justify-center mo:flex-wrap  font-medium text-[54px] capitalize mo:text-[26px] mo:font-bold'>
               <div className=''>blob-carrying transactions</div>
@@ -374,8 +414,10 @@ const BlobTX = () => {
                 Store a piece of text or an image fully on-chain with EthDA to understand the changes
               </span>
               <div>
-                <span className='font-medium text-xl mo:text-[18px] mo:font-light'> introduced by</span>
-                <span className='font-semibold text-xl mo:text-[18px] mo:font-medium'> EIP-4844 </span>
+                <span className='font-medium text-xl mo:text-[18px] mo:font-light'> introduced by </span>
+                <button onClick={onSwitchTo} className='font-semibold text-xl mo:text-[18px] mo:font-medium'>
+                  EIP-4844
+                </button>
                 <span className='font-medium  text-xl mo:text-[18px] mo:font-light '> blob-carrying transactions</span>
                 <span className='font-semibold text-xl mo:text-[18px] mo:font-medium'> (Blob TX) </span>
                 <span className='font-medium text-xl mo:text-[18px] mo:font-light'> following the </span>
@@ -386,11 +428,10 @@ const BlobTX = () => {
             <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
               <ConnectKitButton.Custom>
                 {({ isConnected, show, truncatedAddress, ensName }) => {
+                  console.log('isConnected', isConnected)
                   if (isConnected) {
-                    setTimeout(() => {
-                      setIsClickStart(true)
-                      setAddress(truncatedAddress)
-                    })
+                    setIsClickStart(true)
+                    setAddress(truncatedAddress)
                   }
                   return (
                     <StyledButton onClick={show}>
@@ -435,7 +476,7 @@ const BlobTX = () => {
                   }}
                   className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
                 >
-                  Send more
+                  Send More
                 </button>
               </div>
             </Fragment>

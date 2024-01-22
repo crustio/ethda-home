@@ -81,8 +81,6 @@ export const Header: FC<HeaderType> = ({
   ]
 
   const onSwitchTo = (address: string) => {
-    console.log('addraddressess', address)
-
     if (address.startsWith('http')) {
       window.open(address, '_blank')
       return
@@ -93,7 +91,9 @@ export const Header: FC<HeaderType> = ({
     <header className={classNames('py-5 border-b border-b-[rgba(255,255,255,.2)]', className)}>
       <div className=' mo:mx-[30px] '>
         <div className={classNames('flex justify-between items-center', containerClassName)}>
-          <Image src={logo} alt={'logo.svg'} width={119} height={26} />
+          <Link href={'/'}>
+            <Image src={logo} alt={'logo.svg'} width={119} height={26} />
+          </Link>
           {isMobile ? (
             <button
               onClick={() => {
