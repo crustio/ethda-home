@@ -46,7 +46,7 @@ const ContentBox = styled(Wrapper)(({}) => ({
 const BlobTX = () => {
   const [clickStart, setIsClickStart] = useState(false)
   const [address, setAddress] = useState<string | undefined>('')
-  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: true })
+  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false })
   const inputImgRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
