@@ -2,7 +2,7 @@
 import { LoadingFull } from '@/components/ALoading'
 import { AToastFull } from '@/components/AToast'
 import { Header } from '@/components/Header'
-import { EncodeBlobs, createMetaDataForBlobs, sleep } from '@/utils'
+import { EncodeBlobs, createMetaDataForBlobs, formatEthereumAddress, scrollToTop, sleep } from '@/utils'
 import { ethda } from '@/utils/wagmi'
 import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
@@ -47,7 +47,7 @@ const ContentBox = styled(Wrapper)(({}) => ({
 const BlobTX = () => {
   const [clickStart, setIsClickStart] = useState(false)
   const [address, setAddress] = useState<string | undefined>('')
-  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false })
+  const [loading, setLoading] = useState<any>({ loading: true, success: false, error: false })
   const inputImgRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
@@ -81,8 +81,6 @@ const BlobTX = () => {
     }
     setFile(file)
   }, [])
-
-  console.log('accountaccount', account)
 
   useEffect(() => {
     if (!account?.isConnected) {
@@ -296,7 +294,7 @@ const BlobTX = () => {
                     blob-carrying transactions (Blob TX)
                   </div>
                   <div className='rounded-lg border-[#FC7823] md:text-sm  border  h-[42px] items-center flex text-[#FC7823] px-[15px]'>
-                    {address?.replace('••••', '.....')}
+                    {formatEthereumAddress(account.address)}
                   </div>
                   <div
                     onClick={() => window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')}
@@ -350,19 +348,19 @@ const BlobTX = () => {
                       </div>
                     </DivBox>
                   </div>
-                  <div className='mt-5 mo:mt-10 flex justify-center mb-20'>
+                  <div className='mt-5 mo:mt-10 flex justify-center mb-20  mo:px-[50px]'>
                     <button
                       onClick={onTranscode}
                       className={` ${
                         !file?.name || !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
-                      } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center w-[136px] h-12 text-center`}
+                      } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center h-12 text-center`}
                     >
                       Transcode
                     </button>
                   </div>
                 </div>
                 <div className='w-0 flex-1 h-full  '>
-                  <div className=' text-2xl  mo:text-[26px]'> Blob Data</div>
+                  <div className=' text-2xl  mo:text-[26px] mt-1'> Blob Data</div>
                   <div className='flex gap-[14px] '>
                     <button
                       onClick={() => handleBlobClick(true)}
@@ -382,7 +380,7 @@ const BlobTX = () => {
                     </button>
                   </div>
 
-                  <ContentBox className='overflow-y-auto overflow-x-hidden  h-[442px] p-5 break-all whitespace-normal '>
+                  <ContentBox className='overflow-y-auto overflow-x-hidden  h-[442px] mo:h-[420px] p-5 break-all whitespace-normal '>
                     {transData && transData.text && <>{JSON.stringify(ub8a2numa(selectedBlob ? transData.text : transData.img))}</>}
                   </ContentBox>
                   <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5 '>
@@ -428,7 +426,6 @@ const BlobTX = () => {
             <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
               <ConnectKitButton.Custom>
                 {({ isConnected, show, truncatedAddress, ensName }) => {
-                  console.log('isConnected', isConnected)
                   if (isConnected) {
                     setIsClickStart(true)
                     setAddress(truncatedAddress)
@@ -463,7 +460,7 @@ const BlobTX = () => {
                   onClick={() => {
                     window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')
                   }}
-                  className='w-[141px] border h-[36px] rounded-lg border-[#000000] px-[21px] font-medium text-base'
+                  className='w-[140px] border h-[36px] rounded-lg border-[#000000] px-[21px] font-medium text-base'
                 >
                   View History
                 </button>
@@ -473,8 +470,9 @@ const BlobTX = () => {
                     setInputText('')
                     setFile(null)
                     setTransData(null as any)
+                    scrollToTop()
                   }}
-                  className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
+                  className='w-[140px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
                 >
                   Send More
                 </button>
