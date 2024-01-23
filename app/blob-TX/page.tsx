@@ -2,7 +2,7 @@
 import { LoadingFull } from '@/components/ALoading'
 import { AToastFull } from '@/components/AToast'
 import { Header } from '@/components/Header'
-import { EncodeBlobs, createMetaDataForBlobs, formatEthereumAddress, scrollToTop, sleep } from '@/utils'
+import { EncodeBlobs, createMetaDataForBlobs, formatEthereumAddress, scrollToTop, shortStr, sleep } from '@/utils'
 import { ethda } from '@/utils/wagmi'
 import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
@@ -176,6 +176,7 @@ const BlobTX = () => {
         return data
       } else {
         setLoading({ loading: false, success: false, error: true })
+        return
       }
     }
   }
@@ -280,7 +281,7 @@ const BlobTX = () => {
         logo={`b-EthDA.svg`}
         headerTextClassName='!text-[#000000] gap-[50px]'
       />
-      <div className={` ${!clickStart && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '}  min-h-screen bg-cover `}>
+      <div className={` ${!clickStart && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '} min-h-[90vh]  bg-cover object-cover `}>
         {clickStart ? (
           <div className='bg-[url(/black_bg.svg)] mo:bg-none bg-cover h-auto overflow-hidden '>
             <div>
@@ -339,7 +340,9 @@ const BlobTX = () => {
                           <img src='chooseAnyImg.svg'></img>
                         </div>
                         <div className=' mt-5 mo:mt-[30px] text-center flex flex-col  overflow-hidden truncate w-40'>
-                          <span className=' overflow-hidden truncate'>{file?.name}</span>
+                          <span title={file?.name} className='  cursor-default w-full'>
+                            {shortStr(file?.name, 5)}
+                          </span>
                           <button className=' text-base font-semibold' onClick={handleFileSelect}>
                             Browse
                           </button>
@@ -439,7 +442,7 @@ const BlobTX = () => {
                 }}
               </ConnectKitButton.Custom>
             </div>
-            <div className=' mt-[128px] mo:mt-[142px] flex  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
+            <div className=' mt-[100px] mo:mt-[142px] flex  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
               <button className='mo:w-full text-base underline mo:text-2xl '>Add EthDA Devnet to wallet</button>
               <button className='mo:mt-[70px] mo:text-2xl   text-base underline'> Gas Faucet</button>
             </div>

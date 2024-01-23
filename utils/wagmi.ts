@@ -2,10 +2,12 @@ import { getDefaultConfig } from 'connectkit'
 import { createConfig } from 'wagmi'
 import { CoinbaseWalletConnector } from '@wagmi/core/connectors/coinbaseWallet'
 import { defineChain } from 'viem/utils'
+import web3 from 'web3'
 const walletConnectProjectId = '2222222'
 
 export const ethda = defineChain({
   id: 177,
+  chainId: web3.utils.toHex(123),
   network: 'ethda',
   name: 'Ethda',
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
