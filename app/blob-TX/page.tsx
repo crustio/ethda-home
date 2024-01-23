@@ -12,7 +12,6 @@ import { ChangeEvent, Fragment, useCallback, useEffect, useRef, useState } from 
 import styled from 'styled-components'
 import { parseTransaction, stringToHex } from 'viem'
 import { useWalletClient, useAccount } from 'wagmi'
-import web3 from 'web3'
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -46,13 +45,13 @@ const ContentBox = styled(Wrapper)(({}) => ({
 
 const BlobTX = () => {
   const [clickStart, setIsClickStart] = useState(false)
-  const [address, setAddress] = useState<string | undefined>('')
-  const [loading, setLoading] = useState<any>({ loading: true, success: false, error: false })
+  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false })
   const inputImgRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string>('')
   const account = useAccount()
+
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
   }
@@ -314,7 +313,7 @@ const BlobTX = () => {
                     <img src='/share3.svg' className=' mx-2' /> blob-carrying transactions (Blob TX)
                   </div>
                   <div className=' text-2xl mo:text-[26px] font-normal mo:mt-10'>Input</div>
-                  <div className=' mt-[36px] md:mt-[40px] mo:mt-10 font-medium mo:text-lg md:text-sm mb-5'>Type text here</div>
+                  <div className=' mt-[36px] md:mt-[40px] mo:mt-[30px] font-medium mo:text-lg md:text-sm mb-5'>Type text here</div>
 
                   <DivBox className=' w-full h-[68px] px-2'>
                     <input
@@ -425,10 +424,9 @@ const BlobTX = () => {
             </div>
             <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
               <ConnectKitButton.Custom>
-                {({ isConnected, show, truncatedAddress, ensName }) => {
+                {({ isConnected, show, truncatedAddress }) => {
                   if (isConnected) {
                     setIsClickStart(true)
-                    setAddress(truncatedAddress)
                   }
                   return (
                     <StyledButton onClick={show}>
