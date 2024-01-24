@@ -28,18 +28,18 @@ const StyledButton = styled.button`
   border-radius: 10px;
 `
 
-const Wrapper = styled.div(({}) => ({
+const Wrapper = styled.div(({ }) => ({
   borderRadius: '10px',
   backgroundImage:
     'linear-gradient(to left, #000000 30%, transparent 10%), linear-gradient(to left, #000000 30%, transparent 10%), linear-gradient(to top, #000000 40%, transparent 10%), linear-gradient(to top, #000000 30%, transparent 10%)',
   backgroundPosition: 'left top, left bottom, left top, right top',
   backgroundRepeat: 'repeat-x, repeat-x, repeat-y, repeat-y',
 }))
-const DivBox = styled(Wrapper)(({}) => ({
+const DivBox = styled(Wrapper)(({ }) => ({
   backgroundSize: '10px 1px, 10px 1px, 1px 9px, 1px 9px',
 }))
 
-const ContentBox = styled(Wrapper)(({}) => ({
+const ContentBox = styled(Wrapper)(({ }) => ({
   backgroundSize: '10px 1px, 10px 1px, 1px 9px, 1px 9px',
 }))
 
@@ -335,7 +335,7 @@ const BlobTX = () => {
                   <div className=' mo:px-[50px]'>
                     <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-5  '>
                       <div onDrop={handleDrop} onDragOver={allowDrop} className=' flex items-center justify-center h-full flex-col '>
-                        <input type='file' hidden ref={inputImgRef} accept='.png, .jpg, .jpeg, .gif, .svg' onChange={onFileChange} />
+                        <input type='file' hidden ref={inputImgRef} accept='image/png, image/jpg, image/jpeg, image/gif, image/svg' onChange={onFileChange} />
                         <div
                           onClick={handleFileSelect}
                           className=' cursor-pointer w-[100px] h-[100px] bg-[#FFF8F4] border  border-dashed rounded-[5px] border-[#FC7823] flex items-center justify-center'
@@ -356,9 +356,8 @@ const BlobTX = () => {
                   <div className='mt-5 mo:mt-10 flex justify-center mb-20  mo:px-[50px]'>
                     <button
                       onClick={onTranscode}
-                      className={` ${
-                        !file?.name || !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
-                      } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center h-12 text-center`}
+                      className={` ${!file?.name || !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
+                        } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center h-12 text-center`}
                     >
                       Transcode
                     </button>
@@ -369,17 +368,15 @@ const BlobTX = () => {
                   <div className='flex gap-[14px] mo:gap-[10px  '>
                     <button
                       onClick={() => handleBlobClick(true)}
-                      className={`w-[195px] md:w-[180px] h-[50px] flex border-[#000000] ${
-                        selectedBlob && 'custom-background'
-                      } items-center justify-center mo:text-lg mt-[30px] md:text-sm  text-base font-medium `}
+                      className={`w-[195px] md:w-[180px] h-[50px] flex border-[#000000] ${selectedBlob && 'custom-background'
+                        } items-center justify-center mo:text-lg mt-[30px] md:text-sm  text-base font-medium `}
                     >
                       Blob1(Text data)
                     </button>
                     <button
                       onClick={() => handleBlobClick(false)}
-                      className={`w-[200px] md:w-[180px] h-[50px] flex ${
-                        !selectedBlob && 'custom-background'
-                      } items-center border-[#000000] mo:text-lg justify-center mt-[30px] md:text-sm  border-dashed text-base font-medium `}
+                      className={`w-[200px] md:w-[180px] h-[50px] flex ${!selectedBlob && 'custom-background'
+                        } items-center border-[#000000] mo:text-lg justify-center mt-[30px] md:text-sm  border-dashed text-base font-medium `}
                     >
                       Blob2(Image data)
                     </button>
