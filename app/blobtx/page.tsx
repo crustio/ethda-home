@@ -26,7 +26,7 @@ const StyledButton = styled.button`
   align-items: center;
   font-size: 16px;
   font-weight: 500;
-  width: 260px;
+  width: 280px;
   height: 48px;
   border-radius: 10px;
 `
@@ -284,7 +284,7 @@ const BlobTX = () => {
   }
 
   const { disconnect } = useDisconnect()
-  const modal = useModal()
+  const modal = useModal({ onDisconnect: disconnect })
 
   return (
     <div className=' font-montserrat'>
@@ -294,10 +294,10 @@ const BlobTX = () => {
         logo={`b-EthDA.svg`}
         headerTextClassName='!text-[#000000] gap-[50px]'
       />
-      <div className={` ${!isConnected && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '} min-h-[90vh]  bg-cover object-cover `}>
+      <div className={` ${!isConnected && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '} min-h-screen  bg-cover object-cover `}>
         {isConnected ? (
           <div className='bg-[url(/black_bg.svg)] mo:bg-none bg-cover h-auto overflow-hidden '>
-            <div className='mo:bg-[#F6F6F6]'>
+            <div className='mo:bg-[#F6F6F6] bg-[#F7F7F7]'>
               <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px]   '>
                 <div className='  flex  flex-row items-center mo:justify-between mo:h-[102px]'>
                   <div className='mo:hidden w-full h-[120px] mo:h-[42px] items-center flex text-2xl md:text-lg font-normal'>
@@ -313,7 +313,11 @@ const BlobTX = () => {
                       </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align='start' className='w-[161px]'>
-                      <DropdownMenuItem textValue='Disconnect' onClick={() => disconnect()} className='text-base text-orange-400 cursor-pointer'>
+                      <DropdownMenuItem
+                        textValue='Disconnect'
+                        onClick={() => disconnect()}
+                        className='text-base text-orange-400 cursor-pointer'
+                      >
                         Disconnect
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -332,12 +336,12 @@ const BlobTX = () => {
             <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px] '>
               <div className='flex mo:gap-5 gap-[100px] md:gap-[50px]  mt-[30px] mo:mt-10 mo:flex mo:flex-wrap mo:w-full'>
                 <div className='w-[440px] md:w-[400px] h-full mo:flex mo:flex-wrap mo:w-full mo:flex-col  '>
-                  <div className='sm:hidden w-full h-[120px] mo:h-auto  items-center flex text-2xl mo:text-3xl md:text-lg font-normal mo:flex-wrap mo:flex-row'>
+                  <div className=' sm:hidden w-full h-auto mo:h-auto  items-center flex text-2xl mo:text-2xl md:text-lg font-normal mo:flex-wrap mo:flex-row'>
                     <button onClick={onSwitchTo}> Experience EIP-4844 </button>
                     <img src='/share3.svg' className=' mx-2' /> blob-carrying transactions (Blob TX)
                   </div>
                   <div className=' text-2xl mo:text-[26px] font-normal mo:mt-10'>Input</div>
-                  <div className=' mt-[36px] md:mt-[40px] mo:mt-5 font-medium mo:text-lg md:text-sm mb-5'>Type text here</div>
+                  <div className=' mt-[36px] md:mt-[40px] mo:mt-5 font-medium mo:text-base md:text-sm mb-5'>Type text here</div>
 
                   <DivBox className=' w-full h-[68px] px-2'>
                     <input
@@ -349,7 +353,7 @@ const BlobTX = () => {
                     />
                   </DivBox>
 
-                  <div className=' text-base md:text-sm font-medium mt-[27px] mo:text-lg  mo:mt-5'>
+                  <div className=' text-base md:text-sm font-medium mt-[27px] mo:text-base  mo:mt-5'>
                     Attach an image, not exceeding 128KB
                   </div>
                   <div className=' mo:px-[50px]'>
@@ -392,20 +396,20 @@ const BlobTX = () => {
                 </div>
                 <div className='w-0 flex-1 h-full  mo:mt-[-70px]'>
                   <div className=' text-2xl  mo:text-[26px] '> Blob Data</div>
-                  <div className='flex gap-[14px] mo:gap-[10px  '>
+                  <div className='flex gap-[14px] mo:gap-[5px]  '>
                     <button
                       onClick={() => handleBlobClick(true)}
                       className={`w-[195px] md:w-[180px] h-[50px] flex border-[#000000] ${
                         selectedBlob && 'custom-background'
-                      } items-center justify-center mo:text-lg mt-[30px] md:text-sm  text-base font-medium `}
+                      } items-center justify-center  mt-[30px] md:text-sm  text-base font-medium `}
                     >
                       Blob1(Text data)
                     </button>
                     <button
                       onClick={() => handleBlobClick(false)}
-                      className={`w-[200px] md:w-[180px] h-[50px] flex ${
+                      className={`w-[220px] md:w-[180px] h-[50px] flex ${
                         !selectedBlob && 'custom-background'
-                      } items-center border-[#000000] mo:text-lg justify-center mt-[30px] md:text-sm  border-dashed text-base font-medium `}
+                      } items-center border-[#000000] justify-center mt-[30px] md:text-sm  border-dashed text-base font-medium `}
                     >
                       Blob2(Image data)
                     </button>
@@ -428,30 +432,30 @@ const BlobTX = () => {
           </div>
         ) : (
           <div className='mo:w-full mx-auto w-container md:w-full md:px-[30px] mo:px-[30px]'>
-            <div className=' flex justify-center  pt-[119px] mo:flex-wrap mo:items-center text-[54px] mo:text-[26px] md:text-[46px]'>
-              <span className='font-medium cursor-default  mo:font-bold  mr-3'>Experience</span>
+            <div className='flex flex-row justify-center pt-[119px]  mo:items-center text-[54px] mo:text-[22px] md:text-[46px]'>
+              <span className='font-medium cursor-default  mo:font-bold  mr-2'>Experience</span>
               <span onClick={onSwitchTo} className='flex font-semibold cursor-pointer mo:font-bold underline'>
-                EIP-4844 <img className=' ml-3 w-[30px] ' src='/share.svg'></img>
+                EIP-4844 <img className=' ml-2 w-[30px] ' src='/share.svg'></img>
               </span>
             </div>
-            <div className=' md:text-[46px] cursor-default flex justify-center mo:flex-wrap  font-medium text-[54px] capitalize mo:text-[26px] mo:font-bold'>
-              <div className=''>blob-carrying transactions</div>
-              <div>(Blob TX)</div>
+            <div className='md:text-[46px] cursor-default mo:mt-[10px] flex justify-center mo:w-full mo:flex-wrap  font-medium text-[54px] capitalize mo:text-[22px] mo:font-bold'>
+              <div>blob-carrying transactions</div>
+              <div className='mo:mt-[10px]'>(Blob TX)</div>
             </div>
             <div className='cursor-default mt-[34px] mo:mt-5 justify-center  text-center mo:flex flex-wrap mo:flex-row '>
-              <span className='font-medium  text-xl mo:text-[18px] mo:font-light '>
+              <span className='font-medium  text-xl mo:text-[14px] mo:font-light '>
                 Store a piece of text or an image fully on-chain with EthDA to understand the changes
               </span>
               <div>
-                <span className='font-medium text-xl mo:text-[18px] mo:font-light'> introduced by </span>
-                <button onClick={onSwitchTo} className='font-semibold text-xl mo:text-[18px] mo:font-medium'>
+                <span className='font-medium text-xl mo:text-[14px] mo:font-light'> introduced by </span>
+                <button onClick={onSwitchTo} className='font-semibold text-xl mo:text-[16px] mo:font-medium'>
                   EIP-4844
                 </button>
-                <span className='font-medium  text-xl mo:text-[18px] mo:font-light '> blob-carrying transactions</span>
-                <span className='font-semibold text-xl mo:text-[18px] mo:font-medium'> (Blob TX) </span>
-                <span className='font-medium text-xl mo:text-[18px] mo:font-light'> following the </span>
+                <span className='font-medium  text-xl mo:text-[14px] mo:font-light '> blob-carrying transactions</span>
+                <span className='font-semibold text-xl mo:text-[16px] mo:font-medium'> (Blob TX) </span>
+                <span className='font-medium text-xl mo:text-[16px] mo:font-light'> following the </span>
               </div>
-              <span className='font-semibold text-xl mo:text-[18px] mo:font-medium'>Ethereum </span>
+              <span className='font-semibold text-xl mo:text-[16px] mo:font-medium'>Ethereum </span>
               <span className='font-medium text-xl mo:text-[18px] mo:font-light'>&nbsp;Cancun-Deneb Upgrade.</span>
             </div>
             <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
@@ -468,7 +472,7 @@ const BlobTX = () => {
                 </StyledButton>
               )}
             </div>
-            <div className=' mt-[100px] mo:mt-[142px] flex mb-[20px]  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
+            <div className=' mt-[100px] flex  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
               <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-2xl '>
                 Add EthDA Devnet to wallet
               </button>
