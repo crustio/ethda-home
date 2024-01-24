@@ -9,7 +9,7 @@ export const formatEthereumAddress = (address: any) => {
     return ''
   }
 
-  const prefix = address?.slice(0, 5)
+  const prefix = address?.slice(0, 7)
   const suffix = address?.slice(-5)
   const ellipsis = '...'
 

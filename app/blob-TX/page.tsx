@@ -296,7 +296,7 @@ const BlobTX = () => {
                     </button>
                     blob-carrying transactions (Blob TX)
                   </div>
-                  <div className='rounded-lg border-[#FC7823] md:text-sm  border  h-[42px] items-center flex text-[#FC7823] px-[15px]'>
+                  <div className=' cursor-default rounded-lg border-[#FC7823] md:text-sm  border  h-[42px] items-center flex text-[#FC7823] px-[15px]'>
                     {formatEthereumAddress(account.address)}
                   </div>
                   <div
@@ -317,7 +317,7 @@ const BlobTX = () => {
                     <img src='/share3.svg' className=' mx-2' /> blob-carrying transactions (Blob TX)
                   </div>
                   <div className=' text-2xl mo:text-[26px] font-normal mo:mt-10'>Input</div>
-                  <div className=' mt-[36px] md:mt-[40px] mo:mt-[30px] font-medium mo:text-lg md:text-sm mb-5'>Type text here</div>
+                  <div className=' mt-[36px] md:mt-[40px] mo:mt-5 font-medium mo:text-lg md:text-sm mb-5'>Type text here</div>
 
                   <DivBox className=' w-full h-[68px] px-2'>
                     <input
@@ -329,11 +329,11 @@ const BlobTX = () => {
                     />
                   </DivBox>
 
-                  <div className=' text-base md:text-sm font-medium mt-[27px] mo:text-lg  mo:mt-10'>
+                  <div className=' text-base md:text-sm font-medium mt-[27px] mo:text-lg  mo:mt-5'>
                     Attach an image, not exceeding 128KB
                   </div>
                   <div className=' mo:px-[50px]'>
-                    <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-10  '>
+                    <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-5  '>
                       <div onDrop={handleDrop} onDragOver={allowDrop} className=' flex items-center justify-center h-full flex-col '>
                         <input type='file' hidden ref={inputImgRef} accept='.png, .jpg, .jpeg, .gif, .svg' onChange={onFileChange} />
                         <div
@@ -364,9 +364,9 @@ const BlobTX = () => {
                     </button>
                   </div>
                 </div>
-                <div className='w-0 flex-1 h-full  mo:mt-[-60px]'>
+                <div className='w-0 flex-1 h-full  mo:mt-[-70px]'>
                   <div className=' text-2xl  mo:text-[26px] '> Blob Data</div>
-                  <div className='flex gap-[14px] '>
+                  <div className='flex gap-[14px] mo:gap-[10px  '>
                     <button
                       onClick={() => handleBlobClick(true)}
                       className={`w-[195px] md:w-[180px] h-[50px] flex border-[#000000] ${
@@ -377,7 +377,7 @@ const BlobTX = () => {
                     </button>
                     <button
                       onClick={() => handleBlobClick(false)}
-                      className={`w-[195px] md:w-[180px] h-[50px] flex ${
+                      className={`w-[200px] md:w-[180px] h-[50px] flex ${
                         !selectedBlob && 'custom-background'
                       } items-center border-[#000000] mo:text-lg justify-center mt-[30px] md:text-sm  border-dashed text-base font-medium `}
                     >
@@ -385,10 +385,10 @@ const BlobTX = () => {
                     </button>
                   </div>
 
-                  <ContentBox className='overflow-y-auto overflow-x-hidden  h-[442px] mo:h-[420px] p-5 break-all whitespace-normal '>
+                  <ContentBox className='overflow-y-auto overflow-x-hidden  h-[442px] mo:h-[303px] p-5 break-all whitespace-normal '>
                     {transData && transData.text && <>{JSON.stringify(ub8a2numa(selectedBlob ? transData.text : transData.img))}</>}
                   </ContentBox>
-                  <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5 '>
+                  <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5 mo:px-[50px] '>
                     <button
                       className={` ${!transData ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '} border mo:w-full  px-6 text-base font-semibold items-center flex  rounded-xl text-[#FFFFFF]  justify-center  h-12 text-center`}
                       onClick={onSendTx}
