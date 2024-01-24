@@ -15,5 +15,5 @@ export const ALoading: FC<{ className: any }> = ({ className, ...other }) => {
 }
 
 export const LoadingFull = () => {
-  return <ALoading className='fixed z-50 left-0 top-0 w-full !h-full bg-black/25 px-[10px]' />
+  return <ALoading className='fixed z-50 left-0 top-0 w-full !h-full bg-black/25 px-[16px]' />
 }
