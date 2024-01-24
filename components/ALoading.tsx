@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 
 export const ALoading: FC<{ className: any }> = ({ className, ...other }) => {
   return (

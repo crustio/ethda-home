@@ -1,17 +1,20 @@
 'use client'
+
 import { LoadingFull } from '@/components/ALoading'
 import { AToastFull } from '@/components/AToast'
 import { Header } from '@/components/Header'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/dropdown-menu'
 import { EncodeBlobs, createMetaDataForBlobs, formatEthereumAddress, scrollToTop, shortStr, sleep } from '@/utils'
 import { ethda } from '@/utils/wagmi'
 import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
-import { ConnectKitButton } from 'connectkit'
+import { CrossCircledIcon } from '@radix-ui/react-icons'
+import { useModal } from 'connectkit'
 import { ethers } from 'ethers'
 import { ChangeEvent, Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { parseTransaction, stringToHex } from 'viem'
-import { useWalletClient, useAccount } from 'wagmi'
+import { parseEther, parseTransaction, stringToHex } from 'viem'
+import { useAccount, useDisconnect, useNetwork, usePublicClient, useWalletClient } from 'wagmi'
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -28,31 +31,40 @@ const StyledButton = styled.button`
   border-radius: 10px;
 `
 
-const Wrapper = styled.div(({ }) => ({
+const Wrapper = styled.div(({}) => ({
   borderRadius: '10px',
   backgroundImage:
     'linear-gradient(to left, #000000 30%, transparent 10%), linear-gradient(to left, #000000 30%, transparent 10%), linear-gradient(to top, #000000 40%, transparent 10%), linear-gradient(to top, #000000 30%, transparent 10%)',
   backgroundPosition: 'left top, left bottom, left top, right top',
   backgroundRepeat: 'repeat-x, repeat-x, repeat-y, repeat-y',
 }))
-const DivBox = styled(Wrapper)(({ }) => ({
+const DivBox = styled(Wrapper)(({}) => ({
   backgroundSize: '10px 1px, 10px 1px, 1px 9px, 1px 9px',
 }))
 
-const ContentBox = styled(Wrapper)(({ }) => ({
+const ContentBox = styled(Wrapper)(({}) => ({
   backgroundSize: '10px 1px, 10px 1px, 1px 9px, 1px 9px',
 }))
 
 const BlobTX = () => {
-  const [clickStart, setIsClickStart] = useState(false)
-  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false })
+  // const [clickStart, setIsClickStart] = useState(false)
+
+  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false, errorMsg: 'Failed' })
   const inputImgRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string>('')
   const account = useAccount()
   const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml']
-
+  const network = useNetwork()
+  const isConnected = network.chain && network.chain.id == ethda.id && !network.chain.unsupported
+  const [showAddNet, setShowAddNet] = useState(true)
+  useEffect(() => {
+    const clickedAddNet = localStorage.getItem('clickedAddNet')
+    if (clickedAddNet) {
+      setShowAddNet(false)
+    }
+  }, [])
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
   }
@@ -85,13 +97,6 @@ const BlobTX = () => {
   }, [])
 
   useEffect(() => {
-    if (!account?.isConnected) {
-      setIsClickStart(false)
-      setLoading({ loading: false, success: false, error: false })
-    }
-  }, [account?.isConnected])
-
-  useEffect(() => {
     if (loading.loading || loading.success || loading.error) {
       document.body.classList.add('overflow-hidden')
     } else {
@@ -106,6 +111,7 @@ const BlobTX = () => {
   }
 
   const { data: walletClient } = useWalletClient({ chainId: ethda.id })
+  const publicClient = usePublicClient({ chainId: ethda.id })
   const [transData, setTransData] = useState<{ text: Uint8Array; img: Uint8Array; imgType: string }>()
 
   const onTranscode = async () => {
@@ -185,107 +191,111 @@ const BlobTX = () => {
   }
 
   const onSendTx = async () => {
-    if (!walletClient || !transData) return
-    setLoading({ loading: true })
-    const blobs = [transData.text, transData.img]
-    const { commitments, proofs, versionHashs, encodeBlobs } = await getConvertOfZkg(blobs)
-    const [account] = await walletClient.getAddresses()
+    if (!walletClient || !transData || !publicClient || !account || !account.address) return
+    try {
+      setLoading({ loading: true })
+      const balance = await publicClient.getBalance({ address: account.address })
+      if (balance < parseEther('0.001')) {
+        return setLoading({ loading: false, error: true, errorMsg: 'Insufficient funds for gas' })
+      }
+      const blobs = [transData.text, transData.img]
+      const { commitments, proofs, versionHashs, encodeBlobs } = await getConvertOfZkg(blobs)
+      // const [account] = await walletClient.getAddresses()
 
-    const blobsMeta = createMetaDataForBlobs(account, ['text/plain', transData.imgType])
-    const blobsMetadataHex = stringToHex(JSON.stringify(blobsMeta))
-    const { result: nonce } = await fetch('https://rpc-devnet.ethda.io', {
-      method: 'POST',
-      body: JSON.stringify({
-        method: 'eth_getTransactionCount',
-        params: [account, 'latest'],
-        id: 1,
-        jsonrpc: '2.0',
-      }),
-    }).then((r) => r.json())
+      const blobsMeta = createMetaDataForBlobs(account.address, ['text/plain', transData.imgType])
+      const blobsMetadataHex = stringToHex(JSON.stringify(blobsMeta))
+      const nonce = await publicClient.getTransactionCount({ address: account.address })
+      const gasLimit = 21000n + BigInt(blobsMetadataHex.length) * 10n
+      const gasPrice = 1000000000n
 
-    const gasLimit = 21000n + BigInt(blobsMetadataHex.length) * 10n
-    const gasPrice = 1000000000n
-
-    const request = await walletClient.prepareTransactionRequest({
-      account,
-      nonce,
-      gas: gasLimit,
-      gasPrice: gasPrice,
-      to: ethers.constants.AddressZero,
-      value: 0n,
-      data: blobsMetadataHex,
-      type: 'legacy',
-      chain: ethda,
-    })
-
-    const res = await walletClient?.signTransaction(request)
-    const transaction = parseTransaction(('0x' + res) as `0x${string}`)
-    if (!transaction) return
-
-    const common = Common.custom(
-      {
-        name: 'ethda',
-        networkId: 177,
-        chainId: 177,
-      },
-      {
-        eips: [1559, 3860, 4844],
-      },
-    )
-
-    const blobTx = new BlobEIP4844Transaction(
-      {
-        chainId: 177n,
+      const request = await walletClient.prepareTransactionRequest({
+        account: account.address,
         nonce,
+        gas: gasLimit,
+        gasPrice: gasPrice,
         to: ethers.constants.AddressZero,
-        data: blobsMetadataHex,
         value: 0n,
-        maxPriorityFeePerGas: 1000000000n,
-        maxFeePerGas: 1000000000n,
-        gasLimit: transaction.gas,
-        maxFeePerBlobGas: 2000_000_000_000n,
-        blobVersionedHashes: versionHashs,
-        blobs: encodeBlobs,
-        kzgCommitments: commitments,
-        kzgProofs: proofs,
-        v: (transaction.v || 0n) - 2n * 177n - 35n,
-        r: transaction.r,
-        s: transaction.s,
-      },
-      { common },
-    )
-    const rawData = blobTx.serializeNetworkWrapper()
+        data: blobsMetadataHex,
+        type: 'legacy',
+        chain: ethda,
+      })
 
-    const hex = Buffer.from(rawData).toString('hex')
+      const res = await walletClient?.signTransaction(request)
+      const transaction = parseTransaction(('0x' + res) as `0x${string}`)
+      if (!transaction) return
 
-    const value = await fetch('https://rpc-devnet.ethda.io', {
-      method: 'POST',
-      body: JSON.stringify({
-        method: 'eth_sendRawTransaction',
-        params: ['0x' + hex],
-        id: 1,
-        jsonrpc: '2.0',
-      }),
-    })
-      .then((r) => r.json())
-      .then(loopGetResult)
-      .catch((e) => setLoading({ loading: false, success: false, error: true }))
+      const common = Common.custom(
+        {
+          name: 'ethda',
+          networkId: 177,
+          chainId: 177,
+        },
+        {
+          eips: [1559, 3860, 4844],
+        },
+      )
+
+      const blobTx = new BlobEIP4844Transaction(
+        {
+          chainId: 177n,
+          nonce,
+          to: ethers.constants.AddressZero,
+          data: blobsMetadataHex,
+          value: 0n,
+          maxPriorityFeePerGas: 1000000000n,
+          maxFeePerGas: 1000000000n,
+          gasLimit: transaction.gas,
+          maxFeePerBlobGas: 2000_000_000_000n,
+          blobVersionedHashes: versionHashs,
+          blobs: encodeBlobs,
+          kzgCommitments: commitments,
+          kzgProofs: proofs,
+          v: (transaction.v || 0n) - 2n * 177n - 35n,
+          r: transaction.r,
+          s: transaction.s,
+        },
+        { common },
+      )
+      const rawData = blobTx.serializeNetworkWrapper()
+      const hex = Buffer.from(rawData).toString('hex')
+      const value = await fetch('https://rpc-devnet.ethda.io', {
+        method: 'POST',
+        body: JSON.stringify({
+          method: 'eth_sendRawTransaction',
+          params: ['0x' + hex],
+          id: 1,
+          jsonrpc: '2.0',
+        }),
+      }).then((r) => r.json())
+      // check result
+      await loopGetResult(value)
+    } catch (error) {
+      setLoading({ loading: false, success: false, error: true })
+    }
   }
 
   const onSwitchTo = () => {
     window.open('https://www.eip4844.com', '_blank')
   }
+  const onClickAddNet = () => {
+    setShowAddNet(false)
+    localStorage.setItem('clickedAddNet', 'true')
+    window.open('https://docs.ethda.io/resources/network-configuration/add-ethda-network', '_blank')
+  }
+
+  const { disconnect } = useDisconnect()
+  const modal = useModal()
 
   return (
-    <div className=' font-[Montserrat]'>
+    <div className=' font-montserrat'>
       <Header
-        className={` ${!clickStart ? 'bg-[#FBE8DE]  mo:bg-[#FCE1D6] mo:border-b-[#FCE1D6]' : 'bg-[#FFFFFFCC]'}  py-[27px]`}
+        className={`${!isConnected ? 'bg-[#FBE8DE]  mo:bg-[#FCE1D6] mo:border-b-[#FCE1D6]' : 'bg-[#FFFFFFCC]'}  py-[27px]`}
         containerClassName='!w-full pl-9 pr-[31px] mo:w-full mo:pl-0 mo:pr-0 '
         logo={`b-EthDA.svg`}
         headerTextClassName='!text-[#000000] gap-[50px]'
       />
-      <div className={` ${!clickStart && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '} min-h-[90vh]  bg-cover object-cover `}>
-        {clickStart ? (
+      <div className={` ${!isConnected && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '} min-h-[90vh]  bg-cover object-cover `}>
+        {isConnected ? (
           <div className='bg-[url(/black_bg.svg)] mo:bg-none bg-cover h-auto overflow-hidden '>
             <div className='mo:bg-[#F6F6F6]'>
               <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px]   '>
@@ -296,9 +306,19 @@ const BlobTX = () => {
                     </button>
                     blob-carrying transactions (Blob TX)
                   </div>
-                  <div className=' cursor-default rounded-lg border-[#FC7823] md:text-sm  border  h-[42px] items-center flex text-[#FC7823] px-[15px]'>
-                    {formatEthereumAddress(account.address)}
-                  </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <div className='cursor-pointer rounded-lg border-[#FC7823] md:text-sm  border  h-[42px] items-center flex text-[#FC7823] px-[15px]'>
+                        {formatEthereumAddress(account.address)}
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align='start' className='w-[161px]'>
+                      <DropdownMenuItem textValue='Disconnect' onClick={() => disconnect()} className='text-base text-orange-400 cursor-pointer'>
+                        Disconnect
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+
                   <div
                     onClick={() => window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')}
                     className=' cursor-pointer flex mr-10 mo:mr-0 gap-[13px] items-center'
@@ -335,7 +355,13 @@ const BlobTX = () => {
                   <div className=' mo:px-[50px]'>
                     <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-5  '>
                       <div onDrop={handleDrop} onDragOver={allowDrop} className=' flex items-center justify-center h-full flex-col '>
-                        <input type='file' hidden ref={inputImgRef} accept='image/png, image/jpg, image/jpeg, image/gif, image/svg, image/svg+xml' onChange={onFileChange} />
+                        <input
+                          type='file'
+                          hidden
+                          ref={inputImgRef}
+                          accept='image/png, image/jpg, image/jpeg, image/gif, image/svg'
+                          onChange={onFileChange}
+                        />
                         <div
                           onClick={handleFileSelect}
                           className=' cursor-pointer w-[100px] h-[100px] bg-[#FFF8F4] border  border-dashed rounded-[5px] border-[#FC7823] flex items-center justify-center'
@@ -356,8 +382,9 @@ const BlobTX = () => {
                   <div className='mt-5 mo:mt-10 flex justify-center mb-20  mo:px-[50px]'>
                     <button
                       onClick={onTranscode}
-                      className={` ${!file?.name || !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
-                        } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center h-12 text-center`}
+                      className={` ${
+                        !file?.name || !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
+                      } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center h-12 text-center`}
                     >
                       Transcode
                     </button>
@@ -368,15 +395,17 @@ const BlobTX = () => {
                   <div className='flex gap-[14px] mo:gap-[10px  '>
                     <button
                       onClick={() => handleBlobClick(true)}
-                      className={`w-[195px] md:w-[180px] h-[50px] flex border-[#000000] ${selectedBlob && 'custom-background'
-                        } items-center justify-center mo:text-lg mt-[30px] md:text-sm  text-base font-medium `}
+                      className={`w-[195px] md:w-[180px] h-[50px] flex border-[#000000] ${
+                        selectedBlob && 'custom-background'
+                      } items-center justify-center mo:text-lg mt-[30px] md:text-sm  text-base font-medium `}
                     >
                       Blob1(Text data)
                     </button>
                     <button
                       onClick={() => handleBlobClick(false)}
-                      className={`w-[200px] md:w-[180px] h-[50px] flex ${!selectedBlob && 'custom-background'
-                        } items-center border-[#000000] mo:text-lg justify-center mt-[30px] md:text-sm  border-dashed text-base font-medium `}
+                      className={`w-[200px] md:w-[180px] h-[50px] flex ${
+                        !selectedBlob && 'custom-background'
+                      } items-center border-[#000000] mo:text-lg justify-center mt-[30px] md:text-sm  border-dashed text-base font-medium `}
                     >
                       Blob2(Image data)
                     </button>
@@ -426,27 +455,21 @@ const BlobTX = () => {
               <span className='font-medium text-xl mo:text-[18px] mo:font-light'>&nbsp;Cancun-Deneb Upgrade.</span>
             </div>
             <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
-              <ConnectKitButton.Custom>
-                {({ isConnected, show, truncatedAddress }) => {
-                  if (isConnected) {
-                    setIsClickStart(true)
-                  }
-                  return (
-                    <StyledButton onClick={show}>
-                      <span className=' ml-[17px] mo:ml-5 pr-[17px]  text-base  font-medium'>Connect wallet to start</span>
-                      <div className=' rounded-lg bg-white w-[38px] h-[38px] flex items-center justify-center'>
-                        <img src='/share2.svg'></img>
-                      </div>
-                    </StyledButton>
-                  )
-                }}
-              </ConnectKitButton.Custom>
+              {showAddNet ? (
+                <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-2xl '>
+                  Add EthDA Devnet to wallet
+                </button>
+              ) : (
+                <StyledButton onClick={() => modal.setOpen(true)}>
+                  <span className=' ml-[17px] mo:ml-5 pr-[17px]  text-base  font-medium'>Connect wallet to start</span>
+                  <div className=' rounded-lg bg-white w-[38px] h-[38px] flex items-center justify-center'>
+                    <img src='/share2.svg'></img>
+                  </div>
+                </StyledButton>
+              )}
             </div>
             <div className=' mt-[100px] mo:mt-[142px] flex mb-[20px]  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
-              <button
-                onClick={() => window.open('https://docs.ethda.io/resources/network-configuration/add-ethda-network', '_blank')}
-                className='mo:w-full text-base underline mo:text-2xl '
-              >
+              <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-2xl '>
                 Add EthDA Devnet to wallet
               </button>
               <button
@@ -496,12 +519,19 @@ const BlobTX = () => {
         <AToastFull
           chilren={
             <Fragment>
+              <CrossCircledIcon
+                className='text-[#FC7823] w-6 h-6 cursor-pointer absolute right-5 top-5'
+                onClick={() => {
+                  setLoading({})
+                }}
+              />
               <img src='failed.svg' />
-              <div className='font-medium text-xl text-[#FC7823] mt-[-35px]'>Failed</div>
+              <div className='font-medium text-xl text-[#FC7823] mt-[-35px]'>{loading.errorMsg || 'Failed'}</div>
               <div className='flex gap-[38px] mt-[40px] mb-5'>
                 <button
                   onClick={() => {
                     setLoading({ success: false, error: false, loading: false })
+                    onSendTx()
                   }}
                   className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
                 >

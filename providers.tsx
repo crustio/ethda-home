@@ -8,7 +8,13 @@ import config from './utils/wagmi'
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <WagmiConfig config={config}>
-      <ConnectKitProvider>{children}</ConnectKitProvider>
+      <ConnectKitProvider
+        options={{
+          enforceSupportedChains: true,
+        }}
+      >
+        {children}
+      </ConnectKitProvider>
     </WagmiConfig>
   )
 }

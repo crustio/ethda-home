@@ -18,7 +18,7 @@ export const AToastFull: FC<ToastType> = ({ onLeftButton, className, onRightButt
         className,
       )}
     >
-      <div className=' w-[420px] bg-white flex justify-center h-[340px] rounded-xl'>
+      <div className=' w-[420px] relative bg-white flex justify-center h-[340px] rounded-xl'>
         <div className=' flex flex-col  items-center w-full justify-center bg-[#FFFAF6]  mx-[10px] my-[10px] border-dashed border rounded-xl border-[#FC7823]'>
           {chilren}
         </div>

@@ -1,4 +1,5 @@
 'use client'
+
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -71,7 +72,7 @@ export const Header: FC<HeaderType> = ({
     },
     {
       text: 'Try BlobTX',
-      to: '/blob-TX',
+      to: '/blobtx',
     },
 
     {
@@ -125,7 +126,7 @@ export const Header: FC<HeaderType> = ({
                 Blobscan
               </div>
               <div className={`nav-item ${pathname === '/build' ? 'active' : ''}`}>Build</div>
-              <div onClick={() => onSwitchTo('blob-TX')} className={`nav-item ${pathname === '/blob-TX' ? 'active' : ''}`}>
+              <div onClick={() => onSwitchTo('blobtx')} className={`nav-item ${pathname === '/blobtx' ? 'active' : ''}`}>
                 Try BlobTx
               </div>
               <Link href={'https://docs.ethda.io/'} target={'_blank'} className={`block nav-item`}>
