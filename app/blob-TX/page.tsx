@@ -87,6 +87,7 @@ const BlobTX = () => {
   useEffect(() => {
     if (!account?.isConnected) {
       setIsClickStart(false)
+      setLoading({ loading: false, success: false, error: false })
     }
   }, [account?.isConnected])
 
