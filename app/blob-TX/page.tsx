@@ -51,6 +51,7 @@ const BlobTX = () => {
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string>('')
   const account = useAccount()
+  const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml']
 
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
@@ -60,7 +61,7 @@ const BlobTX = () => {
     event.preventDefault()
   }
 
-  const handleDrop = (event: { preventDefault: () => void; dataTransfer: { files: { item: (arg0: number) => any } } }) => {
+  const handleDrop = useCallback((event: { preventDefault: () => void; dataTransfer: { files: { item: (arg0: number) => any } } }) => {
     event.preventDefault()
 
     const files = event.dataTransfer.files?.item(0)
@@ -68,8 +69,10 @@ const BlobTX = () => {
     if (fileSizeInKB > 128) {
       return
     }
+    if (!validImageTypes.includes(files.type)) return
+
     setFile(files)
-  }
+  }, [])
 
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0)
@@ -149,7 +152,6 @@ const BlobTX = () => {
       if (encoded.length > 1) {
         throw 'blob too large!'
       }
-      // console.info('decode:', DecodeBlobs(encoded[0]))
       encodeBlobs.push(encoded[0])
     }
 
@@ -284,9 +286,9 @@ const BlobTX = () => {
       <div className={` ${!clickStart && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '} min-h-[90vh]  bg-cover object-cover `}>
         {clickStart ? (
           <div className='bg-[url(/black_bg.svg)] mo:bg-none bg-cover h-auto overflow-hidden '>
-            <div>
+            <div className='mo:bg-[#F6F6F6]'>
               <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px]   '>
-                <div className=' flex  flex-row items-center mo:justify-between mo:h-[102px]'>
+                <div className='  flex  flex-row items-center mo:justify-between mo:h-[102px]'>
                   <div className='mo:hidden w-full h-[120px] mo:h-[42px] items-center flex text-2xl md:text-lg font-normal'>
                     <button onClick={onSwitchTo} className='flex flex-row items-center'>
                       Experience EIP-4844 <img src='/share3.svg' className=' mx-2' />
@@ -330,7 +332,7 @@ const BlobTX = () => {
                     Attach an image, not exceeding 128KB
                   </div>
                   <div className=' mo:px-[50px]'>
-                    <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-10  '>
+                    <DivBox className=' mt-5 w-full mo:w-[308px]  relative  mo:m-auto h-[303px] md:h-[308px] border-[#000000] mo:mt-10   '>
                       <div onDrop={handleDrop} onDragOver={allowDrop} className=' flex items-center justify-center h-full flex-col '>
                         <input type='file' hidden ref={inputImgRef} accept='.png, .jpg, .jpeg, .gif, .svg' onChange={onFileChange} />
                         <div
@@ -355,7 +357,7 @@ const BlobTX = () => {
                       onClick={onTranscode}
                       className={` ${
                         !file?.name || !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
-                      } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center h-12 text-center`}
+                      } border px-6 text-base font-semibold items-center mo:w-[310px]  flex rounded-xl text-[#FFFFFF] justify-center h-12 text-center`}
                     >
                       Transcode
                     </button>
@@ -442,9 +444,19 @@ const BlobTX = () => {
                 }}
               </ConnectKitButton.Custom>
             </div>
-            <div className=' mt-[100px] mo:mt-[142px] flex  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
-              <button className='mo:w-full text-base underline mo:text-2xl '>Add EthDA Devnet to wallet</button>
-              <button className='mo:mt-[70px] mo:text-2xl   text-base underline'> Gas Faucet</button>
+            <div className=' mt-[100px] mo:mt-[142px] flex mb-[20px]  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
+              <button
+                onClick={() => window.open('https://docs.ethda.io/resources/network-configuration/add-ethda-network', '_blank')}
+                className='mo:w-full text-base underline mo:text-2xl '
+              >
+                Add EthDA Devnet to wallet
+              </button>
+              <button
+                onClick={() => window.open('https://docs.ethda.io/developers/quick-start/using-ethda-faucet', '_blank')}
+                className='mo:mt-[70px] mo:text-2xl   text-base underline'
+              >
+                Gas Faucet
+              </button>
             </div>
           </div>
         )}
