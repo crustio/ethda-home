@@ -309,7 +309,7 @@ const BlobTX = () => {
               </div>
             </div>
             <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px] '>
-              <div className='flex mo:gap-10 gap-[100px] md:gap-[50px]  mt-[30px] mo:mt-10 mo:flex mo:flex-wrap mo:w-full'>
+              <div className='flex mo:gap-5 gap-[100px] md:gap-[50px]  mt-[30px] mo:mt-10 mo:flex mo:flex-wrap mo:w-full'>
                 <div className='w-[440px] md:w-[400px] h-full mo:flex mo:flex-wrap mo:w-full mo:flex-col  '>
                   <div className='sm:hidden w-full h-[120px] mo:h-auto  items-center flex text-2xl mo:text-3xl md:text-lg font-normal mo:flex-wrap mo:flex-row'>
                     <button onClick={onSwitchTo}> Experience EIP-4844 </button>
@@ -332,7 +332,7 @@ const BlobTX = () => {
                     Attach an image, not exceeding 128KB
                   </div>
                   <div className=' mo:px-[50px]'>
-                    <DivBox className=' mt-5 w-full mo:w-[308px]  relative  mo:m-auto h-[303px] md:h-[308px] border-[#000000] mo:mt-10   '>
+                    <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-10  '>
                       <div onDrop={handleDrop} onDragOver={allowDrop} className=' flex items-center justify-center h-full flex-col '>
                         <input type='file' hidden ref={inputImgRef} accept='.png, .jpg, .jpeg, .gif, .svg' onChange={onFileChange} />
                         <div
@@ -357,14 +357,14 @@ const BlobTX = () => {
                       onClick={onTranscode}
                       className={` ${
                         !file?.name || !inputText ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '
-                      } border px-6 text-base font-semibold items-center mo:w-[310px]  flex rounded-xl text-[#FFFFFF] justify-center h-12 text-center`}
+                      } border px-6 text-base font-semibold items-center mo:w-full  flex rounded-xl text-[#FFFFFF] justify-center h-12 text-center`}
                     >
                       Transcode
                     </button>
                   </div>
                 </div>
-                <div className='w-0 flex-1 h-full  '>
-                  <div className=' text-2xl  mo:text-[26px] mt-1'> Blob Data</div>
+                <div className='w-0 flex-1 h-full  mo:mt-[-60px]'>
+                  <div className=' text-2xl  mo:text-[26px] '> Blob Data</div>
                   <div className='flex gap-[14px] '>
                     <button
                       onClick={() => handleBlobClick(true)}

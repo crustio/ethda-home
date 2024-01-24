@@ -7,7 +7,7 @@ const walletConnectProjectId = '2222222'
 
 export const ethda = defineChain({
   id: 177,
-  chainId: web3.utils.toHex(123),
+  chainId: 177,
   network: 'ethda',
   name: 'Ethda',
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
