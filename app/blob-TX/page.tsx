@@ -335,7 +335,7 @@ const BlobTX = () => {
                   <div className=' mo:px-[50px]'>
                     <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-5  '>
                       <div onDrop={handleDrop} onDragOver={allowDrop} className=' flex items-center justify-center h-full flex-col '>
-                        <input type='file' hidden ref={inputImgRef} accept='image/png, image/jpg, image/jpeg, image/gif, image/svg' onChange={onFileChange} />
+                        <input type='file' hidden ref={inputImgRef} accept='image/png, image/jpg, image/jpeg, image/gif, image/svg, image/svg+xml' onChange={onFileChange} />
                         <div
                           onClick={handleFileSelect}
                           className=' cursor-pointer w-[100px] h-[100px] bg-[#FFF8F4] border  border-dashed rounded-[5px] border-[#FC7823] flex items-center justify-center'
