@@ -45,7 +45,7 @@ const ContentBox = styled(Wrapper)(({}) => ({
 
 const BlobTX = () => {
   const [clickStart, setIsClickStart] = useState(false)
-  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false })
+  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: true })
   const inputImgRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
@@ -468,12 +468,12 @@ const BlobTX = () => {
             <Fragment>
               <img src='success.svg' />
               <div className='font-medium text-xl text-[#FC7823] mt-[-35px]'>Success</div>
-              <div className='flex gap-[38px] mt-[40px] mb-5'>
+              <div className='flex gap-[20px] mt-[40px] mb-5'>
                 <button
                   onClick={() => {
                     window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')
                   }}
-                  className='w-[140px] border h-[36px] rounded-lg border-[#000000] px-[21px] font-medium text-base'
+                  className=' w-[140px] mo:w-[120px] border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base'
                 >
                   View History
                 </button>
@@ -485,7 +485,7 @@ const BlobTX = () => {
                     setTransData(null as any)
                     scrollToTop()
                   }}
-                  className='w-[140px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
+                  className='w-[140px] mo:w-[120px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
                 >
                   Send More
                 </button>
