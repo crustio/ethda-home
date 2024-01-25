@@ -353,7 +353,7 @@ const BlobTX = () => {
                           setTransData(null as any)
                           disconnect()
                         }}
-                        className='text-base text-orange-400 cursor-pointer'
+                        className='text-base  hover:text-orange-400 cursor-pointer'
                       >
                         Disconnect
                       </DropdownMenuItem>
@@ -596,22 +596,25 @@ const BlobTX = () => {
       {shownettip && (
         <div className=' fixed z-40 top-0 left-0 w-full h-full backdrop-blur-sm flex justify-center items-center bg-black/10'>
           <div className='w-[calc(100%-40px)] bg-white p-5 rounded-lg max-w-[46rem]'>
-            <div className='border border-dashed rounded-lg border-orange-400 py-5 px-[4rem] bg-[#FFFAF6]'>
+            <div className='border border-dashed rounded-lg border-orange-400 py-5 px-[2rem] bg-[#FFFAF6]'>
               <div className='text-center text-[FC7823] font-medium text-[1.25rem]'>Switch to EthDA Network</div>
               <div className='mt-[3rem] mb-[2.25rem] flex flex-col gap-3'>
-                <p>Please add EthDA Devnet to your wallet and make sure you have switched to EthDA Devnet before you start.</p>
-                <p>
-                  Click on <strong>“Add Network”</strong> button to view a simple guide for manually adding network.
+                <p className=' mo:text-sm'>
+                  Please add EthDA Devnet to your wallet and make sure you have switched to EthDA Devnet before you start.
                 </p>
-                <p>
-                  Click on <strong>“Enter App”</strong> after you have switched your wallet to EthDA Devnet.
+                <p className=' mo:text-sm'>
+                  Click on <strong className='mo:text-base'>“Add Network”</strong> button to view a simple guide for manually adding
+                  network.
+                </p>
+                <p className=' mo:text-sm'>
+                  Click on <strong className=' mo:text-base'>“Enter App”</strong> after you have switched your wallet to EthDA Devnet.
                 </p>
               </div>
 
-              <div className='flex items-center justify-center gap-5'>
+              <div className='flex items-center justify-center gap-5 mo:w-full  flex-wrap '>
                 <button
                   onClick={onClickAddNet}
-                  className=' w-[140px] mo:w-[120px] border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base'
+                  className=' w-[140px]  border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base'
                 >
                   Add Network
                 </button>
@@ -620,7 +623,7 @@ const BlobTX = () => {
                     refState.current.isClickShowModal = false
                     setShowNetTip(false)
                   }}
-                  className='w-[140px] mo:w-[120px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
+                  className='w-[140px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
                 >
                   Enter App
                 </button>

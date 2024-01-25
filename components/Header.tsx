@@ -93,7 +93,7 @@ export const Header: FC<HeaderType> = ({
       <div className=' mo:mx-[30px] '>
         <div className={classNames('flex justify-between items-center', containerClassName)}>
           <Link href={'/'}>
-            <Image src={logo} alt={'logo.svg'} width={119} height={26} />
+            <Image src={logo} alt={'logo.svg'} width={110} height={22} />
           </Link>
           {isMobile ? (
             <button
