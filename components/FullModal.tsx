@@ -46,8 +46,8 @@ const FullModal: FC<FullModalProps> = ({ menus, keys = 'text', onChooseItem, cho
 
   return (
     <div
-      className={classNames('fixed inset-0 mt-[81px] backdrop-filter backdrop-blur-md flex ', wrapperClassName)}
-      style={{ backgroundColor: 'rgba(255, 255, 255, 0.90)' }}
+      style={{ background: 'rgba(255, 255, 255, 0.90)', backdropFilter: 'blur(6px)' }}
+      className={classNames('fixed inset-0 mt-[81px] flex ', wrapperClassName)}
     >
       <div className='p-8 rounded-md mo:w-full'>
         {menus.map((item, i) => {
