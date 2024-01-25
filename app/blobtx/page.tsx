@@ -419,7 +419,7 @@ const BlobTX = () => {
                     Attach an image, not exceeding 128KB
                   </div>
                   <div className=' mo:px-[50px]'>
-                    <DivBox className=' mt-5 w-full  h-[303px] md:h-[308px] border-[#000000] mo:mt-5  '>
+                    <DivBox className=' mt-5 w-full bg-white  h-[303px] md:h-[308px] border-[#000000] mo:mt-5  '>
                       <div onDrop={handleDrop} onDragOver={allowDrop} className=' flex items-center justify-center h-full flex-col '>
                         <input
                           type='file'
@@ -564,7 +564,7 @@ const BlobTX = () => {
             <Fragment>
               <img src='success.svg' />
               <div className='font-medium text-xl text-[#FC7823] mt-[-30px]'>Success</div>
-              <div className='flex gap-[15px] mt-[10px] mb-10 mo:flex-wrap justify-center'>
+              <div className='flex gap-[15px] mt-5 mb-5 mo:mt-[10px] mo:mb-10 mo:flex-wrap justify-center'>
                 <button
                   onClick={() => {
                     window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')
@@ -580,6 +580,7 @@ const BlobTX = () => {
                     setFile(null)
                     setTransData(null as any)
                     scrollToTop()
+                    setPreviewUrl(null)
                   }}
                   className='w-[140px]   mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
                 >
