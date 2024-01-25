@@ -3,8 +3,9 @@ import { createConfig } from 'wagmi'
 
 import { CoinbaseWalletConnector } from '@wagmi/core/connectors/coinbaseWallet'
 import { WalletConnectConnector } from '@wagmi/core/connectors/walletConnect'
-import { defineChain } from 'viem/utils'
+import { defineChain, getAddress } from 'viem/utils'
 import {} from 'wagmi/connectors'
+import { UserRejectedRequestError } from 'viem'
 const walletConnectProjectId = '08655efd533e1054791755a0c58862c4'
 
 export const ethda = defineChain({
@@ -28,14 +29,62 @@ export const ethda = defineChain({
   },
   contracts: {},
 })
+const cbConnector = new CoinbaseWalletConnector({
+  chains: [ethda],
+  options: {
+    headlessMode: false,
+    appName: 'Ethda',
+  },
+})
+;(cbConnector as any).connect = async ({ chainId }: { chainId?: number } = {}) => {
+  const anyCb = cbConnector as any
+  const provider = await cbConnector.getProvider()
+  const reqAccounts = async (): Promise<`0x${string}`[]> => {
+    try {
+      const accounts = (
+        (await provider.request({
+          method: 'eth_requestAccounts',
+        })) as string[]
+      ).map((x) => getAddress(x))
+      return accounts
+    } catch (error) {
+      if (error && (error as any).code == 4902) return await reqAccounts()
+      throw error
+    }
+  }
+  try {
+    const accounts = await reqAccounts()
+    provider.on('accountsChanged', anyCb.onAccountsChanged)
+    provider.on('chainChanged', anyCb.onChainChanged)
+    provider.on('disconnect', anyCb.onDisconnect.bind(anyCb))
+    // Switch to chain if provided
+    let currentChainId = await cbConnector.getChainId()
+    console.info('doconect:', chainId, currentChainId)
+    if (chainId && currentChainId !== chainId) {
+      const chain = await anyCb.switchChain!({ chainId }).catch((error: any) => {
+        console.info('switchError:', error)
+        if (error.code === UserRejectedRequestError.code) throw error
+        return { id: currentChainId }
+      })
+      currentChainId = chain?.id ?? currentChainId
+    }
+    console.info('doconectEnd:', currentChainId, accounts)
+    const account = getAddress(accounts[0])
+    return {
+      account,
+      chain: {
+        id: currentChainId,
+        unsupported: (cbConnector as any).isChainUnsupported(currentChainId),
+      },
+    }
+  } catch (error) {
+    if (/(user closed modal|accounts received is empty|user denied account)/i.test((error as Error).message))
+      throw new UserRejectedRequestError(error as Error)
+    throw error
+  }
+}
 const connectors = [
-  new CoinbaseWalletConnector({
-    chains: [ethda],
-    options: {
-      headlessMode: true,
-      appName: 'Ethda',
-    },
-  }),
+  cbConnector,
   new WalletConnectConnector({
     chains: [ethda],
     options: {

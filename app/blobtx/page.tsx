@@ -13,7 +13,7 @@ import { useModal } from 'connectkit'
 import { ethers } from 'ethers'
 import { ChangeEvent, Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { parseEther, parseTransaction, stringToHex } from 'viem'
+import { Address, parseEther, parseTransaction, stringToHex } from 'viem'
 import { useAccount, useDisconnect, useNetwork, usePublicClient, useWalletClient } from 'wagmi'
 
 const StyledButton = styled.button`
@@ -55,14 +55,9 @@ const BlobTX = () => {
   const account = useAccount()
   const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml']
   const network = useNetwork()
-  const isConnected = network.chain && network.chain.id == ethda.id && !network.chain.unsupported
-  const [showAddNet, setShowAddNet] = useState(true)
-  useEffect(() => {
-    const clickedAddNet = localStorage.getItem('clickedAddNet')
-    if (clickedAddNet) {
-      setShowAddNet(false)
-    }
-  }, [])
+
+  const isConnected = account.address && account.isConnected && network?.chain?.id == ethda.id
+
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
   }
@@ -196,7 +191,7 @@ const BlobTX = () => {
     try {
       setLoading({ loading: true })
       const balance = await publicClient.getBalance({ address: account.address })
-      if (balance < parseEther('0.001')) {
+      if (balance < parseEther('0.00001')) {
         return setLoading({ loading: false, error: true, errorMsg: 'Insufficient funds for gas' })
       }
       const blobs = [transData.text, transData.img]
@@ -222,7 +217,8 @@ const BlobTX = () => {
       })
 
       const res = await walletClient?.signTransaction(request)
-      const transaction = parseTransaction(('0x' + res) as `0x${string}`)
+      const hexSig = (res.startsWith('0x') ? res : `0x${res}`) as `0x${string}`
+      const transaction = parseTransaction(hexSig)
       if (!transaction) return
 
       const common = Common.custom(
@@ -235,7 +231,7 @@ const BlobTX = () => {
           eips: [1559, 3860, 4844],
         },
       )
-
+      console.info('gas:', transaction)
       const blobTx = new BlobEIP4844Transaction(
         {
           chainId: 177n,
@@ -268,9 +264,14 @@ const BlobTX = () => {
           jsonrpc: '2.0',
         }),
       }).then((r) => r.json())
-      // check result
-      await loopGetResult(value)
+      if (value.error) {
+        const errorMsg = value.error?.message?.includes('insufficient funds') ? 'Insufficient funds for gas' : ''
+        setLoading({ loading: false, success: false, error: true, errorMsg })
+      } else {
+        await loopGetResult(value)
+      }
     } catch (error) {
+      console.info(error)
       setLoading({ loading: false, success: false, error: true })
     }
   }
@@ -279,14 +280,19 @@ const BlobTX = () => {
     window.open('https://www.eip4844.com', '_blank')
   }
   const onClickAddNet = () => {
-    setShowAddNet(false)
-    localStorage.setItem('clickedAddNet', 'true')
     window.open('https://docs.ethda.io/resources/network-configuration/add-ethda-network', '_blank')
   }
 
   const { disconnect } = useDisconnect()
   const modal = useModal({ onDisconnect: disconnect })
 
+  const [shownettip, setShowNetTip] = useState(false)
+  const refState = useRef({ isClickShowModal: false })
+  useEffect(() => {
+    if (isConnected && refState.current.isClickShowModal) {
+      setShowNetTip(true)
+    }
+  }, [isConnected])
   return (
     <div className=' font-montserrat'>
       <Header
@@ -297,15 +303,28 @@ const BlobTX = () => {
       />
       <div className={` ${!isConnected && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '}   min-h-screen  bg-cover object-cover `}>
         {isConnected ? (
-          <div className='bg-[url(/black_bg.svg)] mo:bg-none bg-cover h-auto overflow-hidden  '>
-            <div className='mo:bg-[#F6F6F6] bg-[#F7F7F7]'>
+          <div className='bg-[url(/black_bg.svg)] mo:bg-none bg-cover h-auto overflow-hidden '>
+            <div className='bg-[#F6F6F6]'>
               <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px]   '>
-                <div className='  flex  flex-row items-center mo:justify-between mo:h-[102px]'>
-                  <div className='mo:hidden w-full h-[120px] mo:h-[42px] items-center flex text-2xl md:text-lg font-normal'>
-                    <button onClick={onSwitchTo} className='flex flex-row items-center'>
-                      Experience EIP-4844 <img src='/share3.svg' className=' mx-2' />
-                    </button>
-                    blob-carrying transactions (Blob TX)
+                <div className='  flex h-[120px]  flex-row items-center mo:justify-between mo:h-[102px]'>
+                  <div className='mo:hidden w-full  justify-center flex flex-col gap-2 text-2xl md:text-lg font-normal'>
+                    <div className=' flex items-center font-medium'>
+                      <button onClick={onSwitchTo} className='flex flex-row items-center'>
+                        Experience EIP-4844 <img src='/share3.svg' className=' mx-2' />
+                      </button>
+                      blob-carrying transactions (Blob TX)
+                    </div>
+                    <div className='flex gap-5'>
+                      <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-2xl '>
+                        Add EthDA Devnet to wallet
+                      </button>
+                      <button
+                        onClick={() => window.open('https://docs.ethda.io/developers/quick-start/using-ethda-faucet', '_blank')}
+                        className='mo:mt-[70px] mo:text-2xl   text-base underline'
+                      >
+                        Gas Faucet
+                      </button>
+                    </div>
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -313,10 +332,16 @@ const BlobTX = () => {
                         {formatEthereumAddress(account.address)}
                       </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start' className='w-[155px] bg-[#F7F7F7]'>
+                    <DropdownMenuContent align='start' className='w-[161px]'>
                       <DropdownMenuItem
                         textValue='Disconnect'
-                        onClick={() => disconnect()}
+                        onClick={() => {
+                          setLoading({ success: false })
+                          setInputText('')
+                          setFile(null)
+                          setTransData(null as any)
+                          disconnect()
+                        }}
                         className='text-base text-orange-400 cursor-pointer'
                       >
                         Disconnect
@@ -337,9 +362,20 @@ const BlobTX = () => {
             <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px] '>
               <div className='flex mo:gap-5 gap-[100px] md:gap-[50px]  mt-[30px] mo:mt-10 mo:flex mo:flex-wrap mo:w-full'>
                 <div className='w-[440px] md:w-[400px] h-full mo:flex mo:flex-wrap mo:w-full mo:flex-col  '>
-                  <div className=' sm:hidden w-full h-auto mo:h-auto  items-center flex text-2xl mo:text-2xl md:text-lg font-normal mo:flex-wrap mo:flex-row'>
+                  <div className='sm:hidden w-full h-[120px] mo:h-auto font-medium  items-center flex text-2xl mo:text-3xl md:text-lg mo:flex-wrap mo:flex-row'>
                     <button onClick={onSwitchTo}> Experience EIP-4844 </button>
                     <img src='/share3.svg' className=' mx-2' /> blob-carrying transactions (Blob TX)
+                  </div>
+                  <div className='sm:hidden flex gap-2 mt-4 flex-col items-start'>
+                    <button onClick={onClickAddNet} className='text-base underline '>
+                      Add EthDA Devnet to wallet
+                    </button>
+                    <button
+                      onClick={() => window.open('https://docs.ethda.io/developers/quick-start/using-ethda-faucet', '_blank')}
+                      className='text-base underline'
+                    >
+                      Gas Faucet
+                    </button>
                   </div>
                   <div className=' text-2xl mo:text-[26px] font-normal mo:mt-10'>Input</div>
                   <div className=' mt-[36px] md:mt-[40px] mo:mt-5 font-medium mo:text-base md:text-sm mb-5'>Type text here</div>
@@ -460,18 +496,17 @@ const BlobTX = () => {
               <span className='font-medium text-xl mo:text-[18px] mo:font-light'>&nbsp;Cancun-Deneb Upgrade.</span>
             </div>
             <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
-              {showAddNet ? (
-                <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-2xl '>
-                  Add EthDA Devnet to wallet
-                </button>
-              ) : (
-                <StyledButton onClick={() => modal.setOpen(true)}>
-                  <span className=' ml-[17px] mo:ml-5 pr-[30px]  text-base  font-medium'>Connect wallet to start</span>
-                  <div className=' rounded-lg bg-white w-[38px] h-[38px] flex items-center justify-center'>
-                    <img src='/share2.svg'></img>
-                  </div>
-                </StyledButton>
-              )}
+              <StyledButton
+                onClick={() => {
+                  refState.current.isClickShowModal = true
+                  modal.setOpen(true)
+                }}
+              >
+                <span className=' ml-[17px] mo:ml-5 pr-[17px]  text-base  font-medium'>Connect wallet to start</span>
+                <div className=' rounded-lg bg-white w-[38px] h-[38px] flex items-center justify-center'>
+                  <img src='/share2.svg'></img>
+                </div>
+              </StyledButton>
             </div>
             <div className=' mt-[100px] flex  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
               <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-2xl '>
@@ -546,6 +581,42 @@ const BlobTX = () => {
             </Fragment>
           }
         />
+      )}
+      {shownettip && (
+        <div className=' fixed z-40 top-0 left-0 w-full h-full backdrop-blur-sm flex justify-center items-center bg-black/10'>
+          <div className='w-[calc(100%-40px)] bg-white p-5 rounded-lg max-w-[46rem]'>
+            <div className='border border-dashed rounded-lg border-orange-400 py-5 px-[4rem] bg-[#FFFAF6]'>
+              <div className='text-center text-[FC7823] font-medium text-[1.25rem]'>Switch to EthDA Network</div>
+              <div className='mt-[3rem] mb-[2.25rem] flex flex-col gap-3'>
+                <p>Please add EthDA Devnet to your wallet and make sure you have switched to EthDA Devnet before you start.</p>
+                <p>
+                  Click on <strong>“Add Network”</strong> button to view a simple guide for manually adding network.
+                </p>
+                <p>
+                  Click on <strong>“Enter App”</strong> after you have switched your wallet to EthDA Devnet.
+                </p>
+              </div>
+
+              <div className='flex items-center justify-center gap-5'>
+                <button
+                  onClick={onClickAddNet}
+                  className=' w-[140px] mo:w-[120px] border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base'
+                >
+                  Add Network
+                </button>
+                <button
+                  onClick={() => {
+                    refState.current.isClickShowModal = false
+                    setShowNetTip(false)
+                  }}
+                  className='w-[140px] mo:w-[120px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
+                >
+                  Enter App
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )
