@@ -13,7 +13,7 @@ import { useModal } from 'connectkit'
 import { ethers } from 'ethers'
 import { ChangeEvent, Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { Address, parseEther, parseTransaction, stringToHex } from 'viem'
+import { parseEther, parseTransaction, stringToHex } from 'viem'
 import { useAccount, useDisconnect, useNetwork, usePublicClient, useWalletClient } from 'wagmi'
 
 const StyledButton = styled.button`
@@ -47,7 +47,7 @@ const ContentBox = styled(Wrapper)(({}) => ({
 }))
 
 const BlobTX = () => {
-  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false, errorMsg: 'Failed' })
+  const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false, errorMsg: 'Failed', uploadImageError: '' })
   const inputImgRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
@@ -55,7 +55,6 @@ const BlobTX = () => {
   const account = useAccount()
   const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml']
   const network = useNetwork()
-
   const isConnected = account.address && account.isConnected && network?.chain?.id == ethda.id
 
   const handleBlobClick = (blob: boolean) => {
@@ -70,11 +69,16 @@ const BlobTX = () => {
     event.preventDefault()
 
     const files = event.dataTransfer.files?.item(0)
-    const fileSizeInKB = files.size / 1024
-    if (fileSizeInKB > 128) {
+    if (!validImageTypes.includes(files?.type)) {
+      setLoading({ uploadImageError: 'Only PNG, JPG, JPEG, GIF formats are supported. Please select again.' })
       return
     }
-    if (!validImageTypes.includes(files.type)) return
+
+    const fileSizeInKB = files.size / 1024
+    if (fileSizeInKB > 128) {
+      setLoading({ uploadImageError: 'File size exceeding 128kB! Please select again.' })
+      return
+    }
 
     setFile(files)
   }, [])
@@ -362,7 +366,7 @@ const BlobTX = () => {
             <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px] '>
               <div className='flex mo:gap-5 gap-[100px] md:gap-[50px]  mt-[30px] mo:mt-10 mo:flex mo:flex-wrap mo:w-full'>
                 <div className='w-[440px] md:w-[400px] h-full mo:flex mo:flex-wrap mo:w-full mo:flex-col  '>
-                  <div className='sm:hidden w-full h-[120px] mo:h-auto font-medium  items-center flex text-2xl mo:text-3xl md:text-lg mo:flex-wrap mo:flex-row'>
+                  <div className='sm:hidden w-full h-[120px] mo:h-auto font-medium  items-center flex text-2xl mo: text-2xl md:text-lg mo:flex-wrap mo:flex-row'>
                     <button onClick={onSwitchTo}> Experience EIP-4844 </button>
                     <img src='/share3.svg' className=' mx-2' /> blob-carrying transactions (Blob TX)
                   </div>
@@ -469,16 +473,16 @@ const BlobTX = () => {
           </div>
         ) : (
           <div className='mo:w-full mx-auto w-container md:w-full md:px-[30px] mo:px-[30px]'>
-            <div className='flex flex-row justify-center pt-[119px]  mo:items-center text-[54px] mo:text-[22px] md:text-[46px]'>
+            <div className='flex flex-row justify-center pt-[119px]  mo:items-center text-[54px] mo:text-[23px] md:text-[46px]'>
               <span className='font-medium cursor-default  mo:font-bold  mr-2'>Experience</span>
               <span onClick={onSwitchTo} className='flex font-semibold cursor-pointer mo:font-bold underline'>
                 EIP-4844 <img className=' ml-2 w-[30px] ' src='/share.svg'></img>
               </span>
             </div>
-            <div className='md:text-[46px] cursor-default mo:mt-[10px] flex justify-center mo:w-full mo:flex-wrap  font-medium text-[54px] capitalize mo:text-[22px] mo:font-bold'>
-              <div>blob-carrying transactions</div>
-              <div className='mo:mt-[10px]'>(Blob TX)</div>
+            <div className='md:text-[46px] cursor-default mo:mt-[10px]  mo:text-center mo:leading-10  flex justify-center mo:w-full mo:flex-wrap  font-medium text-[54px] capitalize mo:text-[22px] mo:font-bold'>
+              <div>blob-carrying transactions (Blob TX)</div>
             </div>
+
             <div className='cursor-default mt-[34px] mo:mt-5 justify-center  text-center mo:flex flex-wrap mo:flex-row '>
               <span className='font-medium  text-xl mo:text-[14px] mo:font-light '>
                 Store a piece of text or an image fully on-chain with EthDA to understand the changes
@@ -490,10 +494,10 @@ const BlobTX = () => {
                 </button>
                 <span className='font-medium  text-xl mo:text-[14px] mo:font-light '> blob-carrying transactions</span>
                 <span className='font-semibold text-xl mo:text-[16px] mo:font-medium'> (Blob TX) </span>
-                <span className='font-medium text-xl mo:text-[16px] mo:font-light'> following the </span>
+                <span className='font-medium text-xl mo:text-[14px] mo:font-light'> following the </span>
               </div>
               <span className='font-semibold text-xl mo:text-[16px] mo:font-medium'>Ethereum </span>
-              <span className='font-medium text-xl mo:text-[18px] mo:font-light'>&nbsp;Cancun-Deneb Upgrade.</span>
+              <span className='font-medium text-xl mo:text-[14px] mo:font-light'>&nbsp;Cancun-Deneb Upgrade.</span>
             </div>
             <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
               <StyledButton
@@ -509,12 +513,12 @@ const BlobTX = () => {
               </StyledButton>
             </div>
             <div className=' mt-[100px] flex  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
-              <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-2xl '>
+              <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-[22px] '>
                 Add EthDA Devnet to wallet
               </button>
               <button
                 onClick={() => window.open('https://docs.ethda.io/developers/quick-start/using-ethda-faucet', '_blank')}
-                className='mo:mt-[70px] mo:text-2xl   text-base underline'
+                className='mo:mt-[70px] mo:mb-10 mo:text-[22px] text-base underline'
               >
                 Gas Faucet
               </button>
@@ -617,6 +621,32 @@ const BlobTX = () => {
             </div>
           </div>
         </div>
+      )}
+      {loading.uploadImageError && (
+        <AToastFull
+          chilren={
+            <Fragment>
+              <CrossCircledIcon
+                className='text-[#FC7823] w-6 h-6 cursor-pointer absolute right-5 top-5'
+                onClick={() => {
+                  setLoading({})
+                }}
+              />
+              <img src='failed.svg' />
+              <div className='font-medium text-xl mx-5 text-[#FC7823] mt-[-35px]'>{loading.uploadImageError || 'Failed'}</div>
+              <div className='flex gap-[38px] mt-5 mb-10'>
+                <button
+                  onClick={() => {
+                    setLoading({})
+                  }}
+                  className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
+                >
+                  Ok
+                </button>
+              </div>
+            </Fragment>
+          }
+        />
       )}
     </div>
   )
