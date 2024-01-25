@@ -32,7 +32,7 @@ export const ethda = defineChain({
 const cbConnector = new CoinbaseWalletConnector({
   chains: [ethda],
   options: {
-    headlessMode: false,
+    headlessMode: true,
     appName: 'Ethda',
   },
 })
