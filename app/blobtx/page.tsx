@@ -66,6 +66,12 @@ const BlobTX = () => {
   const network = useNetwork()
   const isConnected = account.address && account.isConnected && network?.chain?.id == ethda.id
 
+  useEffect(() => {
+    if (!isConnected) {
+      setLoading({ loading: false, success: false, error: false, errorMsg: '', uploadImageError: '' })
+    }
+  }, [isConnected])
+
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
   }
@@ -305,6 +311,9 @@ const BlobTX = () => {
   const onSwitchTo = () => {
     window.open('https://www.eip4844.com', '_blank')
   }
+  const onGas = () => {
+    window.open('https://docs.ethda.io/developers/quick-start/using-ethda-faucet/', '_blank')
+  }
   const onClickAddNet = () => {
     window.open('https://docs.ethda.io/resources/network-configuration/add-ethda-network/', '_blank')
   }
@@ -340,10 +349,7 @@ const BlobTX = () => {
                       <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-2xl '>
                         Add EthDA Devnet to wallet
                       </button>
-                      <button
-                        onClick={() => window.open('https://docs.ethda.io/developers/quick-start/using-ethda-faucet', '_blank')}
-                        className='mo:mt-[70px] mo:text-2xl   text-base underline'
-                      >
+                      <button onClick={onGas} className='mo:mt-[70px] mo:text-2xl   text-base underline'>
                         Gas Faucet
                       </button>
                     </div>
@@ -392,10 +398,7 @@ const BlobTX = () => {
                     <button onClick={onClickAddNet} className='text-base underline '>
                       Add EthDA Devnet to wallet
                     </button>
-                    <button
-                      onClick={() => window.open('https://docs.ethda.io/developers/quick-start/using-ethda-faucet', '_blank')}
-                      className='text-base underline'
-                    >
+                    <button onClick={onGas} className='text-base underline'>
                       Gas Faucet
                     </button>
                   </div>
@@ -442,7 +445,7 @@ const BlobTX = () => {
                                   src='iconPreview.svg'
                                   title='preview'
                                   alt='Preview'
-                                  width={30}
+                                  width={20}
                                   onClick={() => setIsModalOpen(!isModalOpen)}
                                 />
                               </div>
@@ -537,20 +540,17 @@ const BlobTX = () => {
                   modal.setOpen(true)
                 }}
               >
-                <div className=' text-[22px]  font-medium'>Connect wallet to start</div>
+                <div className=' text-lg  font-medium'>Connect wallet to start</div>
                 <div className=' rounded-lg bg-white w-[38px] h-[38px] flex items-center justify-center'>
                   <img src='/share2.svg'></img>
                 </div>
               </StyledButton>
             </div>
             <div className=' mt-[100px] flex  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
-              <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-[22px] '>
+              <button onClick={onClickAddNet} className='mo:w-full underline text-lg '>
                 Add EthDA Devnet to wallet
               </button>
-              <button
-                onClick={() => window.open('https://docs.ethda.io/developers/quick-start/using-ethda-faucet', '_blank')}
-                className='mo:mt-[70px] mo:mb-10 mo:text-[22px] text-base underline'
-              >
+              <button onClick={onGas} className='mo:mt-[70px] mo:mb-10 text-lg underline'>
                 Gas Faucet
               </button>
             </div>
