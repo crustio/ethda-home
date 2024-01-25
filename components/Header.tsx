@@ -125,7 +125,6 @@ export const Header: FC<HeaderType> = ({
               >
                 Blobscan
               </div>
-              <div className={`nav-item ${pathname === '/build' ? 'active' : ''}`}>Build</div>
               <div onClick={() => onSwitchTo('blobtx')} className={`nav-item ${pathname === '/blobtx' ? 'active' : ''}`}>
                 Try BlobTx
               </div>

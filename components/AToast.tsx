@@ -7,9 +7,10 @@ type ToastType = {
   onRightButton?: () => void
   className?: any
   chilren: ReactNode
+  contentClassName?: any
 }
 
-export const AToastFull: FC<ToastType> = ({ onLeftButton, className, onRightButton, chilren, size = '', ...other }) => {
+export const AToastFull: FC<ToastType> = ({ onLeftButton, className, contentClassName, onRightButton, chilren, size = '', ...other }) => {
   return (
     <div
       {...other}
@@ -18,7 +19,7 @@ export const AToastFull: FC<ToastType> = ({ onLeftButton, className, onRightButt
         className,
       )}
     >
-      <div className=' w-[420px] relative bg-white flex justify-center h-[340px] rounded-xl'>
+      <div className={classNames(' w-[420px] relative bg-white flex justify-center h-[340px] rounded-xl', contentClassName)}>
         <div className=' flex flex-col  items-center w-full justify-center bg-[#FFFAF6]  mx-[10px] my-[10px] border-dashed border rounded-xl border-[#FC7823]'>
           {chilren}
         </div>

@@ -21,14 +21,17 @@ const StyledButton = styled.button`
   position: relative;
   display: flex;
   color: #ffffff;
-  justify-content: between;
+  justify-content: soace-between;
   background: #fc7823;
   align-items: center;
   font-size: 16px;
   font-weight: 500;
-  width: 300px;
+  width: auto;
   height: 48px;
+  padding-left: 20px;
+  padding-right: 20px;
   border-radius: 10px;
+  gap: 10px;
 `
 
 const Wrapper = styled.div(({}) => ({
@@ -52,6 +55,12 @@ const BlobTX = () => {
   const [file, setFile] = useState<File | undefined | null>(null)
   const [selectedBlob, setSelectedBlob] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string>('')
+  const [previewUrl, setPreviewUrl] = useState<any>('')
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const { disconnect } = useDisconnect()
+  const modal = useModal({ onDisconnect: disconnect })
+  const [shownettip, setShowNetTip] = useState(true)
+  const refState = useRef({ isClickShowModal: false })
   const account = useAccount()
   const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml']
   const network = useNetwork()
@@ -99,10 +108,16 @@ const BlobTX = () => {
       return
     }
     setFile(file)
+
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result)
+    }
+    reader.readAsDataURL(file)
   }, [])
 
   useEffect(() => {
-    if (loading.loading || loading.success || loading.error) {
+    if (loading.loading || loading.success || loading.error || shownettip) {
       document.body.classList.add('overflow-hidden')
     } else {
       document.body.classList.remove('overflow-hidden')
@@ -291,17 +306,13 @@ const BlobTX = () => {
     window.open('https://www.eip4844.com', '_blank')
   }
   const onClickAddNet = () => {
-    window.open('https://docs.ethda.io/resources/network-configuration/add-ethda-network', '_blank')
+    window.open('https://docs.ethda.io/resources/network-configuration/add-ethda-network/', '_blank')
   }
 
-  const { disconnect } = useDisconnect()
-  const modal = useModal({ onDisconnect: disconnect })
-
-  const [shownettip, setShowNetTip] = useState(false)
-  const refState = useRef({ isClickShowModal: false })
   useEffect(() => {
     if (isConnected && refState.current.isClickShowModal) {
       setShowNetTip(true)
+      document.body.classList.add('overflow-hidden')
     }
   }, [isConnected])
   return (
@@ -343,7 +354,7 @@ const BlobTX = () => {
                         {formatEthereumAddress(account.address)}
                       </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start' className='w-[161px]'>
+                    <DropdownMenuContent align='start' className='w-[161px] bg-white'>
                       <DropdownMenuItem
                         textValue='Disconnect'
                         onClick={() => {
@@ -353,7 +364,7 @@ const BlobTX = () => {
                           setTransData(null as any)
                           disconnect()
                         }}
-                        className='text-base  hover:text-orange-400 cursor-pointer'
+                        className='text-base  hover:text-orange-400  cursor-pointer'
                       >
                         Disconnect
                       </DropdownMenuItem>
@@ -388,7 +399,7 @@ const BlobTX = () => {
                       Gas Faucet
                     </button>
                   </div>
-                  <div className=' text-2xl mo:text-[26px] font-normal mo:mt-10'>Input</div>
+                  <div className=' text-2xl font-normal mo:mt-10'>Input</div>
                   <div className=' mt-[36px] md:mt-[40px] mo:mt-5 font-medium mo:text-base md:text-sm mb-5'>Type text here</div>
 
                   <DivBox className=' w-full h-[68px] px-2'>
@@ -420,10 +431,23 @@ const BlobTX = () => {
                         >
                           <img src='chooseAnyImg.svg'></img>
                         </div>
-                        <div className=' mt-5 mo:mt-[30px] text-center flex flex-col  overflow-hidden truncate w-40'>
-                          <span title={file?.name} className='  cursor-default w-full'>
-                            {shortStr(file?.name, 5)}
-                          </span>
+                        <div className=' mt-5 mo:mt-[30px] text-center justify-center flex flex-col  overflow-hidden truncate w-[200px]'>
+                          <div className='flex items-center w-auto flex-row justify-center'>
+                            <span title={file?.name} className='cursor-default w-auto'>
+                              {shortStr(file?.name, 5)}
+                            </span>
+                            {previewUrl && (
+                              <div className=' ml-5'>
+                                <img
+                                  src='iconPreview.svg'
+                                  title='preview'
+                                  alt='Preview'
+                                  width={30}
+                                  onClick={() => setIsModalOpen(!isModalOpen)}
+                                />
+                              </div>
+                            )}
+                          </div>
                           <button className=' text-base font-semibold' onClick={handleFileSelect}>
                             Browse
                           </button>
@@ -443,7 +467,7 @@ const BlobTX = () => {
                   </div>
                 </div>
                 <div className='w-0 flex-1 h-full  mo:mt-[-70px]'>
-                  <div className=' text-2xl  mo:text-[26px] '> Blob Data</div>
+                  <div className=' text-2xl  '> Blob Data</div>
                   <div className='flex gap-[14px] mo:gap-[5px]  '>
                     <button
                       onClick={() => handleBlobClick(true)}
@@ -513,7 +537,7 @@ const BlobTX = () => {
                   modal.setOpen(true)
                 }}
               >
-                <span className=' ml-[17px] mo:ml-5 pr-[17px]  text-base  font-medium'>Connect wallet to start</span>
+                <div className=' text-[22px]  font-medium'>Connect wallet to start</div>
                 <div className=' rounded-lg bg-white w-[38px] h-[38px] flex items-center justify-center'>
                   <img src='/share2.svg'></img>
                 </div>
@@ -539,13 +563,13 @@ const BlobTX = () => {
           chilren={
             <Fragment>
               <img src='success.svg' />
-              <div className='font-medium text-xl text-[#FC7823] mt-[-35px]'>Success</div>
-              <div className='flex gap-[20px] mt-[40px] mb-5'>
+              <div className='font-medium text-xl text-[#FC7823] mt-[-30px]'>Success</div>
+              <div className='flex gap-[15px] mt-[10px] mb-10 mo:flex-wrap justify-center'>
                 <button
                   onClick={() => {
                     window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')
                   }}
-                  className=' w-[140px] mo:w-[120px] border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base'
+                  className=' w-[140px]   border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base'
                 >
                   View History
                 </button>
@@ -557,7 +581,7 @@ const BlobTX = () => {
                     setTransData(null as any)
                     scrollToTop()
                   }}
-                  className='w-[140px] mo:w-[120px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
+                  className='w-[140px]   mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
                 >
                   Send More
                 </button>
@@ -598,7 +622,7 @@ const BlobTX = () => {
           <div className='w-[calc(100%-40px)] bg-white p-5 rounded-lg max-w-[46rem]'>
             <div className='border border-dashed rounded-lg border-orange-400 py-5 px-[2rem] bg-[#FFFAF6]'>
               <div className='text-center text-[FC7823] font-medium text-[1.25rem]'>Switch to EthDA Network</div>
-              <div className='mt-[3rem] mb-[2.25rem] flex flex-col gap-3'>
+              <div className='mt-[2rem] mb-[2.25rem] flex flex-col gap-3'>
                 <p className=' mo:text-sm'>
                   Please add EthDA Devnet to your wallet and make sure you have switched to EthDA Devnet before you start.
                 </p>
@@ -611,10 +635,10 @@ const BlobTX = () => {
                 </p>
               </div>
 
-              <div className='flex items-center justify-center gap-5 mo:w-full  flex-wrap '>
+              <div className='flex items-center justify-center gap-5 mo:w-full flex-wrap '>
                 <button
                   onClick={onClickAddNet}
-                  className=' w-[140px]  border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base'
+                  className=' w-[160px]  border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base'
                 >
                   Add Network
                 </button>
@@ -622,8 +646,9 @@ const BlobTX = () => {
                   onClick={() => {
                     refState.current.isClickShowModal = false
                     setShowNetTip(false)
+                    document.body.classList.remove('overflow-hidden')
                   }}
-                  className='w-[140px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
+                  className='w-[160px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
                 >
                   Enter App
                 </button>
@@ -643,7 +668,7 @@ const BlobTX = () => {
                 }}
               />
               <img src='failed.svg' />
-              <div className='font-medium text-xl mx-5 text-[#FC7823] mt-[-35px]'>{loading.uploadImageError || 'Failed'}</div>
+              <div className='font-medium text-xl mx-5 text-[#FC7823] mt-[-35px] text-center'>{loading.uploadImageError || 'Failed'}</div>
               <div className='flex gap-[38px] mt-5 mb-10'>
                 <button
                   onClick={() => {
@@ -651,7 +676,38 @@ const BlobTX = () => {
                   }}
                   className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
                 >
-                  Ok
+                  OK
+                </button>
+              </div>
+            </Fragment>
+          }
+        />
+      )}
+
+      {isModalOpen && (
+        <AToastFull
+          contentClassName={'w-auto h-auto'}
+          chilren={
+            <Fragment>
+              <CrossCircledIcon
+                className='text-[#FC7823] w-6 h-6 cursor-pointer absolute right-5 top-5'
+                onClick={() => {
+                  setLoading({})
+                  setIsModalOpen(false)
+                }}
+              />
+              <div className=' mt-11 mx-5'>
+                <img src={previewUrl} alt='Preview' />
+              </div>
+              <div className='flex gap-[38px] mt-5 mb-5 '>
+                <button
+                  onClick={() => {
+                    setLoading({})
+                    setIsModalOpen(false)
+                  }}
+                  className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
+                >
+                  OK
                 </button>
               </div>
             </Fragment>
