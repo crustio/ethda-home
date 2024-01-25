@@ -107,7 +107,10 @@ const BlobTX = () => {
     }
   }, [loading])
   const handleFileSelect = () => {
-    inputImgRef.current?.click()
+    if (inputImgRef.current) {
+      inputImgRef.current.value = ''
+      inputImgRef.current.click()
+    }
   }
 
   const { data: walletClient } = useWalletClient({ chainId: ethda.id })
@@ -308,11 +311,11 @@ const BlobTX = () => {
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <div className='cursor-pointer rounded-lg border-[#FC7823] md:text-sm  border  h-[42px] items-center flex text-[#FC7823] px-[15px]'>
+                      <div className='cursor-pointer rounded-lg border-[#FC7823] md:text-sm  border h-[42px] items-center flex text-[#FC7823] px-[15px]'>
                         {formatEthereumAddress(account.address)}
                       </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start' className='w-[161px]'>
+                    <DropdownMenuContent align='start' className='w-[155px] bg-[#F7F7F7]'>
                       <DropdownMenuItem
                         textValue='Disconnect'
                         onClick={() => disconnect()}
