@@ -59,7 +59,7 @@ const BlobTX = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const { disconnect } = useDisconnect()
   const modal = useModal({ onDisconnect: disconnect })
-  const [shownettip, setShowNetTip] = useState(true)
+  const [shownettip, setShowNetTip] = useState(false)
   const refState = useRef({ isClickShowModal: false })
   const account = useAccount()
   const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml']
