@@ -86,8 +86,16 @@ const BlobTX = () => {
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0)
     if (!file) return
+
     const fileSizeInKB = file.size / 1024
+
+    if (!validImageTypes.includes(file?.type)) {
+      setLoading({ uploadImageError: 'Only PNG, JPG, JPEG, GIF formats are supported. Please select again.' })
+      return
+    }
+
     if (fileSizeInKB > 128) {
+      setLoading({ uploadImageError: 'File size exceeding 128kB! Please select again.' })
       return
     }
     setFile(file)
@@ -235,7 +243,6 @@ const BlobTX = () => {
           eips: [1559, 3860, 4844],
         },
       )
-      console.info('gas:', transaction)
       const blobTx = new BlobEIP4844Transaction(
         {
           chainId: 177n,
@@ -366,7 +373,7 @@ const BlobTX = () => {
             <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px] '>
               <div className='flex mo:gap-5 gap-[100px] md:gap-[50px]  mt-[30px] mo:mt-10 mo:flex mo:flex-wrap mo:w-full'>
                 <div className='w-[440px] md:w-[400px] h-full mo:flex mo:flex-wrap mo:w-full mo:flex-col  '>
-                  <div className='sm:hidden w-full h-[120px] mo:h-auto font-medium  items-center flex text-2xl mo: text-2xl md:text-lg mo:flex-wrap mo:flex-row'>
+                  <div className='sm:hidden w-full h-[120px] mo:h-auto font-medium  items-center flex text-2xl mo:text-2xl md:text-lg mo:flex-wrap mo:flex-row'>
                     <button onClick={onSwitchTo}> Experience EIP-4844 </button>
                     <img src='/share3.svg' className=' mx-2' /> blob-carrying transactions (Blob TX)
                   </div>
