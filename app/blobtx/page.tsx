@@ -26,7 +26,7 @@ const StyledButton = styled.button`
   align-items: center;
   font-size: 16px;
   font-weight: 500;
-  width: 280px;
+  width: 300px;
   height: 48px;
   border-radius: 10px;
 `
@@ -47,8 +47,6 @@ const ContentBox = styled(Wrapper)(({}) => ({
 }))
 
 const BlobTX = () => {
-  // const [clickStart, setIsClickStart] = useState(false)
-
   const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false, errorMsg: 'Failed' })
   const inputImgRef = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File | undefined | null>(null)
@@ -297,9 +295,9 @@ const BlobTX = () => {
         logo={`b-EthDA.svg`}
         headerTextClassName='!text-[#000000] gap-[50px]'
       />
-      <div className={` ${!isConnected && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '} min-h-screen  bg-cover object-cover `}>
+      <div className={` ${!isConnected && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '}   min-h-screen  bg-cover object-cover `}>
         {isConnected ? (
-          <div className='bg-[url(/black_bg.svg)] mo:bg-none bg-cover h-auto overflow-hidden '>
+          <div className='bg-[url(/black_bg.svg)] mo:bg-none bg-cover h-auto overflow-hidden  '>
             <div className='mo:bg-[#F6F6F6] bg-[#F7F7F7]'>
               <div className='mo:w-full mo:px-[30px]  mx-auto w-container md:w-full md:px-[30px]   '>
                 <div className='  flex  flex-row items-center mo:justify-between mo:h-[102px]'>
@@ -468,7 +466,7 @@ const BlobTX = () => {
                 </button>
               ) : (
                 <StyledButton onClick={() => modal.setOpen(true)}>
-                  <span className=' ml-[17px] mo:ml-5 pr-[17px]  text-base  font-medium'>Connect wallet to start</span>
+                  <span className=' ml-[17px] mo:ml-5 pr-[30px]  text-base  font-medium'>Connect wallet to start</span>
                   <div className=' rounded-lg bg-white w-[38px] h-[38px] flex items-center justify-center'>
                     <img src='/share2.svg'></img>
                   </div>

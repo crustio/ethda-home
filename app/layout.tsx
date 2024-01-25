@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { Inter, Montserrat } from 'next/font/google'
+import { Montserrat } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/providers'
 const montserrat = Montserrat({ subsets: ['latin'], variable: '--montserrat' })
 
 export const metadata: Metadata = {
-  title: 'Ethda',
-  description: 'Ethda',
+  title: 'EthDA',
+  description: 'EthDA',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
