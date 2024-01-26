@@ -48,11 +48,13 @@ export const Header: FC<HeaderType> = ({
   const onChooseItem = (e: string) => {
     setChooseValue(e)
     setIsShow(false)
+    document.documentElement.classList.remove('overflow-hidden')
     document.body.classList.remove('overflow-hidden')
   }
 
   useEffect(() => {
     if (!isShow) {
+      document.documentElement.classList.remove('overflow-hidden')
       document.body.classList.remove('overflow-hidden')
     }
   }, [isShow])
@@ -99,6 +101,7 @@ export const Header: FC<HeaderType> = ({
             <button
               onClick={() => {
                 setIsShow(!isShow)
+                document.documentElement.classList.add('overflow-hidden')
                 document.body.classList.add('overflow-hidden')
               }}
             >

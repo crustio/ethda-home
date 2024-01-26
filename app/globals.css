@@ -173,5 +173,10 @@ input {
 }
 
 
+#modal{
+  background-color: rgba(26, 26, 26, 0.20);
+  backdrop-filter: blur(5px);
+}
+
 
 

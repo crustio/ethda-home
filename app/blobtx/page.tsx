@@ -70,6 +70,9 @@ const BlobTX = () => {
     if (!isConnected) {
       setLoading({ loading: false, success: false, error: false, errorMsg: '', uploadImageError: '' })
     }
+    return () => {
+      setLoading({ loading: false, success: false, error: false, errorMsg: '', uploadImageError: '' })
+    }
   }, [isConnected])
 
   const handleBlobClick = (blob: boolean) => {
@@ -125,11 +128,14 @@ const BlobTX = () => {
   useEffect(() => {
     if (loading.loading || loading.success || loading.error || shownettip) {
       document.body.classList.add('overflow-hidden')
+      document.documentElement.classList.add('overflow-hidden')
     } else {
       document.body.classList.remove('overflow-hidden')
+      document.documentElement.classList.remove('overflow-hidden')
     }
     return () => {
       document.body.classList.remove('overflow-hidden')
+      document.documentElement.classList.remove('overflow-hidden')
     }
   }, [loading])
   const handleFileSelect = () => {
@@ -322,6 +328,7 @@ const BlobTX = () => {
     if (isConnected && refState.current.isClickShowModal) {
       setShowNetTip(true)
       document.body.classList.add('overflow-hidden')
+      document.documentElement.classList.add('overflow-hidden')
     }
   }, [isConnected])
   return (
@@ -402,7 +409,7 @@ const BlobTX = () => {
                       Gas Faucet
                     </button>
                   </div>
-                  <div className=' text-2xl font-normal mo:mt-10'>Input</div>
+                  <div className=' text-2xl font-medium mo:mt-10'>Input</div>
                   <div className=' mt-[36px] md:mt-[40px] mo:mt-5 font-medium mo:text-base md:text-sm mb-5'>Type text here</div>
 
                   <DivBox className=' w-full h-[68px] px-2'>
@@ -470,7 +477,7 @@ const BlobTX = () => {
                   </div>
                 </div>
                 <div className='w-0 flex-1 h-full  mo:mt-[-70px]'>
-                  <div className=' text-2xl  '> Blob Data</div>
+                  <div className=' text-2xl font-medium   '> Blob Data</div>
                   <div className='flex gap-[14px] mo:gap-[5px]  '>
                     <button
                       onClick={() => handleBlobClick(true)}
@@ -564,12 +571,12 @@ const BlobTX = () => {
             <Fragment>
               <img src='success.svg' />
               <div className='font-medium text-xl text-[#FC7823] mt-[-30px]'>Success</div>
-              <div className='flex gap-[15px] mt-5 mb-5 mo:mt-[10px] mo:mb-10 mo:flex-wrap justify-center'>
+              <div className='flex gap-[15px] mt-5 mb-5 mo:mt-[20px] mo:mb-10 '>
                 <button
                   onClick={() => {
                     window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')
                   }}
-                  className=' w-[140px]   border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base'
+                  className=' w-[120px]   border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base mo:text-sm'
                 >
                   View History
                 </button>
@@ -582,7 +589,7 @@ const BlobTX = () => {
                     scrollToTop()
                     setPreviewUrl(null)
                   }}
-                  className='w-[140px]   mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
+                  className='w-[120px]   mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base mo:text-sm'
                 >
                   Send More
                 </button>
@@ -648,6 +655,7 @@ const BlobTX = () => {
                     refState.current.isClickShowModal = false
                     setShowNetTip(false)
                     document.body.classList.remove('overflow-hidden')
+                    document.documentElement.classList.remove('overflow-hidden')
                   }}
                   className='w-[160px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
                 >
@@ -687,7 +695,7 @@ const BlobTX = () => {
 
       {isModalOpen && (
         <AToastFull
-          contentClassName={'w-auto h-auto max-h-[80vh]'}
+          contentClassName={' h-auto max-h-[80vh] w-auto'}
           chilren={
             <Fragment>
               <CrossCircledIcon

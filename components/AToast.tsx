@@ -13,9 +13,10 @@ type ToastType = {
 export const AToastFull: FC<ToastType> = ({ onLeftButton, className, contentClassName, onRightButton, chilren, size = '', ...other }) => {
   return (
     <div
+      id='modal'
       {...other}
       className={classNames(
-        'text-black w-full h-full flex items-center justify-center fixed z-50 left-0 top-0  bg-black/25 px-10',
+        'text-black w-full h-full flex items-center justify-center fixed z-50 left-0 top-0  bg-black/25 px-10 ',
         className,
       )}
     >
