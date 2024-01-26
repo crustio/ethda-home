@@ -60,24 +60,48 @@ const BlobTX = () => {
   const { disconnect } = useDisconnect()
   const modal = useModal({ onDisconnect: disconnect })
   const [shownettip, setShowNetTip] = useState(false)
+  const { data: walletClient } = useWalletClient({ chainId: ethda.id })
+  const publicClient = usePublicClient({ chainId: ethda.id })
+  const [transData, setTransData] = useState<{ text: Uint8Array; img: Uint8Array; imgType: string }>()
   const refState = useRef({ isClickShowModal: false })
   const account = useAccount()
   const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml']
   const network = useNetwork()
   const isConnected = account.address && account.isConnected && network?.chain?.id == ethda.id
 
+  const clearAllState = () => {
+    setLoading({ loading: false, success: false, error: false, errorMsg: '', uploadImageError: '' })
+    setShowNetTip(false)
+    setIsModalOpen(false)
+    setFile(null)
+    if (inputImgRef.current) {
+      inputImgRef.current.value = ''
+    }
+    setPreviewUrl('')
+    setSelectedBlob(true)
+    setIsModalOpen(false)
+    setInputText('')
+    setTransData(null as any)
+  }
+
+  const currentOpenState = () => {
+    document.body.classList.add('overflow-hidden')
+    document.documentElement.classList.add('overflow-hidden')
+  }
+
+  const currentCloseState = () => {
+    document.body.classList.remove('overflow-hidden')
+    document.documentElement.classList.remove('overflow-hidden')
+  }
+
   useEffect(() => {
     if (!isConnected) {
-      setLoading({ loading: false, success: false, error: false, errorMsg: '', uploadImageError: '' })
+      clearAllState()
     }
     return () => {
-      setLoading({ loading: false, success: false, error: false, errorMsg: '', uploadImageError: '' })
+      clearAllState()
     }
   }, [isConnected])
-
-  const handleBlobClick = (blob: boolean) => {
-    setSelectedBlob(blob)
-  }
 
   const allowDrop = (event: { preventDefault: () => void }) => {
     event.preventDefault()
@@ -127,15 +151,12 @@ const BlobTX = () => {
 
   useEffect(() => {
     if (loading.loading || loading.success || loading.error || shownettip) {
-      document.body.classList.add('overflow-hidden')
-      document.documentElement.classList.add('overflow-hidden')
+      currentOpenState()
     } else {
-      document.body.classList.remove('overflow-hidden')
-      document.documentElement.classList.remove('overflow-hidden')
+      currentCloseState()
     }
     return () => {
-      document.body.classList.remove('overflow-hidden')
-      document.documentElement.classList.remove('overflow-hidden')
+      currentCloseState()
     }
   }, [loading])
   const handleFileSelect = () => {
@@ -144,10 +165,6 @@ const BlobTX = () => {
       inputImgRef.current.click()
     }
   }
-
-  const { data: walletClient } = useWalletClient({ chainId: ethda.id })
-  const publicClient = usePublicClient({ chainId: ethda.id })
-  const [transData, setTransData] = useState<{ text: Uint8Array; img: Uint8Array; imgType: string }>()
 
   const onTranscode = async () => {
     if (!walletClient || !file || file.size > 128 * 1024) return
@@ -327,8 +344,7 @@ const BlobTX = () => {
   useEffect(() => {
     if (isConnected && refState.current.isClickShowModal) {
       setShowNetTip(true)
-      document.body.classList.add('overflow-hidden')
-      document.documentElement.classList.add('overflow-hidden')
+      currentOpenState()
     }
   }, [isConnected])
   return (
@@ -453,7 +469,10 @@ const BlobTX = () => {
                                   title='preview'
                                   alt='Preview'
                                   width={20}
-                                  onClick={() => setIsModalOpen(!isModalOpen)}
+                                  onClick={() => {
+                                    setIsModalOpen(!isModalOpen)
+                                    currentOpenState()
+                                  }}
                                 />
                               </div>
                             )}
@@ -571,12 +590,12 @@ const BlobTX = () => {
             <Fragment>
               <img src='success.svg' />
               <div className='font-medium text-xl text-[#FC7823] mt-[-30px]'>Success</div>
-              <div className='flex gap-[15px] mt-5 mb-5 mo:mt-[20px] mo:mb-10 '>
+              <div className='flex gap-[15px] mt-5 mb-5  mo:mb-10 '>
                 <button
                   onClick={() => {
                     window.open(`https://blobscan-devnet.ethda.io/address/${account?.address}`, '_blank')
                   }}
-                  className=' w-[120px]   border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base mo:text-sm'
+                  className=' mo:w-[120px] w-[140px]  border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base mo:text-sm'
                 >
                   View History
                 </button>
@@ -589,7 +608,7 @@ const BlobTX = () => {
                     scrollToTop()
                     setPreviewUrl(null)
                   }}
-                  className='w-[120px]   mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base mo:text-sm'
+                  className='mo:w-[120px] w-[140px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base mo:text-sm'
                 >
                   Send More
                 </button>
@@ -654,8 +673,7 @@ const BlobTX = () => {
                   onClick={() => {
                     refState.current.isClickShowModal = false
                     setShowNetTip(false)
-                    document.body.classList.remove('overflow-hidden')
-                    document.documentElement.classList.remove('overflow-hidden')
+                    currentCloseState()
                   }}
                   className='w-[160px] mo:wa h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[10px] font-medium text-base'
                 >
@@ -695,7 +713,7 @@ const BlobTX = () => {
 
       {isModalOpen && (
         <AToastFull
-          contentClassName={' h-auto max-h-[80vh] w-auto'}
+          contentClassName={' h-auto  w-auto min-w-[400px]'}
           chilren={
             <Fragment>
               <CrossCircledIcon
@@ -703,16 +721,18 @@ const BlobTX = () => {
                 onClick={() => {
                   setLoading({})
                   setIsModalOpen(false)
+                  currentCloseState()
                 }}
               />
-              <div className=' mt-11 mx-5'>
-                <img src={previewUrl} alt='Preview' />
+              <div className=' mt-11 mx-5  '>
+                <img src={previewUrl} alt='Preview' className=' max-h-[70vh]' />
               </div>
               <div className='flex gap-[38px] mt-5 mb-5 '>
                 <button
                   onClick={() => {
                     setLoading({})
                     setIsModalOpen(false)
+                    currentCloseState()
                   }}
                   className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
                 >
