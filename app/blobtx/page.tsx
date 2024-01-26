@@ -94,6 +94,10 @@ const BlobTX = () => {
     document.documentElement.classList.remove('overflow-hidden')
   }
 
+  const handleBlobClick = (blob: boolean) => {
+    setSelectedBlob(blob)
+  }
+
   useEffect(() => {
     if (!isConnected) {
       clearAllState()
