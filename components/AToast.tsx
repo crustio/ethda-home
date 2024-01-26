@@ -11,12 +11,6 @@ type ToastType = {
 }
 
 export const AToastFull: FC<ToastType> = ({ onLeftButton, className, contentClassName, onRightButton, chilren, size = '', ...other }) => {
-  useEffect(() => {
-    document.documentElement.classList.add('overflow-hidden')
-    return () => {
-      document.documentElement.classList.remove('overflow-hidden')
-    }
-  }, [])
   return (
     <div
       id='modal'
