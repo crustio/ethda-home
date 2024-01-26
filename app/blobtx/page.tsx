@@ -3,6 +3,7 @@
 import { LoadingFull } from '@/components/ALoading'
 import { AToastFull } from '@/components/AToast'
 import { Header } from '@/components/Header'
+import { ContentBox, DivBox, StyledButton } from '@/components/StyleButton'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/dropdown-menu'
 import { EncodeBlobs, createMetaDataForBlobs, formatEthereumAddress, scrollToTop, shortStr, sleep } from '@/utils'
 import { ethda } from '@/utils/wagmi'
@@ -12,42 +13,9 @@ import { CrossCircledIcon } from '@radix-ui/react-icons'
 import { useModal } from 'connectkit'
 import { ethers } from 'ethers'
 import { ChangeEvent, Fragment, useCallback, useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
 import { parseEther, parseTransaction, stringToHex } from 'viem'
 import { useAccount, useDisconnect, useNetwork, usePublicClient, useWalletClient } from 'wagmi'
-
-const StyledButton = styled.button`
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  color: #ffffff;
-  justify-content: soace-between;
-  background: #fc7823;
-  align-items: center;
-  font-size: 16px;
-  font-weight: 500;
-  width: auto;
-  height: 48px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border-radius: 10px;
-  gap: 10px;
-`
-
-const Wrapper = styled.div(({}) => ({
-  borderRadius: '10px',
-  backgroundImage:
-    'linear-gradient(to left, #000000 30%, transparent 10%), linear-gradient(to left, #000000 30%, transparent 10%), linear-gradient(to top, #000000 40%, transparent 10%), linear-gradient(to top, #000000 30%, transparent 10%)',
-  backgroundPosition: 'left top, left bottom, left top, right top',
-  backgroundRepeat: 'repeat-x, repeat-x, repeat-y, repeat-y',
-}))
-const DivBox = styled(Wrapper)(({}) => ({
-  backgroundSize: '10px 1px, 10px 1px, 1px 9px, 1px 9px',
-}))
-
-const ContentBox = styled(Wrapper)(({}) => ({
-  backgroundSize: '10px 1px, 10px 1px, 1px 9px, 1px 9px',
-}))
+import { openTo } from '../../utils/common'
 
 const BlobTX = () => {
   const [loading, setLoading] = useState<any>({ loading: false, success: false, error: false, errorMsg: 'Failed', uploadImageError: '' })
@@ -336,13 +304,13 @@ const BlobTX = () => {
   }
 
   const onSwitchTo = () => {
-    window.open('https://www.eip4844.com', '_blank')
+    openTo('https://www.eip4844.com')
   }
   const onGas = () => {
-    window.open('https://docs.ethda.io/developers/quick-start/using-ethda-faucet/', '_blank')
+    openTo('https://docs.ethda.io/developers/quick-start/using-ethda-faucet/')
   }
   const onClickAddNet = () => {
-    window.open('https://docs.ethda.io/resources/network-configuration/add-ethda-network/', '_blank')
+    openTo('https://docs.ethda.io/resources/network-configuration/add-ethda-network/')
   }
 
   useEffect(() => {
@@ -462,12 +430,12 @@ const BlobTX = () => {
                           <img src='chooseAnyImg.svg'></img>
                         </div>
                         <div className=' mt-5 mo:mt-[30px] text-center justify-center flex flex-col  overflow-hidden truncate w-[200px]'>
-                          <div className='flex items-center w-auto flex-row justify-center'>
+                          <div className='flex items-center w-auto flex-row justify-center '>
                             <span title={file?.name} className='cursor-default w-auto'>
                               {shortStr(file?.name, 5)}
                             </span>
                             {previewUrl && (
-                              <div className=' ml-5'>
+                              <div className=' ml-2'>
                                 <img
                                   src='iconPreview.svg'
                                   title='preview'

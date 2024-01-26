@@ -28,3 +28,8 @@ export function shortStr(str?: string, startLen: number = 6, endLen: number = 6)
   const end = str?.substring(str.length - endLen) || ''
   return `${start}...${end}`
 }
+
+export const openTo = (url: string) => {
+  if (!url) return
+  window.open(url, '_blank')
+}

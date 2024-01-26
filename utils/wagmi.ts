@@ -68,7 +68,6 @@ const cbConnector = new CoinbaseWalletConnector({
       })
       currentChainId = chain?.id ?? currentChainId
     }
-    console.info('doconectEnd:', currentChainId, accounts)
     const account = getAddress(accounts[0])
     return {
       account,
