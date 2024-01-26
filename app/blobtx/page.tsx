@@ -84,12 +84,14 @@ const BlobTX = () => {
 
     const files = event.dataTransfer.files?.item(0)
     if (!validImageTypes.includes(files?.type)) {
+      currentOpenState()
       setLoading({ uploadImageError: 'Only PNG, JPG, JPEG, GIF formats are supported. Please select again.' })
       return
     }
 
     const fileSizeInKB = files.size / 1024
     if (fileSizeInKB > 128) {
+      currentOpenState()
       setLoading({ uploadImageError: 'File size exceeding 128kB! Please select again.' })
       return
     }
@@ -104,11 +106,13 @@ const BlobTX = () => {
     const fileSizeInKB = file.size / 1024
 
     if (!validImageTypes.includes(file?.type)) {
+      currentOpenState()
       setLoading({ uploadImageError: 'Only PNG, JPG, JPEG, GIF formats are supported. Please select again.' })
       return
     }
 
     if (fileSizeInKB > 128) {
+      currentOpenState()
       setLoading({ uploadImageError: 'File size exceeding 128kB! Please select again.' })
       return
     }
@@ -664,6 +668,7 @@ const BlobTX = () => {
                 className='text-[#FC7823] w-6 h-6 cursor-pointer absolute right-5 top-5'
                 onClick={() => {
                   setLoading({})
+                  currentCloseState()
                 }}
               />
               <img src='failed.svg' />
@@ -672,6 +677,7 @@ const BlobTX = () => {
                 <button
                   onClick={() => {
                     setLoading({})
+                    currentCloseState()
                   }}
                   className='w-[141px] h-[36px] text-[#FFFFFF] rounded-lg  bg-[#FC7823] px-[21px] font-medium text-base'
                 >
