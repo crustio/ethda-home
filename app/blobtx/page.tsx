@@ -687,7 +687,7 @@ const BlobTX = () => {
 
       {isModalOpen && (
         <AToastFull
-          contentClassName={'w-auto h-auto'}
+          contentClassName={'w-auto h-auto max-h-[80vh]'}
           chilren={
             <Fragment>
               <CrossCircledIcon

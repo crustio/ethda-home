@@ -89,11 +89,11 @@ export const Header: FC<HeaderType> = ({
     push(address)
   }
   return (
-    <header className={classNames('py-5 border-b border-b-[rgba(255,255,255,.2)]', className)}>
+    <header className={classNames(`py-5 border-b ${isShow && ' bg-white'}  border-b-[rgba(255,255,255,.2)]`, className)}>
       <div className=' mo:mx-[30px] '>
         <div className={classNames('flex justify-between items-center', containerClassName)}>
           <Link href={'/'}>
-            <Image src={logo} alt={'logo.svg'} width={110} height={22} />
+            <Image src={`${isShow ? 'b-EthDA.svg' : logo}`} alt={` ${isShow ? 'b-EthDA.svg' : 'logo.svg'}`} width={110} height={22} />
           </Link>
           {isMobile ? (
             <button
@@ -103,9 +103,9 @@ export const Header: FC<HeaderType> = ({
               }}
             >
               {isShow ? (
-                <HiOutlineX className={classNames('w-6 h-6', btnClassName)} />
+                <HiOutlineX className={classNames(`${isShow && '!text-black'} w-6 h-6 `, btnClassName)} />
               ) : (
-                <HiOutlineMenu className={classNames(btnClassName, 'w-6 h-6')} />
+                <HiOutlineMenu className={classNames(btnClassName, `w-6 h-6 `)} />
               )}
             </button>
           ) : (
