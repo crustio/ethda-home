@@ -28,7 +28,7 @@ export const Footer = () => {
         <div className={'bg-[#333] my-10 mo:my-5 h-[1px] w-full'} />
         <div className='flex justify-between items-center mo:flex-col mo:w-full '>
           <div className={'text-gray-500 text-sm '}>Copyright © EthDA {currentYear} All Rights Reserved</div>
-          <div className='flex gap-10 mo:gap-[60px] mo:my-5 mo:w-full mo:justify-center'>
+          <div className='flex gap-10 mo:gap-[50px] mo:my-5 mo:w-full mo:justify-center '>
             <Link href={'https://t.me/CrustNetwork'} target={'_blank'} className={'link-icon'}>
               <TelegramIcon />
             </Link>
