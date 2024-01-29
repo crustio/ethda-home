@@ -4,7 +4,7 @@ export const Offer = () => {
       className={'bg-no-repeat pb-20 mo:px-10'}
       style={{ backgroundImage: 'url(/offer-1.png)', backgroundSize: '900px', backgroundPosition: '300px top' }}
     >
-      <div className='md:mx-[30px]'>
+      <div className='md:mx-[30px] '>
         <div className={'subtitle mt-20 mb-6 mo:text-center'}>
           <span className={'text-[25px] mo:text-xl text-primary '}>DApps</span> Leverage EthDA for Decentralized Storage
         </div>
@@ -30,8 +30,8 @@ export const Offer = () => {
               <div className='screen-bar w-[40px] ml-4' />
             </div>
           </div>
-          <div className={'shrink'}>
-            <img src='/offer-2.png' alt='offer' width={'80%'} className='mo:w-auto' />
+          <div className={'shrink flex justify-end  '}>
+            <img src='/offer-2.png' alt='offer' width={'100%'} className='' />
           </div>
         </div>
       </div>

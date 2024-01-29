@@ -16,7 +16,7 @@ export const With = () => {
         <div className='subtitle mb-6 mo:text-center'>
           <span className={'text-[25px] mo:text-xl text-primary'}>L2s</span> Leverage EthDA for Data Availability.
         </div>
-        <div className='flex gap-8 mo:flex-wrap mo:w-full'>
+        <div className='flex gap-8 mo:flex-wrap mo:w-full justify-between'>
           <div className={'w-[660px] mo:w-full'}>
             <div className='flex gap-6 mb-8 mo:flex-wrap mo:w-full'>
               {title.map((item, i: number) => {

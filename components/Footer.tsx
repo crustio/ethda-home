@@ -15,19 +15,13 @@ export const Footer = () => {
             Sign up for EthDA updates
           </div>
           <div className='flex mo:flex-col mo:mt-5'>
-            <div className={'border border-[#FF6933] rounded-l-md mo:rounded-[10px] w-[300px] mo:w-[356px] flex items-center px-4 text-xs'}>
-              <input
-                type='text'
-                className={'bg-transparent w-full mo:text-sm mo:font-light outline-0 text-white mo:h-[42px]'}
-                placeholder={'Email Address'}
-              />
-            </div>
             <button
+              onClick={() => window.open('https://forms.gle/TTxnVhnEyNEkyXUAA', '_blank')}
               className={
-                'mo:mt-5 bg-gradient-to-r mo:w-[356px] mo:h-[42px] mo:text-sm mo:font-light  from-[#FF6933] to-[#FF2F00] h-[36px] w-[120px]  text-sm rounded-r-md mo:rounded-r-[10px] mo:rounded-l-[10px]  text-white'
+                'mo:mt-5 bg-gradient-to-r  rounded-lg mo:w-[300px] mo:h-[42px] mo:text-sm mo:font-light  from-[#FF6933] to-[#FF2F00] h-[36px] w-[240px]  text-sm  text-white'
               }
             >
-              SUBSCRIBE
+              Connect with Crust Team
             </button>
           </div>
         </div>

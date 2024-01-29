@@ -25,7 +25,7 @@ export const Banner = () => {
               </Link>
             </div>
           </div>
-          <div className={'-mt-10'}>
+          <div className={'-mt-10 mo:w-full mo:flex mo:justify-center'}>
             <img src={'/banner.gif'} alt={'banner'} width={520} height={200} className=' mo:w-[324px] mo:h-[334px]' />
           </div>
         </div>

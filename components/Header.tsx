@@ -10,6 +10,7 @@ import FullModal from './FullModal'
 
 type HeaderType = {
   logo?: string
+  isShow?: (e: boolean) => void
   headerTextClassName?: any
   className?: any
   containerClassName?: any
@@ -24,6 +25,7 @@ export const Header: FC<HeaderType> = ({
   wrapperClassName,
   className,
   btnClassName,
+  isShow: isHidden,
 }) => {
   const { push } = useRouter()
   const pathname = usePathname()
@@ -92,7 +94,7 @@ export const Header: FC<HeaderType> = ({
   }
   return (
     <div className='border-b'>
-      <header className={classNames(`py-5  ${isShow && ' bg-white'}  border-b-[rgba(255,255,255,.2)]`, className)}>
+      <header className={classNames(`py-5  ${isShow && ' !bg-white'}  border-b-[rgba(255,255,255,.2)]`, className)}>
         <div className=' mo:mx-[30px] '>
           <div className={classNames('flex justify-between items-center', containerClassName)}>
             <Link href={'/'}>
@@ -102,6 +104,7 @@ export const Header: FC<HeaderType> = ({
               <button
                 onClick={() => {
                   setIsShow(!isShow)
+                  typeof isHidden === 'function' && isHidden(isShow)
                   document.documentElement.classList.add('overflow-hidden')
                   document.body.classList.add('overflow-hidden')
                 }}

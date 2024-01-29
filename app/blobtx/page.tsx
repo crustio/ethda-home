@@ -25,6 +25,7 @@ const BlobTX = () => {
   const [inputText, setInputText] = useState<string>('')
   const [previewUrl, setPreviewUrl] = useState<any>('')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isShow, setIsShow] = useState<boolean>(false)
   const { disconnect } = useDisconnect()
   const modal = useModal({ onDisconnect: disconnect })
   const [shownettip, setShowNetTip] = useState(false)
@@ -90,7 +91,7 @@ const BlobTX = () => {
 
     const fileSizeInKB = files.size / 1024
     if (fileSizeInKB > 128) {
-      setLoading({ uploadImageError: 'File size exceeding 128kB! Please select again.' })
+      setLoading({ uploadImageError: 'File size exceeding 128KB! Please select again.' })
       return
     }
 
@@ -109,7 +110,7 @@ const BlobTX = () => {
     }
 
     if (fileSizeInKB > 128) {
-      setLoading({ uploadImageError: 'File size exceeding 128kB! Please select again.' })
+      setLoading({ uploadImageError: 'File size exceeding 128KB! Please select again.' })
       return
     }
     setFile(file)
@@ -322,9 +323,10 @@ const BlobTX = () => {
   return (
     <div className=' font-montserrat'>
       <Header
-        className={`${!isConnected ? 'bg-[#FBE8DE]  mo:bg-[#FCE1D6] mo:border-b-[#FCE1D6]' : 'bg-[#FFFFFFCC]'}  py-[27px]`}
+        className={`${!isConnected ? 'bg-[#FBE8DE]  mo:bg-[#FCE1D6] mo:border-b-[#FCE1D6]' : 'bg-[#FFFFFFCC]'}  py-[29px]`}
         containerClassName='!w-full pl-9 pr-[31px] mo:w-full mo:pl-0 mo:pr-0 '
         logo={`b-EthDA.svg`}
+        isShow={setIsShow}
         headerTextClassName='!text-[#000000] gap-[50px]'
       />
       <div className={` ${!isConnected && ' bg-[url(/blobTXBg.svg)] mo:bg-[url(/b-m-EthDA.svg)] '}   min-h-screen  bg-cover object-cover `}>
@@ -531,19 +533,21 @@ const BlobTX = () => {
               <span className='font-semibold text-xl mo:text-[16px] mo:font-medium'>Ethereum </span>
               <span className='font-medium text-xl mo:text-[14px] mo:font-light'>&nbsp;Cancun-Deneb Upgrade.</span>
             </div>
-            <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
-              <StyledButton
-                onClick={() => {
-                  refState.current.isClickShowModal = true
-                  modal.setOpen(true)
-                }}
-              >
-                <div className=' text-lg  font-medium'>Connect wallet to start</div>
-                <div className=' rounded-lg bg-white w-[38px] h-[38px] flex items-center justify-center'>
-                  <img src='/share2.svg'></img>
-                </div>
-              </StyledButton>
-            </div>
+            {isShow && (
+              <div className='mt-[60px] mo:mt-[130px] flex justify-center'>
+                <StyledButton
+                  onClick={() => {
+                    refState.current.isClickShowModal = true
+                    modal.setOpen(true)
+                  }}
+                >
+                  <div className=' text-lg  font-medium'>Connect wallet to start</div>
+                  <div className=' rounded-lg bg-white w-[38px] h-[38px] flex items-center justify-center'>
+                    <img src='/share2.svg' />
+                  </div>
+                </StyledButton>
+              </div>
+            )}
             <div className=' mt-[100px] flex  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
               <button onClick={onClickAddNet} className='mo:w-full underline text-lg '>
                 Add EthDA Devnet to wallet
@@ -687,7 +691,8 @@ const BlobTX = () => {
 
       {isModalOpen && (
         <AToastFull
-          contentClassName={' h-auto  w-auto min-w-[400px]'}
+          contentClassName={' h-auto  w-auto min-w-[350px]'}
+          className={'px-5'}
           chilren={
             <Fragment>
               <CrossCircledIcon
