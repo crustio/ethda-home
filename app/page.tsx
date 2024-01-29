@@ -40,7 +40,7 @@ export default function Home() {
     <>
       <Banner />
       <div className={'bg-[rgb(252,246,238)] '}>
-        <div className='container mx-auto pt-20 mo:pt-10'>
+        <div className='container mx-auto pt-20 mo:pt-10 '>
           <What />
           <With />
           <Offer />
@@ -64,10 +64,10 @@ export default function Home() {
                   <Popover.Portal>
                     <Popover.Content side={isMobile ? 'bottom' : 'right'} align={'start'} style={{ width: width + 'px' }}>
                       <div
-                        className={'why-popover active w-[380px] mo:w-auto mo:mx-10  mo:mt-[20px] mo:h-[258px] '}
+                        className={'why-popover active w-[380px] mo:w-auto mo:mx-10  mo:mt-[20px] mo:h-[258px]  '}
                         style={{ transform: !isMobile ? 'translateX(-380px)' : 'none' }}
                       >
-                        <div className={'text-[16px]  mo:text-lg mo:font-medium font-medium mb-2'}>
+                        <div className={'text-[16px]  mo:text-lg mo:font-medium font-medium mb-2 '}>
                           Data Availability Sampling Mechanism
                         </div>
                         <div className={'text-sm mo:text-base mo:font-medium leading-7'}>
@@ -110,7 +110,7 @@ export default function Home() {
               </div>
             </div>
             <div className={'flex items-center justify-between  mo:inline-block mb-12  mo:w-full'}>
-              <div className={'relative mo:hidden'}>
+              <div className={'relative mo:hidden '}>
                 <Popover.Root>
                   <Popover.Trigger asChild>
                     <button className={`why-button ${enter ? 'active' : ''}`}>
@@ -123,11 +123,11 @@ export default function Home() {
                       side={'right'}
                       align={'end'}
                       style={{ width: width + 'px' }}
-                      className='mo:max-w-[430px] mo:px-10 mo:mt-[30px]'
+                      className='mo:max-w-[430px]  md:ml-[130px] mo:px-10 mo:mt-[30px]  '
                     >
                       <div
                         className={
-                          'why-popover active w-[380px] mo:backdrop-blur-lg mo:w-full mo:whitespace-normal mo:p-4 mo:text-left  mo:border mo:border-primary    mo:rounded-2xl  mo:text-[#373C4F] mo:bg-[rgba(250,247,243,.6)]'
+                          'why-popover active w-[380px] md:w-[300px] mo:backdrop-blur-lg mo:w-full mo:whitespace-normal mo:p-4 mo:text-left  mo:border mo:border-primary mo:rounded-2xl  mo:text-[#373C4F] mo:bg-[rgba(250,247,243,.6)]'
                         }
                         style={{ transform: 'translateX(-380px)' }}
                       >

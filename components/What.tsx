@@ -27,7 +27,7 @@ export const What = () => {
           backgroundSize: '420px, 700px',
         }}
       >
-        <div className='w-[420px] shrink-0 mo:w-full'>
+        <div className='w-[420px] shrink-0 mo:w-full md:mx-[30px] '>
           <div className='subtitle mb-6  mo:text-xl mo:text-center'>
             {isMobile ? (
               <span>EthDA is a scalable Ethereum layer2 Data Availability solution.</span>
@@ -47,7 +47,7 @@ export const What = () => {
             </div>
           </div>
         </div>
-        <div className={'flex justify-center w-[560px] mo:w-full'}>
+        <div className={'flex justify-center w-[560px] mo:w-full '}>
           <div className={'sm:text-right mo:text-center mo:w-full'}>
             <Link
               target={'_blank'}

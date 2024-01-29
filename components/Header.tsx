@@ -91,56 +91,58 @@ export const Header: FC<HeaderType> = ({
     push(address)
   }
   return (
-    <header className={classNames(`py-5 border-b ${isShow && ' bg-white'}  border-b-[rgba(255,255,255,.2)]`, className)}>
-      <div className=' mo:mx-[30px] '>
-        <div className={classNames('flex justify-between items-center', containerClassName)}>
-          <Link href={'/'}>
-            <Image src={`${isShow ? 'b-EthDA.svg' : logo}`} alt={` ${isShow ? 'b-EthDA.svg' : 'logo.svg'}`} width={110} height={22} />
-          </Link>
-          {isMobile ? (
-            <button
-              onClick={() => {
-                setIsShow(!isShow)
-                document.documentElement.classList.add('overflow-hidden')
-                document.body.classList.add('overflow-hidden')
-              }}
-            >
-              {isShow ? (
-                <HiOutlineX className={classNames(`${isShow && '!text-black'} w-6 h-6 `, btnClassName)} />
-              ) : (
-                <HiOutlineMenu className={classNames(btnClassName, `w-6 h-6 `)} />
-              )}
-            </button>
-          ) : (
-            <div className={classNames('flex items-center gap-8 text-white text-sm', headerTextClassName)}>
-              <div onClick={() => onSwitchTo('/')} className={`nav-item ${pathname === '/' ? 'active' : ''}`}>
-                Home
-              </div>
-              <div
-                onClick={() => onSwitchTo('https://scan-devnet.ethda.io')}
-                className={`nav-item ${pathname === '/Explorer' ? 'active' : ''}`}
+    <div className='border-b'>
+      <header className={classNames(`py-5  ${isShow && ' bg-white'}  border-b-[rgba(255,255,255,.2)]`, className)}>
+        <div className=' mo:mx-[30px] '>
+          <div className={classNames('flex justify-between items-center', containerClassName)}>
+            <Link href={'/'}>
+              <Image src={`${isShow ? 'b-EthDA.svg' : logo}`} alt={` ${isShow ? 'b-EthDA.svg' : 'logo.svg'}`} width={110} height={22} />
+            </Link>
+            {isMobile ? (
+              <button
+                onClick={() => {
+                  setIsShow(!isShow)
+                  document.documentElement.classList.add('overflow-hidden')
+                  document.body.classList.add('overflow-hidden')
+                }}
               >
-                Explorer
+                {isShow ? (
+                  <HiOutlineX className={classNames(`${isShow && '!text-black'} w-6 h-6 `, btnClassName)} />
+                ) : (
+                  <HiOutlineMenu className={classNames(btnClassName, `w-6 h-6 `)} />
+                )}
+              </button>
+            ) : (
+              <div className={classNames('flex items-center gap-8 text-white text-sm', headerTextClassName)}>
+                <div onClick={() => onSwitchTo('/')} className={`nav-item ${pathname === '/' ? 'active' : ''}`}>
+                  Home
+                </div>
+                <div
+                  onClick={() => onSwitchTo('https://scan-devnet.ethda.io')}
+                  className={`nav-item ${pathname === '/Explorer' ? 'active' : ''}`}
+                >
+                  Explorer
+                </div>
+                <div
+                  onClick={() => onSwitchTo('https://blobscan-devnet.ethda.io/')}
+                  className={`nav-item ${pathname === '/Blobscan' ? 'active' : ''}`}
+                >
+                  Blobscan
+                </div>
+                <div onClick={() => onSwitchTo('blobtx')} className={`nav-item ${pathname === '/blobtx' ? 'active' : ''}`}>
+                  Try BlobTx
+                </div>
+                <Link href={'https://docs.ethda.io/'} target={'_blank'} className={`block nav-item`}>
+                  Document
+                </Link>
               </div>
-              <div
-                onClick={() => onSwitchTo('https://blobscan-devnet.ethda.io/')}
-                className={`nav-item ${pathname === '/Blobscan' ? 'active' : ''}`}
-              >
-                Blobscan
-              </div>
-              <div onClick={() => onSwitchTo('blobtx')} className={`nav-item ${pathname === '/blobtx' ? 'active' : ''}`}>
-                Try BlobTx
-              </div>
-              <Link href={'https://docs.ethda.io/'} target={'_blank'} className={`block nav-item`}>
-                Document
-              </Link>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
-      {isShow && (
-        <FullModal wrapperClassName={wrapperClassName} menus={currentMenus} onChooseItem={onChooseItem} chooseValue={chooseValue} />
-      )}
-    </header>
+        {isShow && (
+          <FullModal wrapperClassName={wrapperClassName} menus={currentMenus} onChooseItem={onChooseItem} chooseValue={chooseValue} />
+        )}
+      </header>
+    </div>
   )
 }

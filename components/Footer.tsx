@@ -6,9 +6,10 @@ import { GithubIcon } from '@/components/icons/Github'
 import { DiscordIcon } from '@/components/icons/Discord'
 
 export const Footer = () => {
+  const currentYear = new Date()?.getFullYear()
   return (
-    <footer className={'bg-gray-900 py-20 mo:py-10'}>
-      <div className='container mx-auto mo:flex mo:flex-row justify-center mo:flex-wrap'>
+    <footer className={'bg-gray-900 py-20 mo:py-10 '}>
+      <div className='container mx-auto mo:flex mo:flex-row justify-center mo:flex-wrap md:px-[30px]'>
         <div className='flex justify-between mo:flex-col '>
           <div className={'text-white text-[24px] mo:text-xl font-semibold mo:w-full mo:flex mo:justify-center'}>
             Sign up for EthDA updates
@@ -32,7 +33,7 @@ export const Footer = () => {
         </div>
         <div className={'bg-[#333] my-10 mo:my-5 h-[1px] w-full'} />
         <div className='flex justify-between items-center mo:flex-col mo:w-full '>
-          <div className={'text-gray-500 text-sm '}>Copyright © EthDA 2023 All Rights Reserved</div>
+          <div className={'text-gray-500 text-sm '}>Copyright © EthDA {currentYear} All Rights Reserved</div>
           <div className='flex gap-10 mo:gap-[60px] mo:my-5 mo:w-full mo:justify-center'>
             <Link href={'https://t.me/CrustNetwork'} target={'_blank'} className={'link-icon'}>
               <TelegramIcon />

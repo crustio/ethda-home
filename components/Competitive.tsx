@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export const Competitive = () => {
   return (
-    <div className={'py-28 mo:py-5 bg-gradient-to-b from-[rgb(245,230,221)] to-[rgb(249,246,241)] '}>
+    <div className={'py-28 md:px-[30px] mo:py-5 bg-gradient-to-b from-[rgb(245,230,221)] to-[rgb(249,246,241)] '}>
       <div className='text-center title mb-10'>Competitive Landscape</div>
       <div className='container mx-auto  mo:mx-10 mo:w-auto  '>
         <div className='table-container '>
