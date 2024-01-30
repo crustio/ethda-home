@@ -25,7 +25,7 @@ const BlobTX = () => {
   const [inputText, setInputText] = useState<string>('')
   const [previewUrl, setPreviewUrl] = useState<any>('')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [isShow, setIsShow] = useState<boolean>(false)
+  const [isShow, setIsShow] = useState<boolean>(true)
   const { disconnect } = useDisconnect()
   const modal = useModal({ onDisconnect: disconnect })
   const [shownettip, setShowNetTip] = useState(false)
@@ -320,6 +320,7 @@ const BlobTX = () => {
       currentOpenState()
     }
   }, [isConnected])
+
   return (
     <div className=' font-montserrat'>
       <Header

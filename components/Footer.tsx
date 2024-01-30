@@ -12,7 +12,7 @@ export const Footer = () => {
       <div className='container mx-auto mo:flex mo:flex-row justify-center mo:flex-wrap md:px-[30px]'>
         <div className='flex justify-between mo:flex-col '>
           <div className={'text-white text-[24px] mo:text-xl font-semibold mo:w-full mo:flex mo:justify-center'}>
-            Sign up for EthDA updates
+            Start Your EthDA Journey Now!
           </div>
           <div className='flex mo:flex-col mo:mt-5'>
             <button
