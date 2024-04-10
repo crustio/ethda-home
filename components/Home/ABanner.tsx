@@ -41,7 +41,7 @@ const ABanner = () => {
     )
   }
   return (
-    <div className=' h-[1040px] bg-[url(/blackStar.svg)] bg-cover'>
+    <div className=' h-[1000px] bg-[url(/blackStar.svg)] bg-cover'>
       <Header contentClassName={'border-b-[#E0890033] border-b'} wrapperClassName={'mt-[67px]'} btnClassName={'text-white '} className={'py-[28px] md:mx-[30px]  '} />
       <div className=' flex justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]   '>
         <div className=' w-full '>
