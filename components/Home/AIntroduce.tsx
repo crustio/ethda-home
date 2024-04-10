@@ -110,9 +110,9 @@ const AIntroduce = () => {
           <div>2024 Q4</div>
         </div>
         <div className=' flex gap-[89px]'>
-          {data.map(({ img, content, borderImg, title, line }) => {
+          {data.map(({ img, content, borderImg, title, line }, i) => {
             return (
-              <div className={`${borderImg} w-[340px] h-[435px] bg-repeat bg-cover`}>
+              <div key={`content_${i}`} className={`${borderImg} w-[340px] h-[435px] bg-repeat bg-cover`}>
                 <div className=' mt-[34px] mx-[34px]'>
                   <div style={{ fontFamily: 'inter' }} className=' flex items-center gap-3'>
                     {img}

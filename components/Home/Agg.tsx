@@ -57,7 +57,7 @@ const Agg = () => {
     },
     {
       title: (
-        <div className='text-[42px]'>
+        <div className='text-[42px] md:text-4xl'>
           <span>"Agg. </span>
           <span className='text-black'>Data</span>
         </div>
@@ -70,23 +70,29 @@ const Agg = () => {
       content: (
         <>
           <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className=' text-[32px] font-extrabold text-black'>zkBlob:</span>
-            <span className=' text-2xl font-medium text-black mt-6'>
+            <span className=' text-[32px] md:text-3xl font-extrabold text-black'>zkBlob:</span>
+            <span className=' text-2xl md:text-xl font-medium text-black mt-6'>
               Ethereum Blob TX {'—>'} DAS {'—>'} Data Proof via ZK rollup.
             </span>
           </div>
           <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className=' text-[32px] font-extrabold text-black'> Data Programmability: </span>
-            <span className=' text-2xl font-medium text-black mt-6'>
+            <span className='  text-[32px] md:text-3xl font-extrabold text-black'> Data Programmability: </span>
+            <span className='  text-2xl md:text-xl font-medium text-black mt-6'>
               On-chain interfaces for data functions can be instanly accessed by smart contracts and AggLayer blockchains.
             </span>
           </div>
         </>
       ),
+      blobText: (
+        <div className='flex flex-col gap-4 font-medium relative top-[190px] '>
+          <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
+          <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
+        </div>
+      ),
     },
     {
       title: (
-        <div className='text-[42px]'>
+        <div className='text-[42px] md:text-4xl'>
           <span>"Agg. </span>
           <span className='text-black'>Growth</span>
         </div>
@@ -95,12 +101,14 @@ const Agg = () => {
       content: (
         <>
           <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className=' text-[32px] font-extrabold text-black'> Data Value Extraction:</span>
-            <span className=' text-2xl font-medium text-black mt-6'>bi-directional value growth driven by data amount and value.</span>
+            <span className=' text-[32px] md:text-3xl font-extrabold text-black'> Data Value Extraction:</span>
+            <span className='  text-2xl md:text-xl font-medium text-black mt-6'>
+              bi-directional value growth driven by data amount and value.
+            </span>
           </div>
           <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className=' text-[32px] font-extrabold text-black'> Benfit Sharing: </span>
-            <span className=' text-2xl font-medium text-black mt-6'>
+            <span className='text-[32px] md:text-3xl font-extrabold text-black'> Benfit Sharing: </span>
+            <span className='text-2xl md:text-xl font-medium text-black mt-6'>
               Value stream reward back to all blockchain users that connect with EthDA.
             </span>
           </div>
@@ -212,6 +220,7 @@ const Agg = () => {
                     <div className=' '>
                       <div className=' bg-cover object-cover bg-repeat w-[580px] h-[580px] flex justify-center '>
                         <div className='flex justify-center items-center w-full h-full md:w-[400px]'>{item.img}</div>
+                        {item.blobText}
                       </div>
                     </div>
                   </div>
