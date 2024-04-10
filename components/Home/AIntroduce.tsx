@@ -1,23 +1,54 @@
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { useRef } from 'react'
 const AIntroduce = () => {
   const settings = {
-    className: '',
     dots: false,
     slidesToShow: 3,
     slidesToScroll: 1,
     adaptiveHeight: true,
     arrows: false,
-    vertical: true,
-    verticalSwiping: true,
-    swipeToSlide: true,
-    cssEase: 'linear',
-    speed: 1000,
     infinite: true,
+    autoplay: true,
+    speed: 2000,
+    autoplaySpeed: 2000,
+    cssEase: 'linear',
   }
   const data = [
+    {
+      img: <img src='./calendar.svg' />,
+      line: <img src='./dev-Line1.svg' />,
+      title: <div className=' text-2xl font-bold  text-white'>2024 Q1</div>,
+      content: (
+        <div style={{ fontFamily: 'inter', transform: 'rotate(-2deg)' }} className='mt-[37px] font-medium text-base text-white'>
+          DevNet launch in Feb, with workable chain and interfaces, demonstration DApp, BlobScan, and necessary dev docs
+        </div>
+      ),
+      borderImg: 'bg-[url(/border1.svg)] w-[200px] mt-[54px]',
+    },
+    {
+      img: <img src='./calendar.svg' />,
+      line: <img src='./dev-Line2.svg' />,
+      title: <div className=' text-2xl font-bold  text-white'>2024 Q2</div>,
+      content: (
+        <div style={{ fontFamily: 'inter', transform: 'rotate(-2deg)' }} className='mt-[37px] font-medium text-base text-white'>
+          TestNet launch in May, with initial DAS implementation and related flows, full dev docs and SDK; CDK readiness for market
+          promotion
+        </div>
+      ),
+      borderImg: 'bg-[url(/border2.svg)]',
+    },
+    {
+      img: <img src='./calendar.svg' />,
+      line: <img src='./dev-Line3.svg' />,
+      title: <div className=' text-2xl font-bold  text-white'>2024 Q4</div>,
+      content: (
+        <div style={{ fontFamily: 'inter', transform: 'rotate(2deg)' }} className='mt-[37px] font-medium text-base text-white'>
+          Full DAS and Staking implement- tation, benefit sharing contracts, treasury and governance modules MainNet Launch
+        </div>
+      ),
+      borderImg: 'bg-[url(/border3.svg)]  mt-[-24px]',
+    },
     {
       img: <img src='./calendar.svg' />,
       line: <img src='./dev-Line1.svg' />,
@@ -117,21 +148,23 @@ const AIntroduce = () => {
           <div>MainNet Launch in</div>
           <div>2024 Q4</div>
         </div>
-        <div className=' flex gap-[89px]'>
-          {data.map(({ img, content, borderImg, title, line }, i) => {
-            return (
-              <div key={`content_${i}`} className={`${borderImg} w-[340px] h-[435px] bg-repeat bg-cover`}>
-                <div className=' mt-[34px] mx-[34px]'>
-                  <div style={{ fontFamily: 'inter' }} className=' flex items-center gap-3'>
-                    {img}
-                    {title}
+        <div className='h-[455px] mb-[100px]'>
+          <Slider {...settings}>
+            {data.map(({ img, content, borderImg, title, line }, i) => {
+              return (
+                <div key={`content_${i}`} className={`${borderImg}  h-[435px] bg-repeat bg-cover`}>
+                  <div className=' mt-[34px] mx-[34px]'>
+                    <div style={{ fontFamily: 'inter' }} className=' flex items-center gap-3'>
+                      {img}
+                      {title}
+                    </div>
+                    <div className='mt-[37px]'>{line}</div>
+                    {content}
                   </div>
-                  <div className='mt-[37px]'>{line}</div>
-                  {content}
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </Slider>
         </div>
       </div>
     </div>

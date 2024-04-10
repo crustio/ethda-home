@@ -343,3 +343,9 @@ input {
     background-color: white;
   }
 }
+
+
+.slick-list {
+   display: flex;
+   gap: 40px;
+}
