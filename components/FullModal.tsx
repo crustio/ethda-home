@@ -39,7 +39,7 @@ const FullModal: FC<FullModalProps> = ({ menus, keys = 'text', onChooseItem, cho
       return
     }
 
-    r.push(item.to as string)
+    r.push(item.to)
 
     typeof onChooseItem === 'function' && onChooseItem(item.text)
   }

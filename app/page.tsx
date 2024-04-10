@@ -8,38 +8,50 @@ import { ArrowTopRightIcon } from '@radix-ui/react-icons'
 import { Competitive } from '@/components/Competitive'
 import * as Popover from '@radix-ui/react-popover'
 import { useEffect, useState } from 'react'
+import ABanner from '@/components/Home/ABanner'
+import * as THREE from 'three'
+import Agg from '@/components/Home/Agg'
+import AConnectEthDA from '@/components/Home/AConnectEthDA'
+import Aaggregated from '@/components/Home/Aaggregated'
+import AIntroduce from '@/components/Home/AIntroduce'
 
 export default function Home() {
-  const [enter, setEnter] = useState(false)
-  const [width, setWidth] = useState<number>()
-  const [isMobile, setIsMobile] = useState<boolean>(false)
+  // const [enter, setEnter] = useState(false)
+  // const [width, setWidth] = useState<number>()
+  // const [isMobile, setIsMobile] = useState<boolean>(false)
 
-  const getWrapperWindowWidth = () => document.getElementById('wrapperContainer')
-  const getWindowWidth = () => window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+  // const getWrapperWindowWidth = () => document.getElementById('wrapperContainer')
+  // const getWindowWidth = () => window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
 
-  const handleResize = () => {
-    setWidth(getWrapperWindowWidth()?.clientWidth)
-    setIsMobile(getWindowWidth() <= 900)
-  }
-  useEffect(() => {
-    handleResize()
-    window.addEventListener('resize', handleResize)
+  // const handleResize = () => {
+  //   setWidth(getWrapperWindowWidth()?.clientWidth)
+  //   setIsMobile(getWindowWidth() <= 900)
+  // }
+  // useEffect(() => {
+  //   handleResize()
+  //   window.addEventListener('resize', handleResize)
 
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize)
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    if (isMobile) {
-      setEnter(true)
-    }
-  }, [isMobile])
+  // useEffect(() => {
+  //   if (isMobile) {
+  //     setEnter(true)
+  //   }
+  // }, [isMobile])
 
   return (
     <>
-      <Banner />
-      <div className={'bg-[rgb(252,246,238)] '}>
+      {/* <Banner /> */}
+      <ABanner />
+      <Agg />
+      <AConnectEthDA />
+      <Aaggregated />
+      <AIntroduce />
+
+      {/* <div className={'bg-[rgb(252,246,238)] '}>
         <div className='container mx-auto pt-20 mo:pt-10 '>
           <What />
           <With />
@@ -178,7 +190,7 @@ export default function Home() {
         </div>
       </div>
 
-      <Competitive />
+      <Competitive /> */}
       <Footer />
     </>
   )

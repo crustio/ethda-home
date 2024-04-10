@@ -5,7 +5,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        montserrat: 'var(--montserrat)'
+        hn: 'Helvetica Neue',
+        montserrat: 'var(--montserrat)',
+        hlc: ['fontHlc', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -17,7 +19,6 @@ const config: Config = {
         md: [{ min: '900px', max: '1280px' }],
         sm: { min: '900px' },
       },
-
       width: {
         container: '1280px',
       },
