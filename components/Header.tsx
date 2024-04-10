@@ -16,6 +16,8 @@ type HeaderType = {
   containerClassName?: any
   wrapperClassName?: any
   btnClassName?: any
+  contentClassName?: any
+  
 }
 
 export const Header: FC<HeaderType> = ({
@@ -25,6 +27,7 @@ export const Header: FC<HeaderType> = ({
   wrapperClassName,
   className,
   btnClassName,
+  contentClassName = ' border-b',
   isShow: isHidden,
 }) => {
   const { push } = useRouter()
@@ -92,8 +95,10 @@ export const Header: FC<HeaderType> = ({
     }
     push(address)
   }
+  console.log('contentClassNamecontentClassName',contentClassName);
+  
   return (
-    <div className='border-b'>
+    <div className={classNames(` ${contentClassName}`)}>
       <header className={classNames(`py-5  ${isShow && ' !bg-white'}  border-b-[rgba(255,255,255,.2)]`, className)}>
         <div className=' mo:mx-[30px] '>
           <div className={classNames('flex justify-between items-center', containerClassName)}>

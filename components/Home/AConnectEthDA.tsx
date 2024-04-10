@@ -1,7 +1,8 @@
 const AConnectEthDA = () => {
   return (
     <>
-      <div className=' text-center bg-black md:px-[30px] '>
+      <div className=' text-center bg-black  '>
+        <div className=" mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]">
         <div className='flex justify-center'>
           <div className=' pt-[72px] pb-20 text-white text-[42px] font-black font-hlc'>
             <div className='flex  z-20'>
@@ -22,6 +23,7 @@ const AConnectEthDA = () => {
           <div className=' relative left-[13px] top-[10px]'>
             <img src='./design.svg' />
           </div>
+        </div>
         </div>
       </div>
     </>

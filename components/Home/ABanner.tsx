@@ -42,7 +42,7 @@ const ABanner = () => {
   }
   return (
     <div className=' h-[1040px] bg-[url(/blackStar.svg)] bg-cover'>
-      <Header wrapperClassName={'mt-[67px]'} btnClassName={'text-white '} className={'py-[28px] md:mx-[30px]'} />
+      <Header contentClassName={'border-b-[#E0890033] border-b'} wrapperClassName={'mt-[67px]'} btnClassName={'text-white '} className={'py-[28px] md:mx-[30px]  '} />
       <div className=' flex justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]   '>
         <div className=' w-full '>
           <div className=' font-bold text-[62px] md:text-[50px] text-center text-white pt-[206px]  '>
@@ -71,7 +71,7 @@ const ABanner = () => {
               </div>
              
             </div>
-            <div className=' pt-[120px] font-hlc w-full flex justify-center' style={{ letterSpacing: '2px' }}>
+            <div className=' pt-[60px] font-hlc w-full flex justify-center' style={{ letterSpacing: '2px' }}>
               Designed for
               <div className='text-[#E08900] ml-4 md:text-[50px]'>
                 <Typewriter phrases={phrases} />

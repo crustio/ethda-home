@@ -45,11 +45,11 @@ const Agg = () => {
       content: (
         <>
           <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className=' text-[32px] font-extrabold text-black'> ETH Restaking:</span>
+            <span className=' text-[32px] md:text-[28px] font-extrabold text-black'> ETH Restaking:</span>
             <span className=' text-2xl font-medium text-black mt-6'> restake ETH on EthDA DAS nodes.</span>
           </div>
           <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className=' text-[32px] font-extrabold text-black'>Dual-Staking: </span>
+            <span className=' text-[32px] md:text-[28px] font-extrabold text-black'>Dual-Staking: </span>
             <span className=' text-2xl font-medium text-black mt-6'>dual-stake native token of L2 protocols.</span>
           </div>
         </>
@@ -69,15 +69,15 @@ const Agg = () => {
       ),
       content: (
         <>
-          <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className=' text-[32px] md:text-3xl font-extrabold text-black'>zkBlob:</span>
-            <span className=' text-2xl md:text-xl font-medium text-black mt-6'>
+          <div className=' mt-[60px] leading-8 flex flex-col text-left mr-[60px]'>
+            <span className=' text-[32px] md:text-[28px] font-extrabold text-black'>zkBlob:</span>
+            <span className=' text-2xl md:text-xl font-medium text-black mt-6 '>
               Ethereum Blob TX {'—>'} DAS {'—>'} Data Proof via ZK rollup.
             </span>
           </div>
-          <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className='  text-[32px] md:text-3xl font-extrabold text-black'> Data Programmability: </span>
-            <span className='  text-2xl md:text-xl font-medium text-black mt-6'>
+          <div className=' mt-[60px] leading-8 flex flex-col text-left mr-[60px]'>
+            <span className='  text-[32px] md:text-[28px] font-extrabold text-black'> Data Programmability: </span>
+            <span className='  text-2xl md:text-xl font-medium text-black mt-6 leading-10'>
               On-chain interfaces for data functions can be instanly accessed by smart contracts and AggLayer blockchains.
             </span>
           </div>
@@ -100,14 +100,14 @@ const Agg = () => {
       img: <img src='./Growth.svg' />,
       content: (
         <>
-          <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className=' text-[32px] md:text-3xl font-extrabold text-black'> Data Value Extraction:</span>
+          <div className=' mt-[60px] leading-8 flex flex-col text-left mr-[60px]'>
+            <span className=' text-[32px] md:text-[28px] font-extrabold text-black'> Data Value Extraction:</span>
             <span className='  text-2xl md:text-xl font-medium text-black mt-6'>
               bi-directional value growth driven by data amount and value.
             </span>
           </div>
-          <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-            <span className='text-[32px] md:text-3xl font-extrabold text-black'> Benfit Sharing: </span>
+          <div className=' mt-[60px] leading-8 flex flex-col text-left mr-[60px]'>
+            <span className='text-[32px] md:text-[28px] font-extrabold text-black'> Benfit Sharing: </span>
             <span className='text-2xl md:text-xl font-medium text-black mt-6'>
               Value stream reward back to all blockchain users that connect with EthDA.
             </span>
@@ -159,7 +159,7 @@ const Agg = () => {
 
   return (
     <div className=''>
-      <div id='myBar' onWheel={handleWheel} data-aos='fade-up' data-aos-anchor-placement='top-bottom' className={` scrollable-content`}>
+      <div id='myBar' onWheel={handleWheel} data-aos='fade-up' data-aos-anchor-placement='top-bottom' className={` scrollable-content `}>
         <Slider
           {...settings}
           ref={(slider: any) => {
@@ -170,23 +170,8 @@ const Agg = () => {
           {content.map((item, index) => {
             return (
               <div key={`slider${index}`} className='!flex h-[900px]'>
-                <div className=' bg-[url(/GroupBg.svg)] w-[50%] font-le text-white diagram-right '>
-                  <div className='flex justify-end flex-wrap items-center  mr-[50px] text-sm font-light '>
-                    <div className='gap-[10px] flex mr-5'>
-                      <button
-                        onClick={onPrev}
-                        disabled={current === 0}
-                        className={`${current === 0 ? 'cursor-not-allowed' : ' cursor-pointer'}`}
-                      ></button>
-                      <button
-                        onClick={onNext}
-                        className={`${current + 1 === maxSlides ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                        disabled={current + 1 === maxSlides}
-                      ></button>
-                    </div>
-                  </div>
-
-                  <div className='flex w-[450px] flex-wrap mr-[70px] md:mr-0 md:px-[20px]  h-full text-center items-center justify-end float-end'>
+                <div className=' bg-[url(/GroupBg.svg)] w-[50%] font-le text-white diagram-right'>
+                  <div className='flex w-[640px] flex-wrap  md:w-full md:px-[30px] h-full text-center items-center  float-end'>
                     <div className='flex flex-col '>
                       <div className='flex items-center flex-row'>
                         <span className='font-bold text-[48px] xmd:text-[40px] md:text-3xl'>{item.title}</span>
@@ -196,7 +181,8 @@ const Agg = () => {
                   </div>
                 </div>
                 <div className='bg-black w-[50%]'>
-                  <div className='flex  flex-start mt-[62px] ml-[60px] flex-row items-start md:flex md:flex-wrap   '>
+                  <div className='  w-[640px]'>
+                  <div className='flex  flex-start mt-[62px] mx-[40px] flex-row items-start md:flex md:flex-wrap justify-between   '>
                     <div className='flex items-center  gap-[30px]'>
                       {[...Array(content.length)].map((_, i) => {
                         return (
@@ -211,7 +197,7 @@ const Agg = () => {
                         )
                       })}
                     </div>
-                    <div className='ml-[188px] md:ml-0 md:w-full md:mt-[30px] '>
+                    <div className='  md:ml-0 md:w-full md:mt-[30px] '>
                       <div className='flex flex-end'>{item.other}</div>
                       <div className='flex   mt-6'>{item.other1}</div>
                     </div>
@@ -224,6 +210,7 @@ const Agg = () => {
                       </div>
                     </div>
                   </div>
+                </div>
                 </div>
               </div>
             )
