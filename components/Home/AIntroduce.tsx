@@ -55,8 +55,8 @@ const AIntroduce = () => {
   ]
   return (
     <div className=' rounded-tl-[40px] rounded-tr-[40px] mt-20 bg-black text-white '>
-      <div className=' pt-20 flex gap-[30px] justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]'>
-        <div className=' rounded-[10px] border-[#E08900] py-[50px] border w-[575px] '>
+      <div className=' pt-20 flex gap-[30px] md:flex-wrap justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]'>
+        <div className=' rounded-[10px] border-[#E08900] py-[50px] border w-[575px] md:w-full '>
           <div className=' px-[50px] '>
             <div className='text-white font-medium text-base leading-10'>
               The core of being a rollup is the unconditional security guarantee: you can get your assets out even if everyone else colludes
@@ -71,12 +71,12 @@ const AIntroduce = () => {
               <div className=' ml-[50px] font-black font-hlc text-[28px] mt-[30px]'>--Ethereum Founder</div>
               <div className=' font-black text-[42px] font-hlc text-[#E08900] mt-[30px]'>VitalikButerin</div>
             </div>
-            <div className=' mr-5'>
-              <img src='./vitalik.png' className='w-[300px] h-[180px]' />
+            <div className=' mr-5 md:w-full md:flex md:justify-end'>
+              <img src='./vitalik.png' className='w-[300px] h-[180px] md:w-[200px]' />
             </div>
           </div>
         </div>
-        <div className=' rounded-[10px] border-[#E08900]  py-[50px] border-dashed border w-[575px] '>
+        <div className=' rounded-[10px] border-[#E08900]  py-[50px] border-dashed border w-[575px] md:w-full '>
           <div className='  mx-[50px] text-[#E08900] font-black text-[42px] font-hlc'>Sandeep</div>
           <div className='flex items-center mb-0'>
             <div className=' font-hlc pb-[130px]'>
@@ -90,7 +90,7 @@ const AIntroduce = () => {
           <div>
             <div className=' ml-[50px]'>
               <img src='./block-p.svg' />
-              <div className=' font-medium text-base mt-5 leading-10'>
+              <div className=' font-medium text-base mt-5 leading-10  md:pr-[50px]'>
                 The core of being a rollup is the unconditional security guarantee: you can get your assets out even if everyone else
                 colludes against you. Can't get that if DA is dependent on an external system. But being a validium is a correct choice for
                 many apps, and using good distributed DA guarantee systems can be a good way to increase the practical security of a

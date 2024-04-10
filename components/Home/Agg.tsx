@@ -186,7 +186,7 @@ const Agg = () => {
                     </div>
                   </div>
 
-                  <div className='flex w-[450px] flex-wrap mr-[70px] h-full text-center items-center justify-end float-end'>
+                  <div className='flex w-[450px] flex-wrap mr-[70px] md:mr-0 md:px-[20px]  h-full text-center items-center justify-end float-end'>
                     <div className='flex flex-col '>
                       <div className='flex items-center flex-row'>
                         <span className='font-bold text-[48px] xmd:text-[40px] md:text-3xl'>{item.title}</span>
@@ -219,7 +219,7 @@ const Agg = () => {
                   <div className='flex justify-center items-center py-[110px]'>
                     <div className=' '>
                       <div className=' bg-cover object-cover bg-repeat w-[580px] h-[580px] flex justify-center '>
-                        <div className='flex justify-center items-center w-full h-full md:w-[400px]'>{item.img}</div>
+                        <div className='flex justify-center items-center w-full h-full md:w-[300px]'>{item.img}</div>
                         {item.blobText}
                       </div>
                     </div>
