@@ -205,7 +205,7 @@ const Agg = () => {
                             onClick={() => onClickTo(i)}
                             className={` ${current === i ? ' borders text-[#E08900] h-[40px] w-auto gap-1 px-5' : ' text-white'}   text-base font-medium flex items-center justify-center `}
                           >
-                            {current === i && <img src='./box.svg'></img>}
+                            {current === i && <img src='./Box.svg'></img>}
                             {tab[i]}
                           </div>
                         )
