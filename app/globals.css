@@ -304,5 +304,42 @@ input {
 }
 
 
-
-
+.architecture-info-right {
+  height: 100px;
+  position: relative;
+  margin-left: 8px;
+  background: rgba(0, 37, 63, 0.2);
+  border: 1px solid #E08900;
+  .border_corner {
+    z-index: 2500;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: rgba(0, 0, 0, 0);
+    border: 2px solid #E08900;
+  }
+  .border_corner_left_top {
+    top: -5px;
+    left: -5px;
+    border-radius: 30px;
+    background-color: white;
+  }
+  .border_corner_right_top {
+    top: -5px;
+    right: -5px;
+    border-radius: 30px;
+    background-color: white;
+  }
+  .border_corner_left_bottom {
+    bottom: -5px;
+    left: -5px;
+    border-radius: 30px;
+    background-color: white;
+  }
+  .border_corner_right_bottom {
+    bottom: -5px;
+    right: -5px;
+    border-radius: 30px;
+    background-color: white;
+  }
+}
