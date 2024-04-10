@@ -42,7 +42,6 @@
     "styled-components": "^6.1.6",
     "tailwind-merge": "^2.2.1",
     "three": "^0.163.0",
-    "typewriter-effect": "^2.21.0",
     "viem": "1.x",
     "wagmi": "1.x"
   },
