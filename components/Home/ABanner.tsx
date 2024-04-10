@@ -3,7 +3,7 @@ import { Header } from '../Header'
 
 const ABanner = () => {
   const phrases = ['Aggregated Blockchains', 'Agg.Staking', 'Agg.Data', 'Agg.Growth']
-  const Typewriter = ({ phrases }) => {
+  const Typewriter = ({ phrases }: any) => {
     const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0)
     const [currentCharIndex, setCurrentCharIndex] = useState(0)
     const [isDeleting, setIsDeleting] = useState(false)
@@ -67,6 +67,7 @@ const ABanner = () => {
       <div className=' bg-[url(/block.svg)] h-[350px] w-full '>
         <div className='flex justify-center pt-[118px] rounded-sm '>
           <button
+            onClick={() => window.open('https://docs.ethda.io/')}
             style={{
               background: 'linear-gradient(90deg, rgba(222, 149, 25, 0.6) 0%, rgba(142, 70, 24, 0.6) 100%)',
               //   backgroundImage: 'linear-gradient(90deg, rgba(222, 149, 25, 0.6) 0%, rgba(142, 70, 24, 0.6) 100%)',

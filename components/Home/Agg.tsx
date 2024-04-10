@@ -149,20 +149,9 @@ const Agg = () => {
     event.stopPropagation()
   }
 
-  const onHandleScroll = (e) => {
-    console.log('dasdasdasdasdas', e)
-  }
-
   return (
     <div className=''>
-      <div
-        id='myBar'
-        onWheel={handleWheel}
-        onScroll={onHandleScroll}
-        data-aos='fade-up'
-        data-aos-anchor-placement='top-bottom'
-        className={` scrollable-content`}
-      >
+      <div id='myBar' onWheel={handleWheel} data-aos='fade-up' data-aos-anchor-placement='top-bottom' className={` scrollable-content`}>
         <Slider
           {...settings}
           ref={(slider: any) => {
