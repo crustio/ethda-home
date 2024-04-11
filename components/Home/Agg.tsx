@@ -64,7 +64,7 @@ const Agg = () => {
       ),
       img: (
         <div>
-          <img src='./gif/2.gif' />
+          <img src='./gif/2.gif' className='mb-[110px]' />
         </div>
       ),
       content: (
@@ -171,7 +171,7 @@ const Agg = () => {
             return (
               <div key={`slider${index}`} className='!flex h-[900px]'>
                 <div className=' bg-[url(/GroupBg.svg)] w-[50%] font-le text-white diagram-right'>
-                  <div className='flex w-[640px] flex-wrap  md:w-full md:px-[30px] h-full text-center items-center  float-end'>
+                  <div className='flex w-[640px] flex-wrap px-[30px]  md:w-full  h-full text-center items-center  float-end'>
                     <div className='flex flex-col '>
                       <div className='flex items-center flex-row'>
                         <span className='font-bold text-[48px] xmd:text-[40px] md:text-3xl'>{item.title}</span>
@@ -182,35 +182,35 @@ const Agg = () => {
                 </div>
                 <div className='bg-black w-[50%]'>
                   <div className='  w-[640px]'>
-                  <div className='flex  flex-start mt-[62px] mx-[40px] flex-row items-start md:flex md:flex-wrap justify-between   '>
-                    <div className='flex items-center  gap-[30px]'>
-                      {[...Array(content.length)].map((_, i) => {
-                        return (
-                          <div
-                            key={`num${i}`}
-                            onClick={() => onClickTo(i)}
-                            className={` ${current === i ? ' borders text-[#E08900] h-[40px] w-auto gap-1 px-5' : ' text-white'}   text-base font-medium flex items-center justify-center `}
-                          >
-                            {current === i && <img src='./Box.svg'></img>}
-                            {tab[i]}
-                          </div>
-                        )
-                      })}
+                    <div className='flex  flex-start mt-[62px] mx-[40px] flex-row items-start md:flex md:flex-wrap justify-between   '>
+                      <div className='flex items-center  gap-[30px]'>
+                        {[...Array(content.length)].map((_, i) => {
+                          return (
+                            <div
+                              key={`num${i}`}
+                              onClick={() => onClickTo(i)}
+                              className={` ${current === i ? ' borders text-[#E08900] h-[40px] w-auto gap-1 px-5' : ' text-white'}   text-base font-medium flex items-center justify-center `}
+                            >
+                              {current === i && <img src='./Box.svg'></img>}
+                              {tab[i]}
+                            </div>
+                          )
+                        })}
+                      </div>
+                      <div className='  md:ml-0 md:w-full md:mt-[30px] '>
+                        <div className='flex flex-end'>{item.other}</div>
+                        <div className='flex   mt-6'>{item.other1}</div>
+                      </div>
                     </div>
-                    <div className='  md:ml-0 md:w-full md:mt-[30px] '>
-                      <div className='flex flex-end'>{item.other}</div>
-                      <div className='flex   mt-6'>{item.other1}</div>
-                    </div>
-                  </div>
-                  <div className='flex justify-center items-center py-[110px]'>
-                    <div className=' '>
-                      <div className=' bg-cover object-cover bg-repeat w-[580px] h-[580px] flex justify-center '>
-                        <div className='flex justify-center items-center w-full h-full md:w-[300px]'>{item.img}</div>
-                        {item.blobText}
+                    <div className='flex justify-center items-center py-[110px]'>
+                      <div className=''>
+                        <div className=' bg-cover object-cover bg-repeat w-[580px] h-[580px] flex justify-center '>
+                          <div className='flex justify-center items-center w-full h-full md:w-[300px]'>{item.img}</div>
+                          {item.blobText}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 </div>
               </div>
             )

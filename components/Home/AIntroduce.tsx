@@ -88,52 +88,57 @@ const AIntroduce = () => {
     <div className=' rounded-tl-[40px] rounded-tr-[40px] mt-20 bg-black text-white '>
       <div className=' pt-20 flex gap-[30px] md:flex-wrap justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]'>
         <div className=' rounded-[10px] border-[#E08900] py-[50px] border w-[575px] md:w-full '>
-          <div className=' px-[50px] '>
-            <div style={{ fontFamily: 'inter', opacity: '80%' }} className='text-white font-medium text-base leading-10'>
-              The core of being a rollup is the unconditional security guarantee: you can get your assets out even if everyone else colludes
-              against you. Can't get that if DA is dependent on an external system. But being a validium is a correct choice for many apps,
-              and using good distributed DA guarantee systems can be a good way to increase the practical security of a validium.
-            </div>
-            <img src='./block-y.svg' className=' mt-5' />
-          </div>
-          <div className=' flex items-end ml-[50px] '>
-            <div>
-              <div style={{ fontFamily: 'inter', opacity: '80%' }} className='flex font-medium text-base mt-[128px] ml-[180px]'>
-                @VitalikButerin
-              </div>
-              <div style={{ fontStyle: 'italic' }} className=' ml-[50px] font-black font-hlc text-[28px] mt-[30px]'>
-                --Ethereum Founder
-              </div>
-              <div className=' font-black text-[42px] font-hlc text-[#E08900] mt-[30px]'>VitalikButerin</div>
-            </div>
-            <div className=' mr-5 md:w-full md:flex md:justify-end'>
-              <img src='./vitalik.png' className='w-[300px] h-[180px] md:w-[200px]' />
-            </div>
-          </div>
-        </div>
-        <div className=' rounded-[10px] border-[#E08900]  py-[50px] border-dashed border w-[575px] md:w-full '>
-          <div className=' mx-[50px] text-[#E08900] font-black text-[42px] font-hlc'>Sandeep</div>
-          <div className='flex items-center mb-0'>
-            <div className=' font-hlc pb-[130px]'>
-              <div style={{ fontStyle: 'italic' }} className=' font-black text-[28px] ml-[113px] mt-[30px]'>
-                --Polygon Founder
-              </div>
-              <div style={{ fontFamily: 'inter', opacity: '80%' }} className='font-medium text-base ml-[236px] mt-[30px]'>
-                @sandeepnailwal
-              </div>
-            </div>
-            <div className=' mt-[-230px]'>
-              <img src='./img.svg' />
-            </div>
-          </div>
-          <div>
-            <div className=' ml-[50px]'>
-              <img src='./block-p.svg' />
-              <div style={{ fontFamily: 'inter', opacity: '80%' }} className=' font-medium text-base mt-5 leading-10  md:pr-[50px]'>
+          <div className=' '>
+            <div className=' px-[50px] '>
+              <div style={{ fontFamily: 'inter', opacity: '80%' }} className='text-white font-medium text-base leading-10'>
                 The core of being a rollup is the unconditional security guarantee: you can get your assets out even if everyone else
                 colludes against you. Can't get that if DA is dependent on an external system. But being a validium is a correct choice for
                 many apps, and using good distributed DA guarantee systems can be a good way to increase the practical security of a
                 validium.
+              </div>
+              <img src='./block-y.svg' className=' mt-5' />
+            </div>
+            <div className=' flex items-end ml-[50px]  '>
+              <div className='flex flex-col '>
+                <div style={{ fontFamily: 'inter', opacity: '70%' }} className='flex font-medium text-base mt-[128px] ml-[180px]'>
+                  @VitalikButerin
+                </div>
+                <div style={{ fontStyle: 'italic' }} className=' ml-[50px] font-black font-hlc text-[28px] mt-[20px]'>
+                  --Ethereum Founder
+                </div>
+                <div className=' font-black text-[42px] font-hlc text-[#E08900] mt-[20px]'>VitalikButerin</div>
+              </div>
+              <div className=' mr-5 md:w-full md:flex md:justify-end'>
+                <img src='./vitalik.png' className='w-[300px] h-[180px] md:w-[200px] p-[15px]' />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className=' rounded-[10px] border-[#E08900]  py-[50px]  px-[50px] border-dashed border w-[575px] md:w-full '>
+          <div className=' h-[639px] '>
+            <div className='  text-[#E08900] font-black text-[42px] font-hlc'>Sandeep</div>
+            <div className='flex items-center mb-0'>
+              <div className=' font-hlc pb-[130px]'>
+                <div style={{ fontStyle: 'italic' }} className=' font-black text-[28px] ml-[113px] mt-[20px]'>
+                  --Polygon Founder
+                </div>
+                <div style={{ fontFamily: 'inter', opacity: '70%' }} className='font-medium text-base ml-[236px] mt-[20px]'>
+                  @sandeepnailwal
+                </div>
+              </div>
+              <div className=' mt-[-230px]'>
+                <img src='./img.svg' />
+              </div>
+            </div>
+            <div>
+              <div className=' '>
+                <img src='./block-p.svg' />
+                <div style={{ fontFamily: 'inter', opacity: '80%' }} className=' font-medium text-base mt-5 leading-10  md:pr-[50px]'>
+                  The core of being a rollup is the unconditional security guarantee: you can get your assets out even if everyone else
+                  colludes against you. Can't get that if DA is dependent on an external system. But being a validium is a correct choice
+                  for many apps, and using good distributed DA guarantee systems can be a good way to increase the practical security of a
+                  validium.
+                </div>
               </div>
             </div>
           </div>

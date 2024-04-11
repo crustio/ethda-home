@@ -42,7 +42,12 @@ const ABanner = () => {
   }
   return (
     <div className=' h-[1000px] bg-[url(/blackStar.svg)] bg-cover'>
-      <Header contentClassName={'border-b-[#E0890033] border-b'} wrapperClassName={'mt-[67px]'} btnClassName={'text-white '} className={'py-[28px] md:mx-[30px]  '} />
+      <Header
+        contentClassName={'border-b-[#E0890033] border-b'}
+        wrapperClassName={'mt-[67px]'}
+        btnClassName={'text-white '}
+        className={'py-[28px] md:mx-[30px]  '}
+      />
       <div className=' flex justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]   '>
         <div className=' w-full '>
           <div className=' font-bold text-[62px] md:text-[50px] text-center text-white pt-[206px]  '>
@@ -52,24 +57,22 @@ const ABanner = () => {
                 <div className=' w-auto flex border border-[#E08900] px-[30px] architecture-info-right items-center'>
                   <div className='text-center'>A Data Availability </div>
                   <span className='text-[#E08900] ml-3'> Layer</span>
-                  <div className="border_corner border_corner_left_top"></div>
-                    <div className="border_corner border_corner_right_top"></div>
-                    <div className="border_corner border_corner_left_bottom"></div>
-                    <div className="border_corner border_corner_right_bottom"></div>
+                  <div className='border_corner border_corner_left_top'></div>
+                  <div className='border_corner border_corner_right_top'></div>
+                  <div className='border_corner border_corner_left_bottom'></div>
+                  <div className='border_corner border_corner_right_bottom'></div>
                 </div>
                 <div className='flex justify-center flex-col float-end relative right-[2.5rem] md:right-[2.5rem] top-[85px]'>
-                <div>
-                 <img src='./mouse.svg'/>
+                  <div>
+                    <img src='./mouse.svg' />
+                  </div>
+                  <div className='ml-2 mt-2'>
+                    <div className=' border w-[70px] h-[30px] rounded border-[#E08900] text-[#E08900] text-[10px] flex items-center justify-center '>
+                      Layer 2
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className='ml-2 mt-2'>
-              <div className=' border w-[70px] h-[30px] rounded border-[#E08900] text-[#E08900] text-[10px] flex items-center justify-center '>
-                Layer 2
-              </div>
-              </div>
-
-              </div>
-              </div>
-             
             </div>
             <div className=' pt-[60px] font-hlc w-full flex justify-center' style={{ letterSpacing: '2px' }}>
               Designed for
