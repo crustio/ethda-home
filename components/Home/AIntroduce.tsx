@@ -86,7 +86,7 @@ const AIntroduce = () => {
   ]
   return (
     <div className=' rounded-tl-[40px] rounded-tr-[40px] mt-20 bg-black text-white '>
-      <div className=' pt-20 flex gap-[30px] md:flex-wrap justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]'>
+      {/* <div className=' pt-20 flex gap-[30px] md:flex-wrap justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]'>
         <div className=' rounded-[10px] border-[#E08900] py-[50px] border w-[575px] md:w-full '>
           <div className=' '>
             <div className=' px-[50px] '>
@@ -143,9 +143,9 @@ const AIntroduce = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className=' mt-[100px]  pb-10 justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]'>
-        <div className=' flex font-hlc font-black gap-4 text-[42px] items-center'>
+        <div className=' flex font-hlc font-black gap-4 text-[42px] items-center pt-10'>
           Dev Plan
           <img src='./plus.svg'></img>
         </div>

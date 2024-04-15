@@ -381,7 +381,8 @@ input {
 .gsap-marker-start,
 .gsap-marker-scroller-end,
 .gsap-marker-start,
-.gsap-marker-scroller-start
+.gsap-marker-scroller-start,
+.gsap-marker-end
 {
   visibility: hidden;
 
