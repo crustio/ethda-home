@@ -1,4 +1,4 @@
-import { use, useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import ScrollToPlugin from 'gsap/ScrollToPlugin'
@@ -50,8 +50,6 @@ const ANewAgg = () => {
         yPercent: isScrollingDown ? -100 : 0,
         duration: 0.75,
       })
-
-      console.log('indexxxsadsada', index)
       setCurrent(index)
 
       currentIndex = index
@@ -241,20 +239,11 @@ const ANewAgg = () => {
                     </div>
                   </div>
                   <div className='bg-black w-[50%]'>
-                    <div className='  w-[700px]'>
+                    <div className=' w-[700px]'>
                       <div className='flex  flex-start mt-[62px] mx-[40px] flex-row items-start md:flex md:flex-wrap justify-between   '>
                         <div className='flex items-center  gap-[30px]'>
                           {[...Array(content.length)].map((_, i) => {
                             return (
-                              // <a
-                              //   href={`#panel-${i}`}
-                              //   className={`anchor ${current === i ? ' borders text-[#E08900] h-[40px] w-auto gap-1 px-5' : ' text-white'}   text-base font-medium flex items-center justify-center `}
-                              //   key={`num${i}`}
-                              // >
-                              //   {current === i && <img src='./Box.svg'></img>}
-                              //   {tab[i]}
-                              // </a>
-
                               <div
                                 onClick={() => onClickTo(i)}
                                 className={` ${current === i ? ' borders text-[#E08900] h-[40px] w-auto gap-1 px-5' : ' text-white'}   text-base font-medium flex items-center justify-center `}
@@ -265,7 +254,7 @@ const ANewAgg = () => {
                             )
                           })}
                         </div>
-                        <div className='  md:ml-0 md:w-full md:mt-[30px] '>
+                        <div className='md:ml-0 md:w-full md:mt-[30px]'>
                           <div className='flex flex-end'>{item.other}</div>
                           <div className='flex mt-6'>{item.other1}</div>
                         </div>
