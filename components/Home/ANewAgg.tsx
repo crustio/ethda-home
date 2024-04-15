@@ -24,19 +24,19 @@ const ANewAgg = () => {
       tolerance: 10,
       preventDefault: true,
 
-      onEnable(self) {
+      onEnable(self: any) {
         allowScroll = false
         scrollTimeout.restart(true)
         let savedScroll = self.scrollY()
         self._restoreScroll = () => self.scrollY(savedScroll)
         document.addEventListener('scroll', self._restoreScroll, { passive: false })
       },
-      onDisable: (self) => document.removeEventListener('scroll', self._restoreScroll),
+      onDisable: (self: any) => document.removeEventListener('scroll', self._restoreScroll),
     })
 
     intentObserver.disable()
 
-    function gotoPanel(index, isScrollingDown) {
+    function gotoPanel(index: number, isScrollingDown: boolean) {
       if ((index === swipePanels.length && isScrollingDown) || (index === -1 && !isScrollingDown)) {
         intentObserver.disable() // resume native scroll
         return
@@ -44,7 +44,7 @@ const ANewAgg = () => {
       allowScroll = false
       scrollTimeout.restart(true)
 
-      let target = isScrollingDown ? swipePanels[currentIndex] : swipePanels[index]
+      let target: any = isScrollingDown ? swipePanels[currentIndex] : swipePanels[index]
 
       gsap.to(target, {
         yPercent: isScrollingDown ? -100 : 0,
@@ -210,7 +210,7 @@ const ANewAgg = () => {
     },
   ]
 
-  const scrollToPanel = (index) => {
+  const scrollToPanel = (index: number) => {
     const targetElement = document.getElementById(`panel-${index}`)
 
     if (targetElement) {
