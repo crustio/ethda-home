@@ -1,9 +1,10 @@
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import React, { WheelEventHandler, useCallback, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 const tab = ['Staking', 'Date', 'Growth']
+
 const Agg = () => {
   let sliderRef = useRef<any>(null)
   const [current, setCurrent] = useState(0)
@@ -20,6 +21,10 @@ const Agg = () => {
     cssEase: 'linear',
     speed: 1000,
     infinite: true,
+  }
+  const onClickTo = (i: number) => {
+    ;(sliderRef as any).slickGoTo(i)
+    setCurrent(i)
   }
 
   const content = [
@@ -64,7 +69,7 @@ const Agg = () => {
       ),
       img: (
         <div>
-          <img src='./gif/2.gif' className='mb-[110px]' />
+          <img src='./gif/2.gif' id='gif' className='mb-[110px] ' />
         </div>
       ),
       content: (
@@ -84,9 +89,16 @@ const Agg = () => {
         </>
       ),
       blobText: (
-        <div className='flex flex-col gap-4 font-medium relative top-[190px] '>
+        <div className='flex flex-col gap-4 font-medium relative top-[100px] '>
           <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
           <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
+          <div className='flex items-center relative right-[170px] '>
+            <div className='borderLine leftLine'></div>
+            <div className=' border-l border-white border-b w-[55px]'>22</div>
+            <div style={{ fontFamily: 'inter' }} className=' border text-white border-white rounded-[1px]  flex  '>
+              <img src='./interface.svg' /> On-chain Interface for Agg. Data
+            </div>
+          </div>
         </div>
       ),
     },
@@ -118,48 +130,9 @@ const Agg = () => {
   ]
   const maxSlides = content.length
 
-  const onNext = () => {
-    if (current < maxSlides) {
-      setCurrent(current + 1)
-      ;(sliderRef as any).slickGoTo(current + 1)
-    }
-  }
-  const onPrev = () => {
-    if (current > 0) {
-      setCurrent(current - 1)
-      ;(sliderRef as any).slickGoTo(current - 1)
-    }
-  }
-
-  const onClickTo = (i: number) => {
-    ;(sliderRef as any).slickGoTo(i)
-    setCurrent(i)
-  }
-
-  const handleWheel: WheelEventHandler<HTMLDivElement> = (event) => {
-    const deltaY = event.deltaY
-
-    if (deltaY > 0) {
-      if (current + 1 === maxSlides) {
-        document.body.style.overflow = 'auto'
-        return
-      }
-      ;(sliderRef as any).slickNext()
-    } else if (deltaY < 0) {
-      if (current === 0) {
-        document.body.style.overflow = 'auto'
-
-        return
-      }
-      ;(sliderRef as any).slickPrev()
-    }
-
-    event.stopPropagation()
-  }
-
   return (
     <div className=''>
-      <div id='myBar' onWheel={handleWheel} data-aos='fade-up' data-aos-anchor-placement='top-bottom' className={` scrollable-content `}>
+      <div id='myBar' data-aos='fade-up' data-aos-anchor-placement='top-bottom' className={` scrollable-container `}>
         <Slider
           {...settings}
           ref={(slider: any) => {
@@ -181,7 +154,7 @@ const Agg = () => {
                   </div>
                 </div>
                 <div className='bg-black w-[50%]'>
-                  <div className='  w-[640px]'>
+                  <div className='  w-[700px]'>
                     <div className='flex  flex-start mt-[62px] mx-[40px] flex-row items-start md:flex md:flex-wrap justify-between   '>
                       <div className='flex items-center  gap-[30px]'>
                         {[...Array(content.length)].map((_, i) => {
@@ -199,7 +172,7 @@ const Agg = () => {
                       </div>
                       <div className='  md:ml-0 md:w-full md:mt-[30px] '>
                         <div className='flex flex-end'>{item.other}</div>
-                        <div className='flex   mt-6'>{item.other1}</div>
+                        <div className='flex mt-6'>{item.other1}</div>
                       </div>
                     </div>
                     <div className='flex justify-center items-center py-[110px]'>

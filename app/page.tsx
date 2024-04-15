@@ -13,6 +13,7 @@ import Agg from '@/components/Home/Agg'
 import AConnectEthDA from '@/components/Home/AConnectEthDA'
 import Aaggregated from '@/components/Home/Aaggregated'
 import AIntroduce from '@/components/Home/AIntroduce'
+import ANewAgg from '@/components/Home/ANewAgg'
 
 export default function Home() {
   // const [enter, setEnter] = useState(false)
@@ -45,7 +46,8 @@ export default function Home() {
     <>
       {/* <Banner /> */}
       <ABanner />
-      <Agg />
+      {/* <Agg /> */}
+      <ANewAgg />
       <AConnectEthDA />
       <Aaggregated />
       <AIntroduce />

@@ -52,7 +52,7 @@ const CarouselComponent = () => {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
 
-  return <div id='bitTitle'></div>
+  return <div id='bitTitle' className=''></div>
 }
 
 export default CarouselComponent

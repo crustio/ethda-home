@@ -18,6 +18,7 @@
 
 body {
   font-family: Montserrat, "Source Han Sans CN-blod", serif;
+
 }
 
 .nav-item {
@@ -349,3 +350,32 @@ input {
    display: flex;
    gap: 40px;
 }
+
+
+.borderLine {
+  z-index: 2500;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0);
+}
+.leftLine{
+  top: 5px;
+  left: -4px;
+  border-radius: 30px;
+  background-color: white;
+}
+
+  
+  .swipe-section {
+    position: relative;
+    height: 65vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .swipe-section .panel {
+    position: absolute;
+
+  }
+  

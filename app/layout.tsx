@@ -15,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link rel='preconnect' href='https://fonts.googleapis.com' />
       <link rel='preconnect' href='https://fonts.gstatic.com' />
       <link href='https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap' rel='stylesheet'></link>
+      <script src='https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js'></script>
 
       <body className={montserrat.className}>
         <Providers>{children}</Providers>
