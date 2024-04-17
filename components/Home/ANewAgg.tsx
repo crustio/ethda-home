@@ -8,6 +8,21 @@ const tab = ['Staking', 'Date', 'Growth']
 const ANewAgg = () => {
   const [current, setCurrent] = useState(0)
   const smoother = useRef<any>()
+  const [currentWidth, setCurrentWidth] = useState(0)
+
+  useEffect(() => {
+    const updateWidth = () => {
+      const ele = document?.getElementsByClassName('content')[0]
+      setCurrentWidth(ele.clientWidth || 0)
+    }
+
+    window.addEventListener('resize', updateWidth)
+    updateWidth()
+
+    return () => {
+      window.removeEventListener('resize', updateWidth)
+    }
+  }, [])
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
@@ -125,7 +140,11 @@ const ANewAgg = () => {
           L2 Native token
         </div>
       ),
-      img: <img src='./gif/1.gif' />,
+      img: (
+        <div className=' ml-5'>
+          <img src='./gif/1.gif' />
+        </div>
+      ),
       content: (
         <>
           <div className=' mt-[60px] leading-8 flex flex-col text-left'>
@@ -147,8 +166,42 @@ const ANewAgg = () => {
         </div>
       ),
       img: (
-        <div>
-          <img src='./gif/2.gif' id='gif' className='mb-[110px] ' />
+        <div className='ml-5 flex'>
+          <div>
+            <img src='./gif/2.gif' id='gif' className=' py-[30px] w-auto ssm:w-[500px] md:w-[600px]' />
+          </div>
+          <div className=''>
+            <div className='flex flex-col gap-4 font-medium relative top-[100px] ssm:left-[-20px] '>
+              <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
+              <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
+              {/* <div className='flex items-center relative right-[170px] '>
+          <div className='borderLine leftLine'></div>
+          <div className=' border-l border-white border-b w-[55px]'>22</div>
+          <div style={{ fontFamily: 'inter' }} className=' border text-white border-white rounded-[1px]  flex  '>
+            <img src='./interface.svg' /> On-chain Interface for Agg. Data
+          </div>
+        </div> */}
+              {/* <div className='flex flex-col gap-4 font-medium relative top-[100px] text-sm md:left-[-30px] '>
+          <div className='text-[#8F4FFF] border-[#8F4FFF] border rounded-[50px] px-5 md:px-[10px] w-[120px] md:w-[80px] h-8 flex items-center'>
+            Blob Tx
+          </div>
+          <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 md:px-[10px] w-[120px] md:w-[80px] h-8 flex items-center'>
+            Blob Tx
+          </div>
+          <div className='flex items-center relative right-[170px] '>
+            <div className='borderLine leftLine'></div>
+            <div className=' border-l border-white border-b w-[55px] h-10 relative top-[-17px]'></div>
+            <div
+              style={{ fontFamily: 'inter' }}
+              className=' border text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
+            >
+              <img src='./interface.svg' className=' mr-1' /> On-chain Interface for Agg. Data
+            </div>
+          </div>
+        </div>
+        */}
+            </div>
+          </div>
         </div>
       ),
       content: (
@@ -167,19 +220,6 @@ const ANewAgg = () => {
           </div>
         </>
       ),
-      blobText: (
-        <div className='flex flex-col gap-4 font-medium relative top-[100px] '>
-          <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
-          <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
-          {/* <div className='flex items-center relative right-[170px] '>
-            <div className='borderLine leftLine'></div>
-            <div className=' border-l border-white border-b w-[55px]'>22</div>
-            <div style={{ fontFamily: 'inter' }} className=' border text-white border-white rounded-[1px]  flex  '>
-              <img src='./interface.svg' /> On-chain Interface for Agg. Data
-            </div>
-          </div> */}
-        </div>
-      ),
     },
     {
       title: (
@@ -188,7 +228,87 @@ const ANewAgg = () => {
           <span className='text-black'>Growth</span>
         </div>
       ),
-      img: <img src='./Growth.svg' />,
+      img: (
+        <div style={{ fontFamily: 'inter' }} className='flex flex-col py-[120px] md:w-full'>
+          <div className='flex justify-center w-full'>
+            <div className='outline text-sm font-medium md:!w-[380px]  '>
+              <div className='flex flex-col justify-between  h-full'>
+                <div className=' text-white px-[15px] pt-5 flex justify-between'>
+                  <span>Tx</span>
+                  <div className=' pt-4 ml-[50px]'>Users</div>
+                  <span>Accessible</span>
+                </div>
+                <div className=' text-white px-[15px] pb-[28px] flex justify-between'>
+                  <span>Blobs</span>
+                  <span>Agg.Data</span>
+                </div>
+              </div>
+              <div className='border_container border_container_top'></div>
+              <div className='border_container border_container_top_img'></div>
+              <div className='border_container border_container_right_img md:!left-[355px]'></div>
+              <div className='border_container border_container_right md:!left-[275px]'></div>
+              <div className='border_container border_container_left_bottom'></div>
+              <div className='border_container border_container_left_img'></div>
+              <div className='border_container border_container_right_bottom'></div>
+              <div className='border_container border_container_bottom'></div>
+              <div className=' h-[25px]'>
+                <div className='border_container border_container_bottom_img'></div>
+              </div>
+            </div>
+          </div>
+
+          <div className='mt-[-70px] flex  w-full  md:w-full  md:justify-center  '>
+            <div className='flex flex-col content'>
+              <div className='flex'>
+                <div style={{ fontFamily: 'inter' }} className='outline3 text-[#E08900] text-sm font-medium   '>
+                  <div className={`flex items-center  w-[516px] md:w-[${currentWidth - 40}px]   h-full mt-5 `}>
+                    <div className='leftImg'>
+                      <div className='w-[50px] h-[50px] relative left-[-25px] top-[30px] bg-black'>
+                        <img src='./y-users.svg' />
+                      </div>
+                    </div>
+                    <div className='flex justify-between w-full  items-center font-medium text-sm'>
+                      <div>Benefit-Sharing</div>
+                      <div className='centerPos'>
+                        <div className=' ml-[10px] mt-[-20px]'>PoS</div>
+                      </div>
+                      <div className=' md:mr-10'>Protocal Incentive</div>
+                    </div>
+                    <div className='rightImg md:after:!left-[-7px] '>
+                      <div className='w-[50px] h-[50px] relative left-[35px] md:left-[-15px] top-[30px] bg-black'>
+                        <img src='./y-users.svg' />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='center'></div>
+
+                <div style={{ fontFamily: 'inter' }} className='outline4 md:!w-full   text-[#E08900] text-sm font-medium   '></div>
+              </div>
+              <div className='relative left-[45px] top-[-15px] w-[430px] md:w-full  flex text-[#E08900] justify-between '>
+                <div className='left text-[14px] font-medium  bg-black rounded-[50px] border-[#E08900] border w-[130px] h-8  flex items-center'>
+                  <div className=' mr-[25px] '>Dual-Stake</div>
+                </div>
+                <div className='centerDas'>
+                  <div className=' bg-black w-[50px] h-[50px] mt-[-70px]'>
+                    <img src='./das.svg' />
+                  </div>
+                  <div className='centerFlag'></div>
+                </div>
+                <div className='text-[14px] font-medium md:mr-20  bg-black rounded-[50px] border-[#E08900] border w-[120px] h-8  flex items-center'>
+                  <div className=' ml-[25px] '>PoS Stake</div>
+                </div>
+              </div>
+              <div className='text-[#E08900] ml-[45px] flex justify-between w-[430px] mt-[-60px]'>
+                <div>L2 Native Token</div>
+                <div>DAS Nodes</div>
+                <div>Restake ETH</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
       content: (
         <>
           <div className=' mt-[60px] leading-8 flex flex-col text-left mr-[60px]'>
@@ -228,7 +348,7 @@ const ANewAgg = () => {
             return (
               <article id={`panel-${index}`} className={`panel bg-slate-500 w-full tab${index}`}>
                 <div key={`slider${index}`} className='!flex h-[900px]'>
-                  <div className=' bg-[url(/GroupBg.svg)] w-[50%] font-le text-white diagram-right'>
+                  <div className=' bg-[url(/GroupBg.svg)] w-[50%] md:w-[40%] font-le text-white diagram-right'>
                     <div className='flex w-[640px] flex-wrap px-[30px]  md:w-full  h-full text-center items-center  float-end'>
                       <div className='flex flex-col '>
                         <div className='flex items-center flex-row'>
@@ -238,8 +358,8 @@ const ANewAgg = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='bg-black w-[50%]'>
-                    <div className=' w-[700px]'>
+                  <div className='bg-black w-[50%] md:w-[60%]'>
+                    <div className=' w-[680px] md:w-full  '>
                       <div className='flex  flex-start mt-[62px] mx-[40px] flex-row items-start md:flex md:flex-wrap justify-between   '>
                         <div className='flex items-center  gap-[30px]'>
                           {[...Array(content.length)].map((_, i) => {
@@ -259,13 +379,8 @@ const ANewAgg = () => {
                           <div className='flex mt-6'>{item.other1}</div>
                         </div>
                       </div>
-                      <div className='flex justify-center items-center py-[110px]'>
-                        <div className=''>
-                          <div className=' bg-cover object-cover bg-repeat w-[580px] h-[580px] flex justify-center '>
-                            <div className='flex justify-center items-center w-full h-full md:w-[300px]'>{item.img}</div>
-                            {item.blobText}
-                          </div>
-                        </div>
+                      <div className='flex justify-center md:mx-[30px] md:block items-center  '>
+                        <div className=' bg-cover object-cover bg-repeat'>{item.img}</div>
                       </div>
                     </div>
                   </div>

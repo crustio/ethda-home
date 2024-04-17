@@ -17,7 +17,6 @@ type HeaderType = {
   wrapperClassName?: any
   btnClassName?: any
   contentClassName?: any
-  
 }
 
 export const Header: FC<HeaderType> = ({
@@ -95,8 +94,7 @@ export const Header: FC<HeaderType> = ({
     }
     push(address)
   }
-  console.log('contentClassNamecontentClassName',contentClassName);
-  
+
   return (
     <div className={classNames(` ${contentClassName}`)}>
       <header className={classNames(`py-5  ${isShow && ' !bg-white'}  border-b-[rgba(255,255,255,.2)]`, className)}>

@@ -50,7 +50,7 @@ const ABanner = () => {
       />
       <div className=' flex justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]   '>
         <div className=' w-full '>
-          <div className=' font-bold text-[62px] md:text-[50px] text-center text-white pt-[206px]  '>
+          <div className=' font-bold text-[62px] md:text-[50px] text-center text-white pt-[206px]'>
             <div className='relative'>
               <img src='./circle.svg' className='absolute inset-0 m-auto'></img>
               <div className='flex justify-center items-center '>
@@ -62,7 +62,7 @@ const ABanner = () => {
                   <div className='border_corner border_corner_left_bottom'></div>
                   <div className='border_corner border_corner_right_bottom'></div>
                 </div>
-                <div className='flex justify-center flex-col float-end relative right-[2.5rem] md:right-[2.5rem] top-[85px]'>
+                <div className='flex justify-center flex-col float-end relative right-[2.5rem] md:right-[2.5rem] top-[75px]'>
                   <div>
                     <img src='./mouse.svg' />
                   </div>
