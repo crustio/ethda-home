@@ -403,7 +403,7 @@ input {
 
 .outline {
   height: 300px;
-  width: 470px;
+  width: 430px;
   outline-offset: -1px;
   transition: all .3s linear;
   cursor: pointer;
@@ -427,7 +427,7 @@ input {
   .border_container_top{
     position: relative;
     top:-355px;
-    left: 140px;
+    left: 170px;
     border-top: 2px solid;
     border-right: 2px solid;
     width: 10px;
@@ -453,7 +453,7 @@ input {
   }
   .border_container_right{
     position: relative;
-    right: -365px;
+    right: -325px;
     top:-310px;
     display: inline-block;
     border-top: 2px solid;
@@ -497,7 +497,7 @@ input {
   content: ' ';
   position: relative;
   top: -360px;
-  left: 180px; 
+  left: 190px; 
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
@@ -543,7 +543,7 @@ input {
   content: ' ';
   position: relative;
   top:-295px;
-  left: 455px; 
+  left: 405px; 
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
@@ -952,4 +952,3 @@ input {
       background-position: 0 0, 0 0, 0 -20px;
   }
 } 
-

@@ -174,6 +174,18 @@ const ANewAgg = () => {
             <div className='flex flex-col gap-4 font-medium relative top-[100px] ssm:left-[-20px] '>
               <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
               <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
+              {/* <div>
+                <div className='flex items-center relative right-[170px] '>
+                  <div className='borderLine leftLine'></div>
+                  <div className=' border-l border-white border-b w-[55px] h-10 relative top-[-17px]'></div>
+                  <div
+                    style={{ fontFamily: 'inter' }}
+                    className=' border text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
+                  >
+                    <img src='./interface.svg' className=' mr-1' /> On-chain Interface for Agg. Data
+                  </div>
+                </div>
+              </div> */}
               {/* <div className='flex items-center relative right-[170px] '>
           <div className='borderLine leftLine'></div>
           <div className=' border-l border-white border-b w-[55px]'>22</div>
@@ -188,16 +200,7 @@ const ANewAgg = () => {
           <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 md:px-[10px] w-[120px] md:w-[80px] h-8 flex items-center'>
             Blob Tx
           </div>
-          <div className='flex items-center relative right-[170px] '>
-            <div className='borderLine leftLine'></div>
-            <div className=' border-l border-white border-b w-[55px] h-10 relative top-[-17px]'></div>
-            <div
-              style={{ fontFamily: 'inter' }}
-              className=' border text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
-            >
-              <img src='./interface.svg' className=' mr-1' /> On-chain Interface for Agg. Data
-            </div>
-          </div>
+         
         </div>
         */}
             </div>
@@ -235,7 +238,7 @@ const ANewAgg = () => {
               <div className='flex flex-col justify-between  h-full'>
                 <div className=' text-white px-[15px] pt-5 flex justify-between'>
                   <span>Tx</span>
-                  <div className=' pt-4 ml-[50px]'>Users</div>
+                  <div className=' pt-4 ml-[50px] md:ml-[100px]'>Users</div>
                   <span>Accessible</span>
                 </div>
                 <div className=' text-white px-[15px] pb-[28px] flex justify-between'>
@@ -243,8 +246,8 @@ const ANewAgg = () => {
                   <span>Agg.Data</span>
                 </div>
               </div>
-              <div className='border_container border_container_top'></div>
-              <div className='border_container border_container_top_img'></div>
+              <div className='border_container border_container_top md:!left-[155px]'></div>
+              <div className='border_container border_container_top_img md:!left-[190px]'></div>
               <div className='border_container border_container_right_img md:!left-[355px]'></div>
               <div className='border_container border_container_right md:!left-[275px]'></div>
               <div className='border_container border_container_left_bottom'></div>
@@ -269,7 +272,7 @@ const ANewAgg = () => {
                     </div>
                     <div className='flex justify-between w-full  items-center font-medium text-sm'>
                       <div>Benefit-Sharing</div>
-                      <div className='centerPos'>
+                      <div className='centerPos md:!left-[25px]'>
                         <div className=' ml-[10px] mt-[-20px]'>PoS</div>
                       </div>
                       <div className=' md:mr-10'>Protocal Incentive</div>
@@ -379,8 +382,8 @@ const ANewAgg = () => {
                           <div className='flex mt-6'>{item.other1}</div>
                         </div>
                       </div>
-                      <div className='flex justify-center md:mx-[30px] md:block items-center  '>
-                        <div className=' bg-cover object-cover bg-repeat'>{item.img}</div>
+                      <div className='flex mx-[40px] md:block items-center  '>
+                        <div className=' bg-cover object-cover bg-repeat '>{item.img}</div>
                       </div>
                     </div>
                   </div>
