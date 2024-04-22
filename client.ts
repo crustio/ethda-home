@@ -23,7 +23,6 @@ export class BlobClient {
     }
 
     const SETUP_FILE_PATH = resolve(__dirname, 'lib', 'trusted_setup.txt')
-    console.log(SETUP_FILE_PATH)
     // loadTrustedSetup(SETUP_FILE_PATH)
   }
 
@@ -78,7 +77,6 @@ export class BlobClient {
   }
 
   async sendTx(blobs: any, tx: any, convertData: any) {
-    console.log('receive', tx)
     /* eslint-disable prefer-const */
     let { chainId, nonce, to, value, data, maxPriorityFeePerGas, maxFeePerGas, gasLimit, maxFeePerBlobGas } = await this.sanityCheck(tx)
 
@@ -102,15 +100,12 @@ export class BlobClient {
         eips: [1559, 3860, 4844],
       },
     )
-    console.log(chainId)
-
     const message = [nonce, maxFeePerGas, gasLimit, to, value, data, 1001n, 0, 0]
 
     const signHash = keccak256(RLP.encode(message))
     const pk: any = getBytes((this._signer as ethers.Wallet).privateKey)
     let { v, r, s } = ecsign(signHash, pk)
     v = 2n * 1001n + 8n + v
-    console.log(message, nonce, v, Buffer.from(r).toString('hex'), Buffer.from(s).toString('hex'))
     const blobTx = new BlobEIP4844Transaction(
       {
         chainId,
@@ -132,7 +127,6 @@ export class BlobClient {
       },
       { common },
     )
-    console.log(blobTx)
 
     const rawData = blobTx.serializeNetworkWrapper()
 

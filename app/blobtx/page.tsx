@@ -141,7 +141,6 @@ const BlobTX = () => {
 
   const onTranscode = async () => {
     if (!walletClient || !file || file.size > 128 * 1024) return
-    console.log('进入了啊大师', walletClient, file.size)
 
     const fr = new FileReader()
     fr.onload = () => {
