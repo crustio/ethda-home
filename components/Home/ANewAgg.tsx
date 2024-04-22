@@ -126,12 +126,12 @@ const ANewAgg = () => {
           </div>
         ),
         other: (
-          <div className='text-[#8F4FFF] text-base border-[#8F4FFF] border rounded-[50px] px-5 w-[170px] h-9 flex items-center'>
+          <div className='text-[#8F4FFF] text-base md:text-sm border-[#8F4FFF] border rounded-[50px] px-5 w-[170px] md:w-[155px] h-9 flex items-center'>
             ETH Restaking
           </div>
         ),
         other1: (
-          <div className='text-[#E08900] text-base border-[#E08900] border rounded-[50px] px-5 w-[170px] h-9 flex items-center'>
+          <div className='text-[#E08900] text-base md:text-sm border-[#E08900] border rounded-[50px] px-5 w-[170px] md:w-[155px]  h-9 flex items-center'>
             L2 Native token
           </div>
         ),
@@ -161,41 +161,22 @@ const ANewAgg = () => {
           </div>
         ),
         img: (
-          <div className='ml-5 flex w-full'>
-            <div>
-              <img src='./gif/2.gif' id='gif' className=' py-[30px] w-auto ssm:w-[500px] md:w-[600px]' />
+          <div className=' flex w-full flex-col h-auto'>
+            <div className=' py-[30px] w-auto ssm:w-[500px] md:w-[600px] bg-cover'>
+              <img src='./gif/2.gif' id='gif' className=' h-[500px]' />
             </div>
-            <div className=''>
-              <div className='flex flex-col gap-4 font-medium relative top-[100px] ssm:left-[-20px]  '>
+            <div className=' pr-5 flex justify-center w-full ml-[120px] flex-col '>
+              <div className='flex flex-col gap-4 font-medium   '>
                 <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
                 <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
-                {/* <div className='flex items-center relative right-[170px] '>
-                  <div className='borderLine leftLine'></div>
-                  <div className=' border-l border-white border-b w-[55px] h-10 relative top-[-17px]'></div> */}
-                <div
-                  style={{ fontFamily: 'inter' }}
-                  className=' border text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
-                >
-                  <img src='./interface.svg' className=' mr-1' /> On-chain Interface for Agg. Data
-                </div>
-                {/* </div> */}
-                {/* <div className='flex items-center relative right-[170px] '>
-            <div className='borderLine leftLine'></div>
-            <div className=' border-l border-white border-b w-[55px]'>22</div>
-            <div style={{ fontFamily: 'inter' }} className=' border text-white border-white rounded-[1px]  flex  '>
-              <img src='./interface.svg' /> On-chain Interface for Agg. Data
-            </div>
-          </div> */}
-                {/* <div className='flex flex-col gap-4 font-medium relative top-[100px] text-sm md:left-[-30px] '>
-            <div className='text-[#8F4FFF] border-[#8F4FFF] border rounded-[50px] px-5 md:px-[10px] w-[120px] md:w-[80px] h-8 flex items-center'>
-              Blob Tx
-            </div>
-            <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 md:px-[10px] w-[120px] md:w-[80px] h-8 flex items-center'>
-              Blob Tx
-            </div>
-           
-          </div>
-          */}
+              </div>
+
+              <div
+                style={{ fontFamily: 'inter' }}
+                className=' border  mt-4 text-white mr-20 text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
+              >
+                <img src='./interface.svg' className=' mr-1' />
+                <span className=''>On-chain Interface for Agg. Data</span>
               </div>
             </div>
           </div>
@@ -356,8 +337,8 @@ const ANewAgg = () => {
                     </div>
                   </div>
                   <div className='bg-black w-[50%] md:w-[60%]'>
-                    <div className=' w-[800px] md:w-full   '>
-                      <div className='flex  flex-start mt-[62px] mx-[40px] flex-row items-start md:flex md:flex-wrap justify-between   '>
+                    <div className=' w-full  '>
+                      <div className='flex flex-start mt-[62px] px-[40px] flex-row items-start    '>
                         <div className='flex items-center  gap-[30px]'>
                           {[...Array(content.length)].map((_, i) => {
                             return (
@@ -371,9 +352,9 @@ const ANewAgg = () => {
                             )
                           })}
                         </div>
-                        <div className='md:ml-0 md:w-full md:mt-[30px]'>
-                          <div className='flex flex-end'>{item.other}</div>
-                          <div className='flex mt-6'>{item.other1}</div>
+                        <div className='  ml-5 '>
+                          <div className='flex ml-10 '>{item.other}</div>
+                          <div className='flex mt-6   ml-10'>{item.other1}</div>
                         </div>
                       </div>
                       <div className='flex mx-[40px] md:block items-center  '>
