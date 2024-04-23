@@ -104,17 +104,6 @@ const ANewAgg = () => {
     })
   }, [])
 
-  const onClickTo = (i: number) => {
-    const targetElement = document.getElementsByClassName(`tab${i}`)[0]
-
-    if (!targetElement) return
-    let swipePanels = gsap.utils.toArray('.swipe-section .panel')
-
-    gsap.to(targetElement, {
-      xPercent: -100,
-      duration: 0.75,
-    })
-  }
   const content = useMemo(() => {
     return [
       {
@@ -347,7 +336,6 @@ const ANewAgg = () => {
                           {[...Array(content.length)].map((_, i) => {
                             return (
                               <div
-                                onClick={() => onClickTo(i)}
                                 className={` ${current === i ? ' borders text-[#E08900] h-[40px] w-auto gap-1 px-5' : ' text-white'}   text-base font-medium flex items-center justify-center `}
                               >
                                 {current === i && <img src='./Box.svg'></img>}
