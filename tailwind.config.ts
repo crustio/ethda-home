@@ -17,6 +17,7 @@ const config: Config = {
         ssm: { min: '900px', max: '1169px' },
         mo: { max: '900px' },
         md: [{ min: '900px', max: '1280px' }],
+        mmd: [{ min: '900px', max: '1480px' }],
         sm: { min: '900px' },
       },
       width: {

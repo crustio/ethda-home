@@ -136,7 +136,7 @@ const ANewAgg = () => {
           </div>
         ),
         img: (
-          <div className=' ml-5'>
+          <div className=' w-[600px] md:w-auto'>
             <img src='./gif/1.gif' />
           </div>
         ),
@@ -161,22 +161,26 @@ const ANewAgg = () => {
           </div>
         ),
         img: (
-          <div className=' flex w-full flex-col h-auto'>
-            <div className=' py-[30px] w-auto ssm:w-[500px] md:w-[600px] bg-cover'>
-              <img src='./gif/2.gif' id='gif' className=' h-[500px]' />
+          <div className=' flex w-full mmd:flex-col '>
+            <div className=' '>
+              <img src='./gif/2.gif' id='gif' className='py-[30px] w-full mmd:w-[500px] bg-cover' />
             </div>
-            <div className=' pr-5 flex justify-center w-full ml-[120px] flex-col '>
-              <div className='flex flex-col gap-4 font-medium   '>
-                <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
-                <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
-              </div>
+            <div className=' flex mmd:justify-center w-full    m-auto  '>
+              <div>
+                <div className='flex flex-col gap-4 font-medium   '>
+                  <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
+                  <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
+                </div>
 
-              <div
-                style={{ fontFamily: 'inter' }}
-                className=' border  mt-4 text-white mr-20 text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
-              >
-                <img src='./interface.svg' className=' mr-1' />
-                <span className=''>On-chain Interface for Agg. Data</span>
+                <div className=''>
+                  <div
+                    style={{ fontFamily: 'inter' }}
+                    className=' border   mt-4 text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
+                  >
+                    <img src='./interface.svg' className=' mr-1' />
+                    <span className=''>On-chain Interface for Agg. Data</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -337,7 +341,7 @@ const ANewAgg = () => {
                     </div>
                   </div>
                   <div className='bg-black w-[50%] md:w-[60%]'>
-                    <div className=' w-full  '>
+                    <div className=' w-[750px] md:w-full  '>
                       <div className='flex flex-start mt-[62px] px-[40px] flex-row items-start    '>
                         <div className='flex items-center  gap-[30px]'>
                           {[...Array(content.length)].map((_, i) => {
