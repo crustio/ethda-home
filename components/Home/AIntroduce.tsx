@@ -1,19 +1,8 @@
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { useWindowSize } from 'react-use'
 const AIntroduce = () => {
-  const settings = {
-    dots: false,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    adaptiveHeight: true,
-    arrows: false,
-    infinite: true,
-    autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 2000,
-    cssEase: 'linear',
-  }
   const data = [
     {
       img: <img src='./calendar.svg' />,
@@ -49,111 +38,91 @@ const AIntroduce = () => {
       ),
       borderImg: 'bg-[url(/border3.svg)]  mt-[-24px]',
     },
+    // {
+    //   img: <img src='./calendar.svg' />,
+    //   line: <img src='./dev-Line1.svg' />,
+    //   title: <div className=' text-2xl font-bold  text-white'>2024 Q1</div>,
+    //   content: (
+    //     <div style={{ fontFamily: 'inter', transform: 'rotate(-2deg)' }} className='mt-[37px] font-medium text-base text-white'>
+    //       DevNet launch in Feb, with workable chain and interfaces, demonstration DApp, BlobScan, and necessary dev docs
+    //     </div>
+    //   ),
+    //   borderImg: 'bg-[url(/border1.svg)] mt-[54px]',
+    // },
+    // {
+    //   img: <img src='./calendar.svg' />,
+    //   line: <img src='./dev-Line2.svg' />,
+    //   title: <div className=' text-2xl font-bold  text-white'>2024 Q2</div>,
+    //   content: (
+    //     <div style={{ fontFamily: 'inter', transform: 'rotate(-2deg)' }} className='mt-[37px] font-medium text-base text-white'>
+    //       TestNet launch in May, with initial DAS implementation and related flows, full dev docs and SDK; CDK readiness for market
+    //       promotion
+    //     </div>
+    //   ),
+    //   borderImg: 'bg-[url(/border2.svg)]',
+    // },
+    // {
+    //   img: <img src='./calendar.svg' />,
+    //   line: <img src='./dev-Line3.svg' />,
+    //   title: <div className=' text-2xl font-bold  text-white'>2024 Q4</div>,
+    //   content: (
+    //     <div style={{ fontFamily: 'inter', transform: 'rotate(2deg)' }} className='mt-[37px] font-medium text-base text-white'>
+    //       Full DAS and Staking implement- tation, benefit sharing contracts, treasury and governance modules MainNet Launch
+    //     </div>
+    //   ),
+    //   borderImg: 'bg-[url(/border3.svg)]  mt-[-24px]',
+    // },
     {
       img: <img src='./calendar.svg' />,
       line: <img src='./dev-Line1.svg' />,
-      title: <div className=' text-2xl font-bold  text-white'>2024 Q1</div>,
+      title: <div className=' text-2xl font-bold  text-white'>2025</div>,
       content: (
         <div style={{ fontFamily: 'inter', transform: 'rotate(-2deg)' }} className='mt-[37px] font-medium text-base text-white'>
-          DevNet launch in Feb, with workable chain and interfaces, demonstration DApp, BlobScan, and necessary dev docs
+          Extend DStorage use cases like assurance pool, Blob operating and managementContinuously L2 technologies and ecosystems
+          integration
         </div>
       ),
-      borderImg: 'bg-[url(/border1.svg)] mt-[54px]',
+      borderImg: 'bg-[url(/border2.svg)] mt-8',
     },
     {
       img: <img src='./calendar.svg' />,
       line: <img src='./dev-Line2.svg' />,
-      title: <div className=' text-2xl font-bold  text-white'>2024 Q2</div>,
-      content: (
-        <div style={{ fontFamily: 'inter', transform: 'rotate(-2deg)' }} className='mt-[37px] font-medium text-base text-white'>
-          TestNet launch in May, with initial DAS implementation and related flows, full dev docs and SDK; CDK readiness for market
-          promotion
-        </div>
-      ),
-      borderImg: 'bg-[url(/border2.svg)]',
-    },
-    {
-      img: <img src='./calendar.svg' />,
-      line: <img src='./dev-Line3.svg' />,
-      title: <div className=' text-2xl font-bold  text-white'>2024 Q4</div>,
+      title: <div className=' text-2xl font-bold  text-white'>2026</div>,
       content: (
         <div style={{ fontFamily: 'inter', transform: 'rotate(2deg)' }} className='mt-[37px] font-medium text-base text-white'>
-          Full DAS and Staking implement- tation, benefit sharing contracts, treasury and governance modules MainNet Launch
+          Extend DA services to Ethereum L1 light / stateless nodes GraphQL-like query and programabilities on data blobs
         </div>
       ),
-      borderImg: 'bg-[url(/border3.svg)]  mt-[-24px]',
+      borderImg: 'bg-[url(/border1.svg)]  -mt-5',
     },
   ]
+
+  const { width } = useWindowSize(1024)
+  const showCount = Math.min(4, data.length, Math.round(width / 350))
+  const settings = {
+    dots: false,
+    slidesToShow: showCount,
+    slidesToScroll: 1,
+    adaptiveHeight: true,
+    arrows: false,
+    infinite: true,
+    autoplay: true,
+    speed: 2000,
+    autoplaySpeed: 2000,
+    cssEase: 'linear',
+  }
   return (
-    <div className=' rounded-tl-[40px] rounded-tr-[40px] mt-20 bg-black text-white '>
-      {/* <div className=' pt-20 flex gap-[30px] md:flex-wrap justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]'>
-        <div className=' rounded-[10px] border-[#E08900] py-[50px] border w-[575px] md:w-full '>
-          <div className=' '>
-            <div className=' px-[50px] '>
-              <div style={{ fontFamily: 'inter', opacity: '80%' }} className='text-white font-medium text-base leading-10'>
-                The core of being a rollup is the unconditional security guarantee: you can get your assets out even if everyone else
-                colludes against you. Can't get that if DA is dependent on an external system. But being a validium is a correct choice for
-                many apps, and using good distributed DA guarantee systems can be a good way to increase the practical security of a
-                validium.
-              </div>
-              <img src='./block-y.svg' className=' mt-5' />
-            </div>
-            <div className=' flex items-end ml-[50px]  '>
-              <div className='flex flex-col '>
-                <div style={{ fontFamily: 'inter', opacity: '70%' }} className='flex font-medium text-base mt-[128px] ml-[180px]'>
-                  @VitalikButerin
-                </div>
-                <div style={{ fontStyle: 'italic' }} className=' ml-[50px] font-black font-hlc text-[28px] mt-[20px]'>
-                  --Ethereum Founder
-                </div>
-                <div className=' font-black text-[42px] font-hlc text-[#E08900] mt-[20px]'>VitalikButerin</div>
-              </div>
-              <div className=' mr-5 md:w-full md:flex md:justify-end'>
-                <img src='./vitalik.png' className='w-[300px] h-[180px] md:w-[200px] p-[15px]' />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className=' rounded-[10px] border-[#E08900]  py-[50px]  px-[50px] border-dashed border w-[575px] md:w-full '>
-          <div className=' h-[639px] '>
-            <div className='  text-[#E08900] font-black text-[42px] font-hlc'>Sandeep</div>
-            <div className='flex items-center mb-0'>
-              <div className=' font-hlc pb-[130px]'>
-                <div style={{ fontStyle: 'italic' }} className=' font-black text-[28px] ml-[113px] mt-[20px]'>
-                  --Polygon Founder
-                </div>
-                <div style={{ fontFamily: 'inter', opacity: '70%' }} className='font-medium text-base ml-[236px] mt-[20px]'>
-                  @sandeepnailwal
-                </div>
-              </div>
-              <div className=' mt-[-230px]'>
-                <img src='./img.svg' />
-              </div>
-            </div>
-            <div>
-              <div className=' '>
-                <img src='./block-p.svg' />
-                <div style={{ fontFamily: 'inter', opacity: '80%' }} className=' font-medium text-base mt-5 leading-10  md:pr-[50px]'>
-                  The core of being a rollup is the unconditional security guarantee: you can get your assets out even if everyone else
-                  colludes against you. Can't get that if DA is dependent on an external system. But being a validium is a correct choice
-                  for many apps, and using good distributed DA guarantee systems can be a good way to increase the practical security of a
-                  validium.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      <div className=' mt-[100px]  pb-10 justify-center mo:mx-10 px-10  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]'>
-        <div className=' flex font-hlc font-black gap-4 text-[42px] items-center pt-10'>
+    <div className=' rounded-t-[40px] mo:rounded-t-3xl mt-20 mo:mt-8 bg-black text-white '>
+      <div className=' mt-[100px] mo:mt-0  pb-10 justify-center mo:mx-0 px-10 mo:px-5  mo:flex-wrap mo:w-full  mx-auto w-container md:w-full md:px-[30px]'>
+        <div className=' flex font-hlc font-black gap-4 text-[42px] mo:text-[6vw] items-center pt-10'>
           Dev Plan
           <img src='./plus.svg'></img>
         </div>
-        <div style={{ fontFamily: 'inter' }} className='mt-[50px] font-extralight text-[54px]'>
+        <div style={{ fontFamily: 'inter' }} className='mt-[50px] font-extralight text-[54px] mo:text-[7vw] mo:mt-5'>
           <div>MainNet Launch in</div>
           <div>2024 Q4</div>
         </div>
-        <div className='h-[455px] mb-[100px]'>
+        <div className='h-[455px] mb-[100px] mo:mb-0'>
           <Slider {...settings}>
             {data.map(({ img, content, borderImg, title, line }, i) => {
               return (

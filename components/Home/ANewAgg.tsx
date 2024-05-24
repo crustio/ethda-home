@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import ScrollTrigger from 'gsap/ScrollTrigger'
 import ScrollToPlugin from 'gsap/ScrollToPlugin'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+import { useEffect, useMemo, useState } from 'react'
+import { GrowthSVG } from './GrowthSVG'
 
 const tab = ['Staking', 'Date', 'Growth']
 
@@ -12,7 +13,7 @@ const ANewAgg = () => {
   useEffect(() => {
     const updateWidth = () => {
       const ele = document?.getElementsByClassName('content')[0]
-      setCurrentWidth(ele.clientWidth || 0)
+      setCurrentWidth(ele?.clientWidth || 0)
     }
 
     window.addEventListener('resize', updateWidth)
@@ -22,7 +23,6 @@ const ANewAgg = () => {
       window.removeEventListener('resize', updateWidth)
     }
   }, [])
-
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
@@ -47,7 +47,6 @@ const ANewAgg = () => {
       },
       onDisable: (self: any) => document.removeEventListener('scroll', self._restoreScroll),
     })
-
     intentObserver.disable()
 
     function gotoPanel(index: number, isScrollingDown: boolean) {
@@ -68,7 +67,12 @@ const ANewAgg = () => {
 
       currentIndex = index
     }
-
+    let isMobile = window.innerWidth < 900
+    const onResize = () => {
+      isMobile = window.innerWidth < 900
+      isMobile ? intentObserver.disable() : intentObserver.enable()
+    }
+    window.addEventListener('resize', onResize)
     ScrollTrigger.create({
       trigger: '.swipe-section',
       pin: false,
@@ -78,41 +82,50 @@ const ANewAgg = () => {
         if (intentObserver.isEnabled) {
           return
         }
-        self.scroll(self.start + 1)
-        intentObserver.enable()
+        !isMobile && self.scroll(self.start + 1)
+        !isMobile && intentObserver.enable()
       },
       onEnterBack: (self) => {
         if (intentObserver.isEnabled) {
           return
         }
-        self.scroll(self.end - 1)
-        intentObserver.enable()
+        !isMobile && self.scroll(self.end - 1)
+        !isMobile && intentObserver.enable()
       },
     })
-
-    let horizontalSections = gsap.utils.toArray('.horizontal .panel')
-    gsap.to(horizontalSections, {
-      xPercent: -100 * (horizontalSections.length - 1),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.horizontal',
-        pin: true,
-        scrub: 1,
-        end: '+=3500',
-        markers: true,
-      },
-    })
+    return () => {
+      window.removeEventListener('resize', onResize)
+    }
+    // let horizontalSections = gsap.utils.toArray('.horizontal .panel')
+    // gsap.to(horizontalSections, {
+    //   xPercent: -100 * (horizontalSections.length - 1),
+    //   ease: 'none',
+    //   scrollTrigger: {
+    //     trigger: '.horizontal',
+    //     pin: true,
+    //     scrub: 1,
+    //     end: '+=3500',
+    //     markers: true,
+    //   },
+    // })
   }, [])
-
+  function ContentItem({ tit, sub }: { tit: string; sub: string }) {
+    return (
+      <div className='  leading-8 flex flex-col text-left max-w-[500px] mr-10 mo:mr-0'>
+        <span className=' text-[32px] md:text-[28px] mo:text-[4vw] font-extrabold text-black'> {tit}:</span>
+        <span className=' text-2xl mo:text-[4vw] font-medium text-black mt-6 mo:mt-3'> {sub}</span>
+      </div>
+    )
+  }
   const content = useMemo(() => {
     return [
       {
         title: (
-          <div className='text-[42px] flex text-left'>
+          <>
             <span>"</span>
             <span>Agg. </span>
             <span className='text-black'>Staking</span>
-          </div>
+          </>
         ),
         other: (
           <div className='text-[#8F4FFF] text-base md:text-sm border-[#8F4FFF] border rounded-[50px] px-5 w-[170px] md:w-[155px] h-9 flex items-center'>
@@ -125,50 +138,43 @@ const ANewAgg = () => {
           </div>
         ),
         img: (
-          <div className=' w-[600px] md:w-auto'>
+          <div className=' w-[600px] md:w-auto mo:w-auto'>
             <img src='./gif/1.gif' />
           </div>
         ),
         content: (
           <>
-            <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-              <span className=' text-[32px] md:text-[28px] font-extrabold text-black'> ETH Restaking:</span>
-              <span className=' text-2xl font-medium text-black mt-6'> restake ETH on EthDA DAS nodes.</span>
-            </div>
-            <div className=' mt-[60px] leading-8 flex flex-col text-left'>
-              <span className=' text-[32px] md:text-[28px] font-extrabold text-black'>Dual-Staking: </span>
-              <span className=' text-2xl font-medium text-black mt-6'>dual-stake native token of L2 protocols.</span>
-            </div>
+            <ContentItem tit='ETH Restaking' sub='restake ETH on EthDA DAS nodes.' />
+            <ContentItem tit='Dual-Staking' sub='dual-stake native token of L2 protocols.' />
           </>
         ),
       },
       {
         title: (
-          <div className='text-[42px] md:text-4xl'>
+          <>
             <span>"Agg. </span>
             <span className='text-black'>Data</span>
-          </div>
+          </>
         ),
         img: (
-          <div className=' flex w-full mmd:flex-col '>
+          <div className=' flex w-full relative'>
             <div className=' '>
               <img src='./gif/2.gif' id='gif' className='py-[30px] w-full mmd:w-[500px] bg-cover' />
             </div>
-            <div className=' flex mmd:justify-center w-full    m-auto  '>
-              <div>
-                <div className='flex flex-col gap-4 font-medium   '>
+            <div className='flex '>
+              <div className='self-start'>
+                <div className='flex flex-col gap-4 font-medium mo:items-end'>
                   <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
                   <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center'>Blob Tx</div>
                 </div>
-
-                <div className=''>
-                  <div
-                    style={{ fontFamily: 'inter' }}
-                    className=' border   mt-4 text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
-                  >
-                    <img src='./interface.svg' className=' mr-1' />
-                    <span className=''>On-chain Interface for Agg. Data</span>
-                  </div>
+              </div>
+              <div className='absolute top-[40%] right-5'>
+                <div
+                  style={{ fontFamily: 'inter' }}
+                  className=' border   mt-4 text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
+                >
+                  <img src='./interface.svg' className=' mr-1' />
+                  <span className=''>On-chain Interface for Agg. Data</span>
                 </div>
               </div>
             </div>
@@ -176,123 +182,26 @@ const ANewAgg = () => {
         ),
         content: (
           <>
-            <div className=' mt-[60px] leading-8 flex flex-col text-left mr-[60px]'>
-              <span className=' text-[32px] md:text-[28px] font-extrabold text-black'>zkBlob:</span>
-              <span className=' text-2xl md:text-xl font-medium text-black mt-6 '>
-                Ethereum Blob TX {'—>'} DAS {'—>'} Data Proof via ZK rollup.
-              </span>
-            </div>
-            <div className=' mt-[60px] leading-8 flex flex-col text-left mr-[60px]'>
-              <span className='  text-[32px] md:text-[28px] font-extrabold text-black'> Data Programmability: </span>
-              <span className='  text-2xl md:text-xl font-medium text-black mt-6 leading-10'>
-                On-chain interfaces for data functions can be instanly accessed by smart contracts and AggLayer blockchains.
-              </span>
-            </div>
+            <ContentItem tit='zkBlob' sub='Ethereum Blob TX —> DAS —> Data Proof via ZK rollup.' />
+            <ContentItem
+              tit='Data Programmability'
+              sub='On-chain interfaces for data functions can be instanly accessed by smart contracts and AggLayer blockchains.'
+            />
           </>
         ),
       },
       {
         title: (
-          <div className='text-[42px] md:text-4xl'>
+          <>
             <span>"Agg. </span>
             <span className='text-black'>Growth</span>
-          </div>
+          </>
         ),
-        img: (
-          <div style={{ fontFamily: 'inter' }} className='flex flex-col py-[120px] md:w-full mx-10 md:mx-0'>
-            <div className='flex justify-center w-full'>
-              <div className='outline text-sm font-medium md:!w-[380px]  '>
-                <div className='flex flex-col justify-between  h-full'>
-                  <div className=' text-white px-[15px] pt-5 flex justify-between'>
-                    <span>Tx</span>
-                    <div className=' pt-4 ml-[50px] md:ml-[100px]'>Users</div>
-                    <span>Accessible</span>
-                  </div>
-                  <div className=' text-white px-[15px] pb-[28px] flex justify-between'>
-                    <span>Blobs</span>
-                    <span>Agg.Data</span>
-                  </div>
-                </div>
-                <div className='border_container border_container_top md:!left-[155px]'></div>
-                <div className='border_container border_container_top_img md:!left-[190px]'></div>
-                <div className='border_container border_container_right_img md:!left-[355px]'></div>
-                <div className='border_container border_container_right md:!left-[275px]'></div>
-                <div className='border_container border_container_left_bottom'></div>
-                <div className='border_container border_container_left_img'></div>
-                <div className='border_container border_container_right_bottom'></div>
-                <div className='border_container border_container_bottom'></div>
-                <div className=' h-[25px]'>
-                  <div className='border_container border_container_bottom_img'></div>
-                </div>
-              </div>
-            </div>
-
-            <div className='mt-[-70px] flex  w-full  md:w-full  md:justify-center  '>
-              <div className='flex flex-col content'>
-                <div className='flex'>
-                  <div style={{ fontFamily: 'inter' }} className='outline3 text-[#E08900] text-sm font-medium   '>
-                    <div className={`flex items-center  w-[516px] md:w-[${currentWidth - 40}px]   h-full mt-5 `}>
-                      <div className='leftImg'>
-                        <div className='w-[50px] h-[50px] relative left-[-25px] top-[30px] bg-black'>
-                          <img src='./y-users.svg' />
-                        </div>
-                      </div>
-                      <div className='flex justify-between w-full  items-center font-medium text-sm'>
-                        <div>Benefit-Sharing</div>
-                        <div className='centerPos md:!left-[25px]'>
-                          <div className=' ml-[10px] mt-[-20px]'>PoS</div>
-                        </div>
-                        <div className=' md:mr-10'>Protocal Incentive</div>
-                      </div>
-                      <div className='rightImg md:after:!left-[-7px] '>
-                        <div className='w-[50px] h-[50px] relative left-[35px] md:left-[-15px] top-[30px] bg-black'>
-                          <img src='./y-users.svg' />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className='center'></div>
-
-                  <div style={{ fontFamily: 'inter' }} className='outline4 md:!w-full   text-[#E08900] text-sm font-medium   '></div>
-                </div>
-                <div className='relative left-[45px] top-[-15px] w-[430px] md:w-full  flex text-[#E08900] justify-between '>
-                  <div className='left text-[14px] font-medium  bg-black rounded-[50px] border-[#E08900] border w-[130px] h-8  flex items-center'>
-                    <div className=' mr-[25px] '>Dual-Stake</div>
-                  </div>
-                  <div className='centerDas'>
-                    <div className=' bg-black w-[50px] h-[50px] mt-[-70px]'>
-                      <img src='./das.svg' />
-                    </div>
-                    <div className='centerFlag'></div>
-                  </div>
-                  <div className='text-[14px] font-medium md:mr-20  bg-black rounded-[50px] border-[#E08900] border w-[120px] h-8  flex items-center'>
-                    <div className=' ml-[25px] '>PoS Stake</div>
-                  </div>
-                </div>
-                <div className='text-[#E08900] ml-[45px] flex justify-between w-[430px] mt-[-60px]'>
-                  <div>L2 Native Token</div>
-                  <div>DAS Nodes</div>
-                  <div>Restake ETH</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ),
+        img: <GrowthSVG className='w-[600px] mt-[100px] md:w-[500px] md:mt-14 mo:mt-8 mo:w-full' />,
         content: (
           <>
-            <div className=' mt-[60px] leading-8 flex flex-col text-left mr-[60px] md:mr-[30px]'>
-              <span className=' text-[32px] md:text-[28px] font-extrabold text-black'> Data Value Extraction:</span>
-              <span className='  text-2xl md:text-xl font-medium text-black mt-6'>
-                bi-directional value growth driven by data amount and value.
-              </span>
-            </div>
-            <div className=' mt-[60px] leading-8 flex flex-col text-left mr-[60px] md:mr-[30px]'>
-              <span className='text-[32px] md:text-[28px] font-extrabold text-black'> Benfit Sharing: </span>
-              <span className='text-2xl md:text-xl font-medium text-black mt-6'>
-                Value stream reward back to all blockchain users that connect with EthDA.
-              </span>
-            </div>
+            <ContentItem tit='Data Value Extraction' sub='bi-directional value growth driven by data amount and value.' />
+            <ContentItem tit='Benfit Sharing' sub='Value stream reward back to all blockchain users that connect with EthDA.' />
           </>
         ),
       },
@@ -313,45 +222,44 @@ const ANewAgg = () => {
 
   return (
     <>
-      <div className='swipe-section '>
-        <section id={`panels`}>
+      <div className='swipe-section mo:h-max mo:flex'>
+        <section id={`panels`} className='mo:relative mo:h-max mo:flex mo:flex-col mo:w-full'>
           {content.map((item, index) => {
             return (
-              <article id={`panel-${index}`} className={`panel bg-slate-500 w-full tab${index}`}>
-                <div key={`slider${index}`} className='!flex h-[900px]'>
-                  <div className=' bg-[url(/GroupBg.svg)] w-[50%] md:w-[40%] font-le text-white diagram-right'>
-                    <div className='flex w-[640px] flex-wrap px-[30px]  md:w-full  h-full text-center items-center  float-end'>
-                      <div className='flex flex-col '>
+              <article key={`slider${index}`} id={`panel-${index}`} className={`panel mo:!relative bg-slate-500 w-full tab${index}`}>
+                <div className='flex h-[900px] mo:flex-col mo:h-fit'>
+                  <div className=' bg-[url(/GroupBg.svg)] w-[50%] md:w-[40%] mo:w-full font-le text-white diagram-right flex justify-end mo:justify-center'>
+                    <div className='flex flex-wrap px-[30px]  md:w-full mo:px-[12vw] mo:py-8  h-full text-center items-center  float-end mo:float-none mo:w-full'>
+                      <div className='flex flex-col gap-14 mo:gap-4 mo:w-full'>
                         <div className='flex items-center flex-row'>
-                          <span className='font-bold text-[48px] xmd:text-[40px] md:text-3xl'>{item.title}</span>
+                          <span className='font-bold text-[48px] xmd:text-[40px] md:text-3xl mo:text-[6vw]'>{item.title}</span>
                         </div>
                         {item.content}
                       </div>
                     </div>
                   </div>
-                  <div className='bg-black w-[50%] md:w-[60%]'>
-                    <div className=' w-[750px] md:w-full  '>
-                      <div className='flex flex-start mt-[62px] px-[40px] flex-row items-start    '>
+                  <div className='bg-black w-[50%] md:w-[60%] mo:w-full'>
+                    <div className=' w-[750px] md:w-full mo:w-full'>
+                      <div className='flex flex-start mt-[62px] px-[40px] flex-row items-start gap-5 mo:mt-8 mo:px-5 mo:flex-col'>
                         <div className='flex items-center  gap-[30px]'>
                           {[...Array(content.length)].map((_, i) => {
                             return (
                               <div
-                                className={` ${current === i ? ' borders text-[#E08900] h-[40px] w-auto gap-1 px-5' : ' text-white'}   text-base font-medium flex items-center justify-center `}
+                                key={`tabs_${i}`}
+                                className={` ${index === i ? ' borders text-[#E08900] h-[40px] w-auto gap-1 px-5' : ' text-white'}   text-base font-medium flex items-center justify-center `}
                               >
-                                {current === i && <img src='./Box.svg'></img>}
+                                {index === i && <img src='./Box.svg'></img>}
                                 {tab[i]}
                               </div>
                             )
                           })}
                         </div>
-                        <div className='  ml-5 '>
-                          <div className='flex ml-10 '>{item.other}</div>
-                          <div className='flex mt-6   ml-10'>{item.other1}</div>
+                        <div className='self-center'>
+                          <div className='flex ml-10 mo:ml-0 '>{item.other}</div>
+                          <div className='flex mt-6 mo:mt-3 ml-10 mo:ml-0'>{item.other1}</div>
                         </div>
                       </div>
-                      <div className='flex mx-[40px] md:block items-center  '>
-                        <div className=' bg-cover object-cover bg-repeat '>{item.img}</div>
-                      </div>
+                      <div className='flex mx-[40px] md:block items-center mo:mx-0 mo:px-5 justify-center mo:w-full'>{item.img}</div>
                     </div>
                   </div>
                 </div>

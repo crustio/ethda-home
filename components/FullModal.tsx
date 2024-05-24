@@ -48,7 +48,7 @@ const FullModal: FC<FullModalProps> = ({ menus, keys = 'text', onChooseItem, cho
     <div
       id='modal'
       style={{ background: 'rgba(255, 255, 255, 0.90)' }}
-      className={classNames('fixed inset-0 mt-[81px] flex ', wrapperClassName)}
+      className={classNames('fixed inset-0 mt-[81px] flex z-50', wrapperClassName)}
     >
       <div className='p-8 rounded-md mo:w-full'>
         {menus.map((item, i) => {

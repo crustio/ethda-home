@@ -306,13 +306,11 @@ input {
 
 
 .architecture-info-right {
-  height: 80px;
   position: relative;
-  margin-left: 8px;
   background: rgba(0, 37, 63, 0.2);
   border: 1px solid #E08900;
   .border_corner {
-    z-index: 2500;
+    z-index: 10;
     position: absolute;
     width: 10px;
     height: 10px;
