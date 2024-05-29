@@ -37,7 +37,7 @@ const Typewriter = ({ phrases }: any) => {
 const phrases = ['Aggregated Blockchains', 'Aggregated Staking', 'Aggregated Data', 'Aggregated Growth']
 const ABanner = () => {
   return (
-    <div className='h-[1000px] mo:h-screen mo:max-h-[160vw]  bg-[url(/blackStar.svg)] bg-cover flex flex-col'>
+    <div className='h-[1000px] mo:max-h-[160vw] mo:h-screen mo:min-h-[120vw]  bg-[url(/blackStar.svg)] bg-cover flex flex-col'>
       <Header
         contentClassName={'border-b-[#E0890033] border-b'}
         wrapperClassName={'mt-[67px]'}
@@ -46,7 +46,7 @@ const ABanner = () => {
       />
       <div className=' flex justify-center'>
         <div className=' w-full '>
-          <div className=' font-bold text-[62px] md:text-[50px] mo:text-[6vw] text-center text-white pt-[206px] mo:pt-[30vw]'>
+          <div className=' font-bold text-[62px] md:text-[50px] mo:text-[6vw] text-center text-white pt-[206px] mo:pt-[20vw]'>
             <div className='relative'>
               <img src='./circle.svg' className='absolute inset-0 m-auto'></img>
               <div className='flex justify-center items-center '>
@@ -82,8 +82,8 @@ const ABanner = () => {
           </div>
         </div>
       </div>
-      <div className=' bg-[url(/block.svg)] my-auto w-full '>
-        <div className='flex justify-center pt-[118px] mo:pt-[20vw] rounded-sm '>
+      <div className=' bg-[url(/block.svg)] my-auto mo:my-0 w-full '>
+        <div className='flex justify-center pt-[118px] mo:pt-[5vw] rounded-sm '>
           <button
             onClick={() => window.open('https://docs.ethda.io/')}
             style={{
@@ -97,7 +97,7 @@ const ABanner = () => {
           </button>
         </div>
       </div>
-      <div className='flex justify-center my-8'>
+      <div className='flex justify-center mb-8 mo:mt-auto'>
         <div style={{ letterSpacing: '2px' }} className=' text-white flex items-center font-hlc   '>
           <img src='./polygon.svg' className='w-[3.1vw]'></img> <span className=' ml-3 text-[28px] mo:text-[3vw]'>polygon</span>
           <div className='text-[32px] mo:text-[3vw]'>

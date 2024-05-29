@@ -24,78 +24,78 @@ const ANewAgg = () => {
     }
   }, [])
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
+    // gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
-    let allowScroll = true
-    let scrollTimeout = gsap.delayedCall(1, () => (allowScroll = true)).pause()
-    let currentIndex = 0
-    let swipePanels = gsap.utils.toArray('.swipe-section .panel')
-    gsap.set(swipePanels, { zIndex: (i) => swipePanels.length - i })
-    let intentObserver = ScrollTrigger.observe({
-      type: 'wheel,touch',
-      onUp: () => allowScroll && gotoPanel(currentIndex - 1, false),
-      onDown: () => allowScroll && gotoPanel(currentIndex + 1, true),
-      tolerance: 10,
-      preventDefault: true,
+    // let allowScroll = true
+    // let scrollTimeout = gsap.delayedCall(1, () => (allowScroll = true)).pause()
+    // let currentIndex = 0
+    // let swipePanels = gsap.utils.toArray('.swipe-section .panel')
+    // gsap.set(swipePanels, { zIndex: (i) => swipePanels.length - i })
+    // let intentObserver = ScrollTrigger.observe({
+    //   type: 'wheel,touch',
+    //   onUp: () => allowScroll && gotoPanel(currentIndex - 1, false),
+    //   onDown: () => allowScroll && gotoPanel(currentIndex + 1, true),
+    //   tolerance: 10,
+    //   preventDefault: true,
 
-      onEnable(self: any) {
-        allowScroll = false
-        scrollTimeout.restart(true)
-        let savedScroll = self.scrollY()
-        self._restoreScroll = () => self.scrollY(savedScroll)
-        document.addEventListener('scroll', self._restoreScroll, { passive: false })
-      },
-      onDisable: (self: any) => document.removeEventListener('scroll', self._restoreScroll),
-    })
-    intentObserver.disable()
+    //   onEnable(self: any) {
+    //     allowScroll = false
+    //     scrollTimeout.restart(true)
+    //     let savedScroll = self.scrollY()
+    //     self._restoreScroll = () => self.scrollY(savedScroll)
+    //     document.addEventListener('scroll', self._restoreScroll, { passive: false })
+    //   },
+    //   onDisable: (self: any) => document.removeEventListener('scroll', self._restoreScroll),
+    // })
+    // intentObserver.disable()
 
-    function gotoPanel(index: number, isScrollingDown: boolean) {
-      if ((index === swipePanels.length && isScrollingDown) || (index === -1 && !isScrollingDown)) {
-        intentObserver.disable() // resume native scroll
-        return
-      }
-      allowScroll = false
-      scrollTimeout.restart(true)
+    // function gotoPanel(index: number, isScrollingDown: boolean) {
+    //   if ((index === swipePanels.length && isScrollingDown) || (index === -1 && !isScrollingDown)) {
+    //     intentObserver.disable() // resume native scroll
+    //     return
+    //   }
+    //   allowScroll = false
+    //   scrollTimeout.restart(true)
 
-      let target: any = isScrollingDown ? swipePanels[currentIndex] : swipePanels[index]
+    //   let target: any = isScrollingDown ? swipePanels[currentIndex] : swipePanels[index]
 
-      gsap.to(target, {
-        yPercent: isScrollingDown ? -100 : 0,
-        duration: 0.75,
-      })
-      setCurrent(index)
+    //   gsap.to(target, {
+    //     yPercent: isScrollingDown ? -100 : 0,
+    //     duration: 0.75,
+    //   })
+    //   setCurrent(index)
 
-      currentIndex = index
-    }
-    let isMobile = window.innerWidth < 900
-    const onResize = () => {
-      isMobile = window.innerWidth < 900
-      isMobile ? intentObserver.disable() : intentObserver.enable()
-    }
-    window.addEventListener('resize', onResize)
-    ScrollTrigger.create({
-      trigger: '.swipe-section',
-      pin: false,
-      start: 'top top',
-      end: '+=10',
-      onEnter: (self) => {
-        if (intentObserver.isEnabled) {
-          return
-        }
-        !isMobile && self.scroll(self.start + 1)
-        !isMobile && intentObserver.enable()
-      },
-      onEnterBack: (self) => {
-        if (intentObserver.isEnabled) {
-          return
-        }
-        !isMobile && self.scroll(self.end - 1)
-        !isMobile && intentObserver.enable()
-      },
-    })
-    return () => {
-      window.removeEventListener('resize', onResize)
-    }
+    //   currentIndex = index
+    // }
+    // let isMobile = window.innerWidth < 900
+    // const onResize = () => {
+    //   isMobile = window.innerWidth < 900
+    //   isMobile ? intentObserver.disable() : intentObserver.enable()
+    // }
+    // window.addEventListener('resize', onResize)
+    // ScrollTrigger.create({
+    //   trigger: '.swipe-section',
+    //   pin: false,
+    //   start: 'top top',
+    //   end: '+=10',
+    //   onEnter: (self) => {
+    //     if (intentObserver.isEnabled) {
+    //       return
+    //     }
+    //     !isMobile && self.scroll(self.start + 1)
+    //     !isMobile && intentObserver.enable()
+    //   },
+    //   onEnterBack: (self) => {
+    //     if (intentObserver.isEnabled) {
+    //       return
+    //     }
+    //     !isMobile && self.scroll(self.end - 1)
+    //     !isMobile && intentObserver.enable()
+    //   },
+    // })
+    // return () => {
+    //   window.removeEventListener('resize', onResize)
+    // }
     // let horizontalSections = gsap.utils.toArray('.horizontal .panel')
     // gsap.to(horizontalSections, {
     //   xPercent: -100 * (horizontalSections.length - 1),
@@ -111,9 +111,9 @@ const ANewAgg = () => {
   }, [])
   function ContentItem({ tit, sub }: { tit: string; sub: string }) {
     return (
-      <div className='  leading-8 flex flex-col text-left max-w-[500px] mr-10 mo:mr-0'>
+      <div className='leading-none flex flex-col text-left max-w-[500px] mr-10 mo:mr-0'>
         <span className=' text-[32px] md:text-[28px] mo:text-[4vw] font-extrabold text-black'> {tit}:</span>
-        <span className=' text-2xl mo:text-[4vw] font-medium text-black mt-6 mo:mt-3'> {sub}</span>
+        <span className='leading-tight text-2xl mo:text-[3.8vw] font-medium text-black mt-6 mo:mt-1'> {sub}</span>
       </div>
     )
   }
@@ -222,15 +222,15 @@ const ANewAgg = () => {
 
   return (
     <>
-      <div className='swipe-section mo:h-max mo:flex'>
-        <section id={`panels`} className='mo:relative mo:h-max mo:flex mo:flex-col mo:w-full'>
+      <div className=' mo:h-max'>
+        {/* <section id={`panels`} className='mo:relative mo:h-max mo:flex mo:flex-col mo:w-full'> */}
           {content.map((item, index) => {
             return (
-              <article key={`slider${index}`} id={`panel-${index}`} className={`panel mo:!relative bg-slate-500 w-full tab${index}`}>
-                <div className='flex h-[900px] mo:flex-col mo:h-fit'>
+              <article key={`slider${index}`} id={`panel-${index}`} className={` mo:!relative bg-slate-500 w-full tab${index} sticky top-0`} style={{boxShadow: '0px 10px 6px 10px rgba(0,0,0,0.3)'}}>
+                <div className='flex mo:flex-col mo:h-fit'>
                   <div className=' bg-[url(/GroupBg.svg)] w-[50%] md:w-[40%] mo:w-full font-le text-white diagram-right flex justify-end mo:justify-center'>
                     <div className='flex flex-wrap px-[30px]  md:w-full mo:px-[12vw] mo:py-8  h-full text-center items-center  float-end mo:float-none mo:w-full'>
-                      <div className='flex flex-col gap-14 mo:gap-4 mo:w-full'>
+                      <div className='flex flex-col gap-14 mo:gap-6 mo:w-full'>
                         <div className='flex items-center flex-row'>
                           <span className='font-bold text-[48px] xmd:text-[40px] md:text-3xl mo:text-[6vw]'>{item.title}</span>
                         </div>
@@ -246,7 +246,7 @@ const ANewAgg = () => {
                             return (
                               <div
                                 key={`tabs_${i}`}
-                                className={` ${index === i ? ' borders text-[#E08900] h-[40px] w-auto gap-1 px-5' : ' text-white'}   text-base font-medium flex items-center justify-center `}
+                                className={` ${index === i ? ' borders text-[#E08900] h-[40px] mo:h-[36px] w-auto gap-1 px-5' : ' text-white'}   text-sm font-medium flex items-center justify-center `}
                               >
                                 {index === i && <img src='./Box.svg'></img>}
                                 {tab[i]}
@@ -266,7 +266,7 @@ const ANewAgg = () => {
               </article>
             )
           })}
-        </section>
+        {/* </section> */}
       </div>
     </>
   )
