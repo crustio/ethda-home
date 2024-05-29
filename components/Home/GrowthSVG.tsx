@@ -42,7 +42,7 @@ export function GrowthSVG({ className }: { className?: string }) {
       <use xlinkHref='#ethda_arrow' transform='translate(71, 110)' stroke={color1} />
 
       <g transform='translate(481, 130)'>
-        <image xlinkHref='/datainterface.svg' width='50' height='50' x='0' y='0' />
+        <image xlinkHref='/dataInterface.svg' width='50' height='50' x='0' y='0' />
         <text textAnchor='middle' x='0' y='75' fontSize='14' fill={color1}>
           Data Onchain Interface
         </text>
