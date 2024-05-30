@@ -10,7 +10,7 @@ const AConnectEthDA = () => {
                   <div className=' relative z-10'>Connect to EthDA</div>
                   <div className=' relative left-[-35px] mt-6 rounded-[40px] bg-[#823ADE] w-[170px] h-[50px] gap-1 px-5 text-[26px] transform  -rotate-12 font-hlc items-center flex'>
                     <img src='./polygon-w.svg' className=' ' />
-                    polygon
+                    Polygon
                   </div>
                 </div>
               </div>

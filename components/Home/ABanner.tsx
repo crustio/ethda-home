@@ -99,7 +99,7 @@ const ABanner = () => {
       </div>
       <div className='flex justify-center mb-8 mo:mt-auto'>
         <div style={{ letterSpacing: '2px' }} className=' text-white flex items-center font-hlc   '>
-          <img src='./polygon.svg' className='w-[3.1vw]'></img> <span className=' ml-3 text-[28px] mo:text-[3vw]'>polygon</span>
+          <img src='./polygon.svg' className='w-[3.1vw]'></img> <span className=' ml-3 text-[28px] mo:text-[3vw]'>Polygon</span>
           <div className='text-[32px] mo:text-[3vw]'>
             <span className='text-[#8F4FFF] ml-2'>CDK</span>-based L2, <span className='ml-2'>Connect</span> with{' '}
             <span className='text-[#8F4FFF]'>AggLayer</span>

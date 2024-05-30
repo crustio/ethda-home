@@ -43,7 +43,7 @@ const Agg = () => {
       ),
       other1: (
         <div className='text-[#E08900] text-base border-[#E08900] border rounded-[50px] px-5 w-[170px] h-9 flex items-center'>
-          L2 Native token
+          L2 Native Token
         </div>
       ),
       img: <img src='./gif/1.gif' />,

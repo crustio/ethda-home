@@ -134,7 +134,7 @@ const ANewAgg = () => {
         ),
         other1: (
           <div className='text-[#E08900] text-base md:text-sm border-[#E08900] border rounded-[50px] px-5 w-[170px] md:w-[155px]  h-9 flex items-center'>
-            L2 Native token
+            L2 Native Token
           </div>
         ),
         img: (
@@ -144,8 +144,8 @@ const ANewAgg = () => {
         ),
         content: (
           <>
-            <ContentItem tit='ETH Restaking' sub='restake ETH on EthDA DAS nodes.' />
-            <ContentItem tit='Dual-Staking' sub='dual-stake native token of L2 protocols.' />
+            <ContentItem tit='ETH Restaking' sub='Restake ETH on EthDA DAS nodes.' />
+            <ContentItem tit='Dual-Staking' sub='Dual-stake native token of L2 protocols.' />
           </>
         ),
       },
@@ -200,7 +200,7 @@ const ANewAgg = () => {
         img: <GrowthSVG className='w-[600px] mt-[100px] md:w-[500px] md:mt-14 mo:mt-8 mo:w-full' />,
         content: (
           <>
-            <ContentItem tit='Data Value Extraction' sub='bi-directional value growth driven by data amount and value.' />
+            <ContentItem tit='Data Value Extraction' sub='Bi-directional value growth driven by data amount and value.' />
             <ContentItem tit='Benfit Sharing' sub='Value stream reward back to all blockchain users that connect with EthDA.' />
           </>
         ),
