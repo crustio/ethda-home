@@ -44,11 +44,19 @@ const ABanner = () => {
         btnClassName={'text-white '}
         className={'py-[28px] md:mx-[30px]  '}
       />
-      <div className=' flex justify-center'>
+      <div
+        className=' flex justify-center pb-12'
+        style={{
+          backgroundImage: `url(/circle.svg)`,
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'contain',
+        }}
+      >
+        {/* <img src='./circle.svg' className='absolute inset-0 m-auto'/> */}
         <div className=' w-full '>
           <div className=' font-bold text-[62px] md:text-[50px] mo:text-[6vw] text-center text-white pt-[206px] mo:pt-[20vw]'>
             <div className='relative'>
-              <img src='./circle.svg' className='absolute inset-0 m-auto'></img>
               <div className='flex justify-center items-center '>
                 <div className='w-auto whitespace-nowrap flex border border-[#E08900] px-8 mo:px-4 py-3 architecture-info-right items-center'>
                   <div className='text-center'>A Data Availability </div>
