@@ -63,7 +63,7 @@ const ANewAgg = () => {
           </>
         ),
         img: (
-          <div className=' flex w-full relative'>
+          <div className='flex relative w-fit'>
             <div className=' '>
               <img src='./gif/2.gif' id='gif' className='py-[30px] w-full mmd:w-[500px] bg-cover' />
             </div>
@@ -84,17 +84,17 @@ const ANewAgg = () => {
                   </div>
                 </div>
               </div>
-              <div className='absolute top-[40%] right-0'>
-                <div
-                  style={{
-                    fontFamily: 'inter',
-                    background: 'linear-gradient(90deg, rgba(153, 153, 153, 0.21) 15.21%, rgba(255, 255, 255, 0.21) 100%)',
-                  }}
-                  className=' border   mt-4 text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
-                >
-                  <img src='./interface.svg' className=' mr-1' />
-                  <span className=''>On-chain Interface for Agg. Data</span>
-                </div>
+            </div>
+            <div className='absolute top-[40%] right-0 w-fit'>
+              <div
+                style={{
+                  fontFamily: 'inter',
+                  background: 'linear-gradient(90deg, rgba(153, 153, 153, 0.21) 15.21%, rgba(255, 255, 255, 0.21) 100%)',
+                }}
+                className=' border   mt-4 text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
+              >
+                <img src='./interface.svg' className=' mr-1' />
+                <span className=''>On-chain Interface for Agg. Data</span>
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ const ANewAgg = () => {
             <span className='text-black'>Growth</span>
           </>
         ),
-        img: <GrowthSVG className='w-[600px] mt-[100px] md:w-[500px] md:mt-14 mo:mt-8 mo:w-full' />,
+        img: <GrowthSVG className='w-[600px] py-10 md:w-[500px] md:mt-14 mo:mt-8 mo:py-0 mo:w-full' />,
         content: (
           <>
             <ContentItem tit='Data Value Extraction' sub='Bi-directional value growth driven by data amount and value.' />
@@ -148,9 +148,9 @@ const ANewAgg = () => {
                 </div>
               </div>
               <div className='bg-black w-[50%] md:w-[60%] mo:w-full'>
-                <div className=' w-[750px] md:w-full mo:w-full'>
-                  <div className='flex flex-start mt-[62px] px-[40px] flex-row items-start gap-5 mo:mt-8 mo:px-5 mo:flex-col'>
-                    <div className='flex items-center  gap-[30px] pb-5'>
+                <div className='w-full max-w-[750px] md:w-full mo:w-full mo:max-w-none'>
+                  <div className='flex flex-start mt-[62px] px-10 flex-row items-start justify-between gap-5 mo:mt-8 mo:px-5 mo:flex-col'>
+                    <div className='flex items-center gap-8 pb-5'>
                       {[...Array(content.length)].map((_, i) => {
                         return (
                           <div
