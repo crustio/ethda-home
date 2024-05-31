@@ -11,10 +11,10 @@ export const Footer = () => {
     <div className='bg-[url(/left-p.svg)] '>
       <footer className={'bg-black py-20 mo:py-10 px-5'}>
         <div className='container mx-auto mo:flex mo:flex-col justify-center mo:flex-wrap md:px-[30px]'>
-          <img src='/ethDA.png' className='shrink-0 h-[24px] w-[109px]' />
+          <img src='/logo.svg' className='shrink-0 h-[26px] w-[119px]' />
           <div className='flex justify-between mo:flex-col gap-8 items-center  mt-8'>
             <div className={'text-white font-light text-2xl mo:text-xl mo:w-full mo:flex mo:justify-center'}>
-              Start Your EthDA Journey Now!
+              Start Your EthDA Journey Now !
             </div>
             <div
               className='rounded-full'
@@ -28,7 +28,7 @@ export const Footer = () => {
                   background: 'linear-gradient(90deg, #855A10 0%, #562B0F 100%)',
                 }}
                 onClick={() => window.open('https://forms.gle/TTxnVhnEyNEkyXUAA', '_blank')}
-                className={'overflow-hidden rounded-full px-8 py-2  text-2xl mo:text-xl text-white'}
+                className={'overflow-hidden rounded-full px-8 py-2  text-2xl font-light mo:text-xl text-white'}
               >
                 Connect with Crust Team
               </button>

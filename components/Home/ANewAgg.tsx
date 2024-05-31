@@ -8,7 +8,7 @@ function ContentItem({ tit, sub }: { tit: string; sub: string }) {
   return (
     <div className='leading-none flex flex-col text-left max-w-[500px] mr-10 mo:mr-0'>
       <span className=' text-[32px] md:text-[28px] mo:text-[4.1vw] font-extrabold text-black'> {tit}:</span>
-      <span className='leading-tight text-2xl mo:text-[3.9vw] font-medium text-black mt-6 mo:mt-2'> {sub}</span>
+      <span className='leading-tight text-2xl mo:text-[3.9vw] font-medium text-black mt-6 mo:mt-4'> {sub}</span>
     </div>
   )
 }
@@ -26,12 +26,18 @@ const ANewAgg = () => {
         other: (
           <div className='self-center'>
             <div className='flex ml-10 mo:ml-0 '>
-              <div className='text-[#8F4FFF] tracking-[0.045em] text-base md:text-sm border-[#8F4FFF] border rounded-[50px] px-5 w-[170px] md:w-[155px] h-9 flex items-center'>
+              <div
+                style={{ background: 'linear-gradient(90deg, rgba(143, 79, 255, 0.13) 0%, rgba(86, 47, 153, 0.4) 100%)' }}
+                className='text-[#8F4FFF] tracking-[0.045em] text-base md:text-sm border-[#8F4FFF] border rounded-[50px] px-5 w-[170px] md:w-[155px] h-9 flex items-center'
+              >
                 ETH Restaking
               </div>
             </div>
             <div className='flex mt-6 mo:mt-3 ml-10 mo:ml-0'>
-              <div className='text-[#E08900] text-base md:text-sm border-[#E08900] border rounded-[50px] px-5 w-[170px] md:w-[155px]  h-9 flex items-center'>
+              <div
+                style={{ background: 'linear-gradient(90deg, rgba(253, 121, 35, 0.13) 0%, rgba(255, 199, 0, 0.21) 100%)' }}
+                className='text-[#E08900] text-base md:text-sm border-[#E08900] border rounded-[50px] px-5 w-[170px] md:w-[155px]  h-9 flex items-center'
+              >
                 L2 Native Token
               </div>
             </div>
@@ -64,17 +70,26 @@ const ANewAgg = () => {
             <div className='flex '>
               <div className='self-start'>
                 <div className='flex flex-col gap-4 font-medium mo:items-end'>
-                  <div className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center justify-center'>
+                  <div
+                    style={{ background: 'linear-gradient(90deg, rgba(143, 79, 255, 0.13) 0%, rgba(86, 47, 153, 0.4) 100%)' }}
+                    className='text-[#8F4FFF]  border-[#8F4FFF] border rounded-[50px] px-5 w-[110px] h-8 flex items-center justify-center'
+                  >
                     Blob Tx
                   </div>
-                  <div className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center justify-center'>
+                  <div
+                    style={{ background: 'linear-gradient(90deg, rgba(253, 121, 35, 0.13) 0%, rgba(255, 199, 0, 0.21) 100%)' }}
+                    className='text-[#E08900] border-[#E08900] border rounded-[50px] px-5 w-[110px] h-8 flex items-center justify-center'
+                  >
                     Blob Tx
                   </div>
                 </div>
               </div>
               <div className='absolute top-[40%] right-0'>
                 <div
-                  style={{ fontFamily: 'inter' }}
+                  style={{
+                    fontFamily: 'inter',
+                    background: 'linear-gradient(90deg, rgba(153, 153, 153, 0.21) 15.21%, rgba(255, 255, 255, 0.21) 100%)',
+                  }}
                   className=' border   mt-4 text-white text-[12px] font-medium border-white h-8 flex items-center justify-center rounded-[50px] w-[227px]   '
                 >
                   <img src='./interface.svg' className=' mr-1' />
@@ -113,7 +128,6 @@ const ANewAgg = () => {
   }, [])
   return (
     <div className=' mo:h-max'>
-      {/* <section id={`panels`} className='mo:relative mo:h-max mo:flex mo:flex-col mo:w-full'> */}
       {content.map((item, index) => {
         return (
           <article
@@ -127,7 +141,7 @@ const ANewAgg = () => {
                 <div className='flex flex-wrap px-[30px]  md:w-full mo:px-[12vw] mo:py-8  h-full text-center items-center  float-end mo:float-none mo:w-full'>
                   <div className='flex flex-col gap-14 mo:gap-6 mo:w-full'>
                     <div className='flex items-center flex-row'>
-                      <span className='font-bold text-[48px] xmd:text-[40px] md:text-3xl mo:text-[6vw]'>{item.title}</span>
+                      <span className='font-extrabold text-[48px] xmd:text-[40px] md:text-3xl mo:text-[6vw]'>{item.title}</span>
                     </div>
                     {item.content}
                   </div>
@@ -136,11 +150,15 @@ const ANewAgg = () => {
               <div className='bg-black w-[50%] md:w-[60%] mo:w-full'>
                 <div className=' w-[750px] md:w-full mo:w-full'>
                   <div className='flex flex-start mt-[62px] px-[40px] flex-row items-start gap-5 mo:mt-8 mo:px-5 mo:flex-col'>
-                    <div className='flex items-center  gap-[30px]'>
+                    <div className='flex items-center  gap-[30px] pb-5'>
                       {[...Array(content.length)].map((_, i) => {
                         return (
                           <div
                             key={`tabs_${i}`}
+                            style={{
+                              background:
+                                index === i ? 'linear-gradient(90deg, rgba(222, 149, 25, 0.2) 0%, rgba(142, 70, 24, 0.2) 100%)' : 'none',
+                            }}
                             className={` ${index === i ? ' borders text-[#E08900] h-[40px] mo:h-[36px] w-auto gap-1 px-5' : ' text-white'}   text-sm font-medium flex items-center justify-center `}
                           >
                             {index === i && <img src='./Box.svg'></img>}
