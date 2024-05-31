@@ -159,7 +159,7 @@ const ANewAgg = () => {
                               background:
                                 index === i ? 'linear-gradient(90deg, rgba(222, 149, 25, 0.2) 0%, rgba(142, 70, 24, 0.2) 100%)' : 'none',
                             }}
-                            className={` ${index === i ? ' borders text-[#E08900] h-[40px] mo:h-[36px] w-auto gap-1 px-5' : ' text-white'}   text-sm font-medium flex items-center justify-center `}
+                            className={` ${index === i ? ' borders text-[#E08900] h-[40px] mo:h-[36px] w-auto gap-1 px-5' : ' text-white'}   text-lg font-medium flex items-center justify-center `}
                           >
                             {index === i && <img src='./Box.svg'></img>}
                             {tab[i]}

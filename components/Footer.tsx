@@ -34,10 +34,10 @@ export const Footer = () => {
               </button>
             </div>
           </div>
-          <div className={'bg-[#333] my-10 mo:my-5 h-[1px] w-full'} />
+          <div className={'bg-white/15 my-10  h-[1px] w-full'} />
           <div className='flex justify-between items-center mo:flex-col mo:w-full '>
-            <div className={'text-gray-500 text-sm mo:self-start'}>Copyright © EthDA {currentYear} All Rights Reserved</div>
-            <div className='flex gap-10 mo:gap-[50px] mo:my-5 mo:w-full mo:justify-center mo:justify-between text-[#737373]'>
+            <div className={'text-white/65 text-sm mo:self-start'}>Copyright © EthDA {currentYear} All Rights Reserved</div>
+            <div className='flex gap-10 mo:gap-[50px] mo:my-10 mo:w-full mo:justify-center mo:justify-between text-[#737373]'>
               <Link href={'https://twitter.com/CrustNetwork'} target={'_blank'} className={'link-icon'}>
                 <TwitterIcon />
               </Link>
