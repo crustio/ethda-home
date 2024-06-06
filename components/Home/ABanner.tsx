@@ -37,7 +37,7 @@ const Typewriter = ({ phrases }: any) => {
 const phrases = ['Aggregated Blockchains', 'Aggregated Staking', 'Aggregated Data', 'Aggregated Growth']
 const ABanner = () => {
   return (
-    <div className='h-[1000px] mo:max-h-[160vw] mo:h-screen mo:min-h-[120vw]  flex flex-col'>
+    <div className='h-[1000px] mo:max-h-[160vw] mo:h-screen mo:min-h-[120vw]  flex flex-col bg-black'>
       <Header
         contentClassName={'border-b-[#E0890033] border-b'}
         wrapperClassName={'mt-[67px]'}
