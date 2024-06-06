@@ -37,7 +37,7 @@ const Typewriter = ({ phrases }: any) => {
 const phrases = ['Aggregated Blockchains', 'Aggregated Staking', 'Aggregated Data', 'Aggregated Growth']
 const ABanner = () => {
   return (
-    <div className='h-[1000px] mo:max-h-[160vw] mo:h-screen mo:min-h-[120vw]  bg-[url(/blackStar.svg)] bg-cover flex flex-col'>
+    <div className='h-[1000px] mo:max-h-[160vw] mo:h-screen mo:min-h-[120vw]  flex flex-col'>
       <Header
         contentClassName={'border-b-[#E0890033] border-b'}
         wrapperClassName={'mt-[67px]'}
@@ -45,9 +45,9 @@ const ABanner = () => {
         className={'py-[28px] md:mx-[30px]  '}
       />
       <div
-        className=' flex justify-center pb-12'
+        className='flex-1 flex justify-center flex-col items-center'
         style={{
-          backgroundImage: `url(/circle.svg)`,
+          backgroundImage: `url(/bg_gif.gif)`,
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'contain',
@@ -89,28 +89,28 @@ const ABanner = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className=' bg-[url(/block.svg)] my-auto mo:my-0 w-full '>
-        <div className='flex justify-center pt-[118px] mo:pt-[5vw] rounded-sm '>
-          <button
-            onClick={() => window.open('https://docs.ethda.io/')}
-            style={{
-              background: 'linear-gradient(90deg, rgba(222, 149, 25, 0.6) 0%, rgba(142, 70, 24, 0.6) 100%)',
-              //   backgroundImage: 'linear-gradient(90deg, rgba(222, 149, 25, 0.6) 0%, rgba(142, 70, 24, 0.6) 100%)',
-              //   backgroundPositionX: '1px',
-            }}
-            className='borders  text-white  w-[260px] h-[66px] mo:w-[200px] mo:h-[40px] font-hlc text-2xl mo:text-lg font-black'
-          >
-            Read Docs
-          </button>
+        <div className='mt-auto mb-5 w-full '>
+          <div className='flex justify-center rounded-sm '>
+            <button
+              onClick={() => window.open('https://docs.ethda.io/')}
+              style={{
+                background: 'linear-gradient(90deg, rgba(222, 149, 25, 0.6) 0%, rgba(142, 70, 24, 0.6) 100%)',
+                //   backgroundImage: 'linear-gradient(90deg, rgba(222, 149, 25, 0.6) 0%, rgba(142, 70, 24, 0.6) 100%)',
+                //   backgroundPositionX: '1px',
+              }}
+              className='borders  text-white  w-[260px] h-[66px] mo:w-[200px] mo:h-[40px] font-hlc text-2xl mo:text-lg font-black'
+            >
+              Read Docs
+            </button>
+          </div>
         </div>
-      </div>
-      <div className='flex justify-center mb-8 mo:mt-auto'>
-        <div style={{ letterSpacing: '2px' }} className=' text-white flex items-center font-hlc   '>
-          <img src='./polygon.svg' className='w-[3.1vw]'></img> <span className=' ml-3 text-[28px] mo:text-[3vw]'>Polygon</span>
-          <div className='text-[32px] mo:text-[3vw]'>
-            <span className='text-[#8F4FFF] ml-2'>CDK</span>-based L2, <span className='ml-2'>Connect</span> with{' '}
-            <span className='text-[#8F4FFF]'>AggLayer</span>
+        <div className='flex justify-center mb-8'>
+          <div style={{ letterSpacing: '2px' }} className=' text-white flex items-center font-hlc   '>
+            <img src='./polygon.svg' className='w-[3.1vw]'></img> <span className=' ml-3 text-[28px] mo:text-[3vw]'>Polygon</span>
+            <div className='text-[32px] mo:text-[3vw]'>
+              <span className='text-[#8F4FFF] ml-2'>CDK</span>-based L2, <span className='ml-2'>Connect</span> with{' '}
+              <span className='text-[#8F4FFF]'>AggLayer</span>
+            </div>
           </div>
         </div>
       </div>
