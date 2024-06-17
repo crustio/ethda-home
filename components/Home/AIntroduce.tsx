@@ -34,7 +34,7 @@ const data = [
     title: <div className=' text-2xl font-bold  text-white'>2024 Q4</div>,
     content: (
       <div style={{ fontFamily: 'inter', transform: 'rotate(2deg)' }} className='mt-[37px] font-medium text-base text-white'>
-        Full DAS and Staking implement- tation, benefit sharing contracts, treasury and governance modules MainNet Launch
+        Full DAS and Staking implementation, benefit sharing contracts, treasury and governance modules MainNet Launch
       </div>
     ),
     borderImg: 'bg-[url(/border3.svg)]  mt-[-24px]',
@@ -45,7 +45,7 @@ const data = [
     title: <div className=' text-2xl font-bold  text-white'>2025</div>,
     content: (
       <div style={{ fontFamily: 'inter', transform: 'rotate(-2deg)' }} className='mt-[37px] font-medium text-base text-white'>
-        Extend DStorage use cases like assurance pool, Blob operating and managementContinuously L2 technologies and ecosystems integration
+        Extend DStorage use cases like assurance pool, Blob operating and management Continuously L2 technologies and ecosystems integration
       </div>
     ),
     borderImg: 'bg-[url(/border2.svg)] mt-8',
@@ -56,7 +56,7 @@ const data = [
     title: <div className=' text-2xl font-bold  text-white'>2026</div>,
     content: (
       <div style={{ fontFamily: 'inter', transform: 'rotate(2deg)' }} className='mt-[37px] font-medium text-base text-white'>
-        Extend DA services to Ethereum L1 light / stateless nodes GraphQL-like query and programabilities on data blobs
+        Extend DA services to Ethereum L1 light / stateless nodes GraphQL-like query and programmabilities on data blobs
       </div>
     ),
     borderImg: 'bg-[url(/border1.svg)]  -mt-5',

@@ -2,7 +2,7 @@ import { gsap } from 'gsap'
 import { useMemo } from 'react'
 import { GrowthSVG } from './GrowthSVG'
 
-const tab = ['Staking', 'Date', 'Growth']
+const tab = ['Staking', 'Data', 'Growth']
 
 function ContentItem({ tit, sub }: { tit: string; sub: string }) {
   return (
