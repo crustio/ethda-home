@@ -353,7 +353,7 @@ const BlobTX = () => {
     openTo('https://www.eip4844.com')
   }
   const onGas = () => {
-    openTo('https://docs.ethda.io/developers/quick-start/using-ethda-faucet/')
+    openTo(ethda.custom.bridgeUrl)
   }
   const onClickAddNet = () => {
     openTo('https://docs.ethda.io/resources/network-configuration/add-ethda-network/')
@@ -390,10 +390,10 @@ const BlobTX = () => {
                     </div>
                     <div className='flex gap-5'>
                       <button onClick={onClickAddNet} className='mo:w-full text-base underline mo:text-2xl '>
-                        Add EthDA Devnet to wallet
+                        Add EthDA Testnet to wallet
                       </button>
                       <button onClick={onGas} className='mo:mt-[70px] mo:text-2xl   text-base underline'>
-                        Gas Faucet
+                        Bridge
                       </button>
                     </div>
                   </div>
@@ -439,10 +439,10 @@ const BlobTX = () => {
                   </div>
                   <div className='sm:hidden flex gap-2 mt-4 flex-col items-start'>
                     <button onClick={onClickAddNet} className='text-base underline '>
-                      Add EthDA Devnet to wallet
+                      Add EthDA Testnet to wallet
                     </button>
                     <button onClick={onGas} className='text-base underline'>
-                      Gas Faucet
+                      Bridge
                     </button>
                   </div>
                   <div className=' text-2xl font-medium mo:mt-10'>Input</div>
@@ -588,10 +588,10 @@ const BlobTX = () => {
             )}
             <div className=' mt-[100px] flex  mo:mx-0 md:mx-[100px] mx-[200px]  mo:text-center mo:justify-center  justify-between mo:flex-wrap mo:w-full'>
               <button onClick={onClickAddNet} className='mo:w-full underline text-lg '>
-                Add EthDA Devnet to wallet
+                Add EthDA Testnet to wallet
               </button>
               <button onClick={onGas} className='mo:mt-[70px] mo:mb-10 text-lg underline'>
-                Gas Faucet
+                Bridge
               </button>
             </div>
           </div>

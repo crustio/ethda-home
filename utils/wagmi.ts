@@ -2,8 +2,6 @@ import { connectorsForWallets } from '@rainbow-me/rainbowkit'
 import { createConfig, http } from 'wagmi'
 
 import { defineChain } from 'viem/utils'
-import { zeroAddress } from 'viem'
-
 const walletConnectProjectId = '08655efd533e1054791755a0c58862c4'
 
 export const ethda = defineChain({
@@ -27,10 +25,13 @@ export const ethda = defineChain({
     blobs: {
       name: 'Blobscan',
       url: 'https://blobscan-testnet.ethda.io',
-    }
+    },
   },
   contracts: {
     blobTo: { address: '0xD0d387145B497FF1992DF7b35DE4594991adf00B' },
+  },
+  custom: {
+    bridgeUrl: 'https://bridge-testnet.ethda.io',
   },
 
   // id: 1001,
