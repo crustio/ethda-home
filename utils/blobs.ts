@@ -131,24 +131,25 @@ export function parseBigintValue(value: any) {
   return value
 }
 
-export function createMetaDataForBlobs(create: string, mimetype: string[]) {
+export function createMetaDataForBlobs(
+  create: string,
+  mimetype: {
+    content_type: string
+    versioned_hash: string
+    kzg_commitment: string
+    kzg_proof: string
+  }[],
+) {
   return {
     // "Identifies the originator of the carried blobs"
     originator: create,
     // "Describes the contents of the blobs"
-    description: 'text,image',
+    description: mimetype.map((m) => m.content_type).join(','),
     // Describes the mime type of the blobs
     content_type: '',
     // "Dynamic extra information of the blobs"
     extras: '',
     // Blobs meta data
-    blobs: mimetype.map((type) => ({
-      // "Describes the content of the i'th blob"
-      description: '',
-      // "Describes the mime type of the i'th blob"
-      content_type: type,
-      // "Dynamic extra information of the i'th blob"
-      extras: '',
-    })),
+    blobs: mimetype
   }
 }

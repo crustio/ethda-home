@@ -7,6 +7,7 @@ import { FC, useEffect, useState } from 'react'
 import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi'
 import classNames from 'classnames'
 import FullModal from './FullModal'
+import { ethda } from '@/utils/wagmi'
 
 type HeaderType = {
   logo?: string
@@ -70,11 +71,11 @@ export const Header: FC<HeaderType> = ({
     },
     {
       text: 'Explorer',
-      to: 'https://scan-devnet.ethda.io',
+      to: ethda.blockExplorers.default.url,
     },
     {
       text: 'Blobscan',
-      to: 'https://blobscan-devnet.ethda.io/',
+      to: ethda.blockExplorers.blobs.url,
     },
     {
       text: 'Try BlobTX',
@@ -96,7 +97,7 @@ export const Header: FC<HeaderType> = ({
   }
 
   return (
-    <div className={classNames(` ${contentClassName}`)}>
+    <div className={classNames(` ${contentClassName}`)} suppressHydrationWarning>
       <header className={classNames(`py-5  ${isShow && ' !bg-white'}  border-b-[rgba(255,255,255,.2)]`, className)}>
         <div className=' mo:mx-[30px] '>
           <div className={classNames('flex justify-between items-center', containerClassName)}>
@@ -124,13 +125,13 @@ export const Header: FC<HeaderType> = ({
                   Home
                 </div>
                 <div
-                  onClick={() => onSwitchTo('https://scan-devnet.ethda.io')}
+                  onClick={() => onSwitchTo(ethda.blockExplorers.default.url)}
                   className={`nav-item ${pathname === '/Explorer' ? 'active' : ''}`}
                 >
                   Explorer
                 </div>
                 <div
-                  onClick={() => onSwitchTo('https://blobscan-devnet.ethda.io/')}
+                  onClick={() => onSwitchTo(ethda.blockExplorers.blobs.url)}
                   className={`nav-item ${pathname === '/Blobscan' ? 'active' : ''}`}
                 >
                   Blobscan

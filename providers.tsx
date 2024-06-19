@@ -1,20 +1,22 @@
 'use client'
 
-import { ConnectKitProvider } from 'connectkit'
-import { WagmiConfig } from 'wagmi'
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { WagmiProvider } from 'wagmi'
 import { ReactNode } from 'react'
 import config from './utils/wagmi'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { withClient } from './components/withClient'
 
-export function Providers({ children }: { children: ReactNode }) {
+const queryClient = new QueryClient()
+
+export const Providers = withClient(({ children }: { children: ReactNode }) => {
   return (
-    <WagmiConfig config={config}>
-      <ConnectKitProvider
-        options={{
-          enforceSupportedChains: true,
-        }}
-      >
-        {children}
-      </ConnectKitProvider>
-    </WagmiConfig>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider locale='en-US' modalSize='compact'>
+          {children}
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   )
-}
+})
