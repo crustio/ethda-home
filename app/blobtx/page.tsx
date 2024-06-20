@@ -226,8 +226,7 @@ const BlobTX = () => {
       })
         .then((r) => r.json())
         .catch((e) => console.error(e))
-        .finally(() => setLoading({ loading: false, success: false, error: true }))
-      if (data.result && 'status' in data.result && data.result.status === '0x1') {
+      if (data?.result && 'status' in data.result && data.result.status === '0x1') {
         setLoading({ loading: false, success: true, error: false })
         return data
       } else {
@@ -286,7 +285,7 @@ const BlobTX = () => {
       })
       console.info('tx:', request.gas, request.gasPrice, request.maxPriorityFeePerGas)
 
-      const res = await walletClient?.signTransaction(request)
+      const res = await walletClient.signTransaction(request)
       const hexSig = (res.startsWith('0x') ? res : `0x${res}`) as `0x${string}`
       const transaction = parseTransaction(hexSig)
       if (!transaction) return
