@@ -35,8 +35,8 @@ export const ethda = defineChain({
   },
 
   // id: 1001,
-  // network: 'EthDA Devnet',
-  // name: 'EthDA Devnet',
+  // network: 'EthDA Testnet',
+  // name: 'EthDA Testnet',
   // nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
   // rpcUrls: {
   //   default: {

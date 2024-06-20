@@ -664,14 +664,14 @@ const BlobTX = () => {
               <div className='text-center text-[FC7823] font-medium text-[1.25rem]'>Switch to EthDA Network</div>
               <div className='mt-[2rem] mb-[2.25rem] flex flex-col gap-3'>
                 <p className=' mo:text-sm'>
-                  Please add EthDA Devnet to your wallet and make sure you have switched to EthDA Devnet before you start.
+                  Please add EthDA Testnet to your wallet and make sure you have switched to EthDA Testnet before you start.
                 </p>
                 <p className=' mo:text-sm'>
                   Click on <strong className='mo:text-base'>“Add Network”</strong> button to view a simple guide for manually adding
                   network.
                 </p>
                 <p className=' mo:text-sm'>
-                  Click on <strong className=' mo:text-base'>“Enter App”</strong> after you have switched your wallet to EthDA Devnet.
+                  Click on <strong className=' mo:text-base'>“Enter App”</strong> after you have switched your wallet to EthDA Testnet.
                 </p>
               </div>
 
