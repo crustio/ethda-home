@@ -57,12 +57,13 @@ export const ethda = defineChain({
 
 import { coinbaseWallet, imTokenWallet } from '@rainbow-me/rainbowkit/wallets'
 import { createClient } from 'viem'
-const connectors = connectorsForWallets([{ groupName: 'Recommended', wallets: [coinbaseWallet, imTokenWallet] }], {
+const connectors = connectorsForWallets([{ groupName: 'Suggested', wallets: [imTokenWallet] }], {
   appName: 'EthDA',
   appUrl: 'https://ethda.io',
   appIcon: 'https://ethda.io/logo.svg',
   projectId: walletConnectProjectId,
 })
+console.info('connectors', connectors)
 const config = createConfig({
   connectors,
   chains: [ethda] as any,
