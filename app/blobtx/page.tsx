@@ -10,13 +10,13 @@ import { ethda } from '@/utils/wagmi'
 import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
 import { CrossCircledIcon } from '@radix-ui/react-icons'
-import { ethers } from 'ethers'
 import { ChangeEvent, Fragment, useCallback, useEffect, useRef, useState } from 'react'
-import { Address, bytesToHex, parseEther, parseTransaction, stringToHex } from 'viem'
-import { useAccount, useDisconnect, usePublicClient, useWalletClient } from 'wagmi'
+import { Address, WalletClient, bytesToHex, createWalletClient, http, parseEther, parseTransaction, stringToHex } from 'viem'
+import { useAccount, useDisconnect, usePublicClient, useSendTransaction, useWalletClient } from 'wagmi'
 import { openTo } from '../../utils/common'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { withClient } from '@/components/withClient'
+import { generateMnemonic, mnemonicToAccount, english } from 'viem/accounts'
 
 function ConnnectBtn(p: { onClick?: () => void }) {
   const modal = useConnectModal()
@@ -48,12 +48,17 @@ const BlobTX = () => {
   const [isShow, setIsShow] = useState<boolean>(true)
   const { disconnect } = useDisconnect()
   const [shownettip, setShowNetTip] = useState(false)
-  const { data: walletClient } = useWalletClient({ chainId: ethda.id })
+  const { data: _wc } = useWalletClient({ chainId: ethda.id })
+  const { sendTransactionAsync } = useSendTransaction({})
   const publicClient = usePublicClient({ chainId: ethda.id })
   const [transData, setTransData] = useState<{ text: Uint8Array; img: Uint8Array; imgType: string }>()
   const refState = useRef({ isClickShowModal: false })
   const account = useAccount()
-
+  const [tempWc, setTempWc] = useState<WalletClient>()
+  useEffect(() => {
+    setTempWc(cachedWallet())
+  })
+  const tempAccountAddrss = tempWc?.account?.address
   const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml']
   const isConnected = account.address && account.isConnected && account.chainId == ethda.id
   // console.info('isConnected', isConnected, account.address, account.isConnected, account.chain?.id, ethda.id)
@@ -85,6 +90,20 @@ const BlobTX = () => {
   const handleBlobClick = (blob: boolean) => {
     setSelectedBlob(blob)
   }
+
+  const cachedWallet = (): WalletClient => {
+    let memoprivitekey = window.localStorage.getItem('blobtx-wallet')
+    if (!memoprivitekey) {
+      memoprivitekey = generateMnemonic(english)
+      window.localStorage.setItem('blobtx-wallet', memoprivitekey)
+    }
+    return createWalletClient({
+      account: mnemonicToAccount(memoprivitekey),
+      chain: ethda,
+      transport: http(),
+    })
+  }
+
 
   useEffect(() => {
     if (!isConnected) {
@@ -158,7 +177,7 @@ const BlobTX = () => {
   }
 
   const onTranscode = async () => {
-    if (!walletClient || !file || file.size > 128 * 1024) return
+    if (!file || file.size > 128 * 1024) return
 
     const fr = new FileReader()
     fr.onload = () => {
@@ -237,21 +256,24 @@ const BlobTX = () => {
   }
 
   const onSendTx = async () => {
-    if (!walletClient || !transData || !publicClient || !account || !account.address) return
+    if (!_wc || !transData || !publicClient || !account || !account.address) return
     try {
       setLoading({ loading: true })
-      const balance = await publicClient.getBalance({ address: account.address })
-      if (balance < parseEther('0.00001')) {
-        return setLoading({ loading: false, error: true, errorMsg: 'Insufficient funds for gas' })
+      const walletClient = tempWc ?? cachedWallet()
+      const sender: Address = walletClient.account?.address as any
+      const balance = await publicClient.getBalance({ address: sender })
+      if (balance < parseEther('0.0001')) {
+        const hash = await sendTransactionAsync({ account: account.address, to: sender, value: parseEther('0.001') })
+        await publicClient.waitForTransactionReceipt({ hash, confirmations: 3 })
+        // return setLoading({ loading: false, error: true, errorMsg: 'Insufficient funds for gas' })
       }
       const blobs = [transData.text, transData.img]
       const { commitments, proofs, versionHashs, encodeBlobs } = await getConvertOfZkg(blobs)
-      // const [account] = await walletClient.getAddresses()
       const blobBaseFee = await publicClient.getBlobBaseFee()
       const perGas = await publicClient.estimateFeesPerGas({ type: 'eip4844' })
 
       console.info('blobBaseFee', blobBaseFee, (perGas.gasPrice ?? 1n) * BigInt(blobs.length) * 128n * 1024n)
-      const blobsMeta = createMetaDataForBlobs(account.address, [
+      const blobsMeta = createMetaDataForBlobs(sender, [
         {
           content_type: 'text/plain',
           versioned_hash: bytesToHex(versionHashs[0]),
@@ -266,14 +288,14 @@ const BlobTX = () => {
         },
       ])
       const blobsMetadataHex = stringToHex(JSON.stringify(blobsMeta))
-      const nonce = await publicClient.getTransactionCount({ address: account.address })
+      const nonce = await publicClient.getTransactionCount({ address: sender })
       const gasLimit = 21000n + BigInt(blobsMetadataHex.length) * 10n
       const gasPrice = 1_000_000_000n
       const to: Address = ethda.contracts.blobTo.address
       const gasMultiper = 2n
       const value = 131072n * blobBaseFee * BigInt(blobs.length) * gasMultiper
       const request = await walletClient.prepareTransactionRequest({
-        account: account.address,
+        account: sender,
         nonce,
         gas: gasLimit,
         gasPrice: gasPrice,
@@ -285,11 +307,10 @@ const BlobTX = () => {
       })
       console.info('tx:', request.gas, request.gasPrice, request.maxPriorityFeePerGas)
 
-      const res = await walletClient.signTransaction(request)
+      const res = await walletClient.signTransaction(request as any)
       const hexSig = (res.startsWith('0x') ? res : `0x${res}`) as `0x${string}`
       const transaction = parseTransaction(hexSig)
       if (!transaction) return
-
       const common = Common.custom(
         {
           name: 'ethda',
@@ -396,35 +417,43 @@ const BlobTX = () => {
                       </button>
                     </div>
                   </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <div className='cursor-pointer rounded-lg border-[#FC7823] md:text-sm  border h-[42px] items-center flex text-[#FC7823] px-[15px]'>
-                        {formatEthereumAddress(account.address)}
-                      </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align='start' className='w-[161px] bg-white'>
-                      <DropdownMenuItem
-                        textValue='Disconnect'
-                        onClick={() => {
-                          setLoading({ success: false })
-                          setInputText('')
-                          setFile(null)
-                          setTransData(null as any)
-                          disconnect()
-                        }}
-                        className='text-base  hover:text-orange-400  cursor-pointer'
+                  <div className='flex flex-col gap-2 mo:w-full'>
+                    <div className='flex flex-row justify-between'>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <div className='cursor-pointer rounded-lg border-[#FC7823] md:text-sm  border h-[42px] items-center flex text-[#FC7823] px-[15px]'>
+                            {formatEthereumAddress(account.address)}
+                          </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align='start' className='w-[161px] bg-white'>
+                          <DropdownMenuItem
+                            textValue='Disconnect'
+                            onClick={() => {
+                              setLoading({ success: false })
+                              setInputText('')
+                              setFile(null)
+                              setTransData(null as any)
+                              disconnect()
+                            }}
+                            className='text-base  hover:text-orange-400  cursor-pointer'
+                          >
+                            Disconnect
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                      <div
+                        onClick={() => window.open(`${ethda.blockExplorers.blobs.url}/address/${tempAccountAddrss}`, '_blank')}
+                        className=' cursor-pointer flex mr-10 mo:mr-0 gap-[13px] items-center'
                       >
-                        Disconnect
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-
-                  <div
-                    onClick={() => window.open(`${ethda.blockExplorers.blobs.url}/address/${account?.address}`, '_blank')}
-                    className=' cursor-pointer flex mr-10 mo:mr-0 gap-[13px] items-center'
-                  >
-                    <img className='ml-5 mo:h-[32px]' src='deal.svg' />
-                    <span className='text-[#FC7823] font-normal text-base'>History</span>
+                        <img className='ml-5 mo:h-[32px]' src='deal.svg' />
+                        <span className='text-[#FC7823] font-normal text-base'>History</span>
+                      </div>
+                    </div>
+                    {tempWc && (
+                      <div className='text-[#FC7823]'>
+                        <span className='text-black mr-2'>BlobTx Account:</span> {formatEthereumAddress(tempWc.account?.address)}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

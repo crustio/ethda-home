@@ -55,9 +55,9 @@ export const ethda = defineChain({
   // contracts: {},
 })
 
-import { coinbaseWallet, imTokenWallet } from '@rainbow-me/rainbowkit/wallets'
+import { metaMaskWallet, tokenPocketWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets'
 import { createClient } from 'viem'
-const connectors = connectorsForWallets([{ groupName: 'Suggested', wallets: [imTokenWallet] }], {
+const connectors = connectorsForWallets([{ groupName: 'Suggested', wallets: [metaMaskWallet, tokenPocketWallet, walletConnectWallet] }], {
   appName: 'EthDA',
   appUrl: 'https://ethda.io',
   appIcon: 'https://ethda.io/logo.svg',
