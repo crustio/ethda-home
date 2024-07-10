@@ -635,7 +635,7 @@ const BlobTX = () => {
               <div className='flex gap-[15px] mt-5 mb-5  mo:mb-10 '>
                 <button
                   onClick={() => {
-                    window.open(`${ethda.blockExplorers.blobs.url}/address/${account?.address}`, '_blank')
+                    window.open(`${ethda.blockExplorers.blobs.url}/address/${tempAccountAddrss}`, '_blank')
                   }}
                   className=' mo:w-[120px] w-[140px]  border h-[36px] rounded-lg border-[#000000] px-[10px] font-medium text-base mo:text-sm'
                 >
