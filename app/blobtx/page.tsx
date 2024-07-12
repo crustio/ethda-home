@@ -48,7 +48,6 @@ const BlobTX = () => {
   const [isShow, setIsShow] = useState<boolean>(true)
   const { disconnect } = useDisconnect()
   const [shownettip, setShowNetTip] = useState(false)
-  const { data: _wc } = useWalletClient({ chainId: ethda.id })
   const { sendTransactionAsync } = useSendTransaction({})
   const publicClient = usePublicClient({ chainId: ethda.id })
   const [transData, setTransData] = useState<{ text: Uint8Array; img: Uint8Array; imgType: string }>()
@@ -57,10 +56,10 @@ const BlobTX = () => {
   const [tempWc, setTempWc] = useState<WalletClient>()
   useEffect(() => {
     setTempWc(cachedWallet())
-  })
+  }, [])
   const tempAccountAddrss = tempWc?.account?.address
   const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml']
-  const isConnected = account.address && account.isConnected && account.chainId == ethda.id
+  const isConnected = account.address && account.isConnected
   // console.info('isConnected', isConnected, account.address, account.isConnected, account.chain?.id, ethda.id)
   const clearAllState = () => {
     setLoading({ loading: false, success: false, error: false, errorMsg: '', uploadImageError: '' })
@@ -103,7 +102,6 @@ const BlobTX = () => {
       transport: http(),
     })
   }
-
 
   useEffect(() => {
     if (!isConnected) {
@@ -256,23 +254,21 @@ const BlobTX = () => {
   }
 
   const onSendTx = async () => {
-    if (!_wc || !transData || !publicClient || !account || !account.address) return
+    if (!transData || !publicClient || !account || !account.address) return
     try {
       setLoading({ loading: true })
       const walletClient = tempWc ?? cachedWallet()
       const sender: Address = walletClient.account?.address as any
       const balance = await publicClient.getBalance({ address: sender })
-      if (balance < parseEther('0.0001')) {
-        const hash = await sendTransactionAsync({ account: account.address, to: sender, value: parseEther('0.001') })
+      if (balance < parseEther('0.0006')) {
+        const hash = await sendTransactionAsync({ chainId: ethda.id, account: account.address, to: sender, value: parseEther('0.001') })
         await publicClient.waitForTransactionReceipt({ hash, confirmations: 3 })
         // return setLoading({ loading: false, error: true, errorMsg: 'Insufficient funds for gas' })
       }
       const blobs = [transData.text, transData.img]
       const { commitments, proofs, versionHashs, encodeBlobs } = await getConvertOfZkg(blobs)
       const blobBaseFee = await publicClient.getBlobBaseFee()
-      const perGas = await publicClient.estimateFeesPerGas({ type: 'eip4844' })
-
-      console.info('blobBaseFee', blobBaseFee, (perGas.gasPrice ?? 1n) * BigInt(blobs.length) * 128n * 1024n)
+      console.info('blobBaseFee', blobBaseFee)
       const blobsMeta = createMetaDataForBlobs(sender, [
         {
           content_type: 'text/plain',
@@ -306,8 +302,9 @@ const BlobTX = () => {
         chain: ethda,
       })
       console.info('tx:', request.gas, request.gasPrice, request.maxPriorityFeePerGas)
-
-      const res = await walletClient.signTransaction(request as any)
+      // @ts-ignore
+      const res = await walletClient.account.signTransaction(request)
+      // const res = await walletClient.signTransaction(request as any)
       const hexSig = (res.startsWith('0x') ? res : `0x${res}`) as `0x${string}`
       const transaction = parseTransaction(hexSig)
       if (!transaction) return
@@ -451,7 +448,10 @@ const BlobTX = () => {
                     </div>
                     {tempWc && (
                       <div className='text-[#FC7823]'>
-                        <span className='text-black mr-2'>BlobTx Account:</span> {formatEthereumAddress(tempWc.account?.address)}
+                        <span className='text-black mr-2'>BlobTx Account:</span>{' '}
+                        <a target='_blank' href={`${ethda.blockExplorers.default.url}/address/${tempAccountAddrss}`}>
+                          {formatEthereumAddress(tempWc.account?.address)}
+                        </a>
                       </div>
                     )}
                   </div>

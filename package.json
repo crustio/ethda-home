@@ -45,8 +45,8 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.8",
     "tailwind-merge": "^2.2.1",
-    "viem": "~2.14.2",
-    "wagmi": "~2.10.2"
+    "viem": "2.14.x",
+    "wagmi": "2.10.x"
   },
   "browser": {
     "fs": false,

@@ -10,10 +10,11 @@ import { withClient } from './components/withClient'
 const queryClient = new QueryClient()
 
 export const Providers = withClient(({ children }: { children: ReactNode }) => {
+  console.info('Providers Changed')
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider locale='en-US' modalSize='compact'>
+        <RainbowKitProvider locale='en-US' modalSize='compact' initialChain={config.chains[0]}>
           {children}
         </RainbowKitProvider>
       </QueryClientProvider>

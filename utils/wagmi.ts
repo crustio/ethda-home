@@ -28,7 +28,9 @@ export const ethda = defineChain({
     },
   },
   contracts: {
-    blobTo: { address: '0x975ef84AE286F95a9F732C30267Bb50D103b4374' },
+    // blobTo: { address: '0x9FC2d50067AC5B732cA4D02a2d1A8F286882D909' },
+    // blobTo: { address: zeroAddress },
+    blobTo: { address: '0xCC0BC5927905ba756659A0c4e90A6dcD626416ee' },
   },
   custom: {
     bridgeUrl: 'https://bridge-testnet.ethda.io',
@@ -56,7 +58,7 @@ export const ethda = defineChain({
 })
 
 import { metaMaskWallet, tokenPocketWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets'
-import { createClient } from 'viem'
+import { createClient, zeroAddress } from 'viem'
 const connectors = connectorsForWallets([{ groupName: 'Suggested', wallets: [metaMaskWallet, tokenPocketWallet, walletConnectWallet] }], {
   appName: 'EthDA',
   appUrl: 'https://ethda.io',
