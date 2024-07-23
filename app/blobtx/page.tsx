@@ -259,12 +259,6 @@ const BlobTX = () => {
       setLoading({ loading: true })
       const walletClient = tempWc ?? cachedWallet()
       const sender: Address = walletClient.account?.address as any
-      const balance = await publicClient.getBalance({ address: sender })
-      if (balance < parseEther('0.0006')) {
-        const hash = await sendTransactionAsync({ chainId: ethda.id, account: account.address, to: sender, value: parseEther('0.001') })
-        await publicClient.waitForTransactionReceipt({ hash, confirmations: 3 })
-        // return setLoading({ loading: false, error: true, errorMsg: 'Insufficient funds for gas' })
-      }
       const blobs = [transData.text, transData.img]
       const { commitments, proofs, versionHashs, encodeBlobs } = await getConvertOfZkg(blobs)
       const blobBaseFee = await publicClient.getBlobBaseFee()
@@ -288,8 +282,16 @@ const BlobTX = () => {
       const gasLimit = 21000n + BigInt(blobsMetadataHex.length) * 10n
       const gasPrice = 1_000_000_000n
       const to: Address = ethda.contracts.blobTo.address
-      const gasMultiper = 2n
-      const value = 131072n * blobBaseFee * BigInt(blobs.length) * gasMultiper
+      const value = (131072n * blobBaseFee * BigInt(blobs.length) * 15n) / 10n
+      const balance = await publicClient.getBalance({ address: sender })
+      console.info('needGas:', gasLimit * gasPrice + value)
+      if (balance < gasLimit * gasPrice + value) {
+        let needTransValue = gasLimit * gasPrice + value - balance
+        parseEther('0.001') > needTransValue && (needTransValue = parseEther('0.001'))
+        const hash = await sendTransactionAsync({ chainId: ethda.id, account: account.address, to: sender, value: needTransValue })
+        await publicClient.waitForTransactionReceipt({ hash, confirmations: 3 })
+        // return setLoading({ loading: false, error: true, errorMsg: 'Insufficient funds for gas' })
+      }
       const request = await walletClient.prepareTransactionRequest({
         account: sender,
         nonce,
