@@ -243,12 +243,14 @@ const BlobTX = () => {
       })
         .then((r) => r.json())
         .catch((e) => console.error(e))
-      if (data?.result && 'status' in data.result && data.result.status === '0x1') {
-        setLoading({ loading: false, success: true, error: false })
-        return data
-      } else {
-        setLoading({ loading: false, success: false, error: true })
-        return
+      if (data?.result && 'status' in data.result) {
+        if (data.result.status === '0x1') {
+          setLoading({ loading: false, success: true, error: false })
+          return data
+        } else {
+          setLoading({ loading: false, success: false, error: true })
+          return
+        }
       }
     }
   }
@@ -284,9 +286,10 @@ const BlobTX = () => {
       const to: Address = ethda.contracts.blobTo.address
       const value = (131072n * blobBaseFee * BigInt(blobs.length) * 15n) / 10n
       const balance = await publicClient.getBalance({ address: sender })
-      console.info('needGas:', gasLimit * gasPrice + value)
-      if (balance < gasLimit * gasPrice + value) {
-        let needTransValue = gasLimit * gasPrice + value - balance
+      const needGas = ((gasLimit * gasPrice + value) * 12n) / 10n
+      console.info('needGas:', needGas)
+      if (balance < needGas) {
+        let needTransValue = needGas - balance
         parseEther('0.001') > needTransValue && (needTransValue = parseEther('0.001'))
         const hash = await sendTransactionAsync({ chainId: ethda.id, account: account.address, to: sender, value: needTransValue })
         await publicClient.waitForTransactionReceipt({ hash, confirmations: 3 })
