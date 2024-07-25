@@ -48,7 +48,7 @@ const BlobTX = () => {
   const [isShow, setIsShow] = useState<boolean>(true)
   const { disconnect } = useDisconnect()
   const [shownettip, setShowNetTip] = useState(false)
-  const { sendTransactionAsync } = useSendTransaction({})
+  const { sendTransactionAsync } = useSendTransaction()
   const publicClient = usePublicClient({ chainId: ethda.id })
   const [transData, setTransData] = useState<{ text: Uint8Array; img: Uint8Array; imgType: string }>()
   const refState = useRef({ isClickShowModal: false })
@@ -114,47 +114,43 @@ const BlobTX = () => {
   const allowDrop = (event: { preventDefault: () => void }) => {
     event.preventDefault()
   }
-
+  const fileRef = useRef<ArrayBuffer>()
+  const onFile = (f?: File | null) => {
+    if (!f) {
+      setPreviewUrl('')
+      setFile(null)
+      return
+    }
+    if (!validImageTypes.includes(f.type)) {
+      setPreviewUrl('')
+      setFile(null)
+      return setLoading({ uploadImageError: 'Only PNG, JPG, JPEG, GIF formats are supported. Please select again.' })
+    }
+    if (f.size > 128 * 1024) {
+      setPreviewUrl('')
+      setFile(null)
+      return setLoading({ uploadImageError: 'File size exceeding 128KB! Please select again.' })
+    }
+    const reader = new FileReader()
+    reader.onerror = () => {
+      setLoading({ uploadImageError: 'Read file error! Please select again.' })
+    }
+    reader.onloadend = () => {
+      if (reader.result) {
+        setFile(f)
+        fileRef.current = reader.result as ArrayBuffer
+        setPreviewUrl(URL.createObjectURL(new Blob([reader.result], { type: f.type })))
+      }
+    }
+    reader.readAsArrayBuffer(f)
+  }
   const handleDrop = useCallback((event: { preventDefault: () => void; dataTransfer: { files: { item: (arg0: number) => any } } }) => {
     event.preventDefault()
-
-    const files = event.dataTransfer.files?.item(0)
-    if (!validImageTypes.includes(files?.type)) {
-      setLoading({ uploadImageError: 'Only PNG, JPG, JPEG, GIF formats are supported. Please select again.' })
-      return
-    }
-
-    const fileSizeInKB = files.size / 1024
-    if (fileSizeInKB > 128) {
-      setLoading({ uploadImageError: 'File size exceeding 128KB! Please select again.' })
-      return
-    }
-
-    setFile(files)
+    onFile(event.dataTransfer.files?.item(0))
   }, [])
 
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.item(0)
-    if (!file) return
-
-    const fileSizeInKB = file.size / 1024
-
-    if (!validImageTypes.includes(file?.type)) {
-      setLoading({ uploadImageError: 'Only PNG, JPG, JPEG, GIF formats are supported. Please select again.' })
-      return
-    }
-
-    if (fileSizeInKB > 128) {
-      setLoading({ uploadImageError: 'File size exceeding 128KB! Please select again.' })
-      return
-    }
-    setFile(file)
-
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result)
-    }
-    reader.readAsDataURL(file)
+    onFile(e.target.files?.item(0))
   }, [])
 
   useEffect(() => {
@@ -175,17 +171,12 @@ const BlobTX = () => {
   }
 
   const onTranscode = async () => {
-    if (!file || file.size > 128 * 1024) return
-
-    const fr = new FileReader()
-    fr.onload = () => {
-      setTransData({
-        text: Buffer.from(inputText, 'utf-8').valueOf(),
-        img: Buffer.from(fr.result as ArrayBuffer).valueOf(),
-        imgType: file.type,
-      })
-    }
-    fr.readAsArrayBuffer(file)
+    if (!fileRef.current || !file) return
+    setTransData({
+      text: Buffer.from(inputText, 'utf-8').valueOf(),
+      img: Buffer.from(fileRef.current).valueOf(),
+      imgType: file.type,
+    })
   }
   const ub8a2numa = (u8: Uint8Array) => {
     const uint8Array = u8
@@ -261,6 +252,16 @@ const BlobTX = () => {
       setLoading({ loading: true })
       const walletClient = tempWc ?? cachedWallet()
       const sender: Address = walletClient.account?.address as any
+      const balance = await publicClient.getBalance({ address: sender })
+      const needGas = parseEther('0.001')
+      console.info('needGas:', needGas)
+      if (balance < needGas) {
+        let needTransValue = needGas
+        // parseEther('0.001') > needTransValue && (needTransValue = parseEther('0.001'))
+        const hash = await sendTransactionAsync({ chainId: ethda.id, account: account.address, to: sender, value: needTransValue })
+        await publicClient.waitForTransactionReceipt({ hash, confirmations: 3 })
+        // return setLoading({ loading: false, error: true, errorMsg: 'Insufficient funds for gas' })
+      }
       const blobs = [transData.text, transData.img]
       const { commitments, proofs, versionHashs, encodeBlobs } = await getConvertOfZkg(blobs)
       const blobBaseFee = await publicClient.getBlobBaseFee()
@@ -285,16 +286,6 @@ const BlobTX = () => {
       const gasPrice = 1_000_000_000n
       const to: Address = ethda.contracts.blobTo.address
       const value = (131072n * blobBaseFee * BigInt(blobs.length) * 15n) / 10n
-      const balance = await publicClient.getBalance({ address: sender })
-      const needGas = parseEther('0.001');
-      console.info('needGas:', needGas)
-      if (balance < needGas) {
-        let needTransValue = needGas;
-        // parseEther('0.001') > needTransValue && (needTransValue = parseEther('0.001'))
-        const hash = await sendTransactionAsync({ chainId: ethda.id, account: account.address, to: sender, value: needTransValue })
-        await publicClient.waitForTransactionReceipt({ hash, confirmations: 3 })
-        // return setLoading({ loading: false, error: true, errorMsg: 'Insufficient funds for gas' })
-      }
       const request = await walletClient.prepareTransactionRequest({
         account: sender,
         nonce,
@@ -494,7 +485,7 @@ const BlobTX = () => {
                   <div className=' text-base md:text-sm font-medium mt-[27px] mo:text-base  mo:mt-5'>
                     Attach an image, not exceeding 128KB
                   </div>
-                  <div className=' mo:px-[50px]'>
+                  <div className=''>
                     <DivBox className=' mt-5 w-full bg-white  h-[303px] md:h-[308px] border-[#000000] mo:mt-5  '>
                       <div onDrop={handleDrop} onDragOver={allowDrop} className=' flex items-center justify-center h-full flex-col '>
                         <input
@@ -537,7 +528,7 @@ const BlobTX = () => {
                       </div>
                     </DivBox>
                   </div>
-                  <div className='mt-5 mo:mt-10 flex justify-center mb-20  mo:px-[50px]'>
+                  <div className='mt-5 mo:mt-10 flex justify-center mb-20 '>
                     <button
                       onClick={onTranscode}
                       className={` ${
@@ -572,7 +563,7 @@ const BlobTX = () => {
                   <ContentBox className='overflow-y-auto overflow-x-hidden  h-[442px] mo:h-[303px] p-5 break-all whitespace-normal '>
                     {transData && transData.text && <>{JSON.stringify(ub8a2numa(selectedBlob ? transData.text : transData.img))}</>}
                   </ContentBox>
-                  <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5 mo:px-[50px] '>
+                  <div className='mt-5 mo:mt-[37px] flex justify-center  mb-5'>
                     <button
                       className={` ${!transData ? 'cursor-not-allowed bg-[#BABABA] ' : 'bg-[#FC7823] '} border mo:w-full  px-6 text-base font-semibold items-center flex  rounded-xl text-[#FFFFFF]  justify-center  h-12 text-center`}
                       onClick={onSendTx}
