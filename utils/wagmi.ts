@@ -30,7 +30,7 @@ export const ethda = defineChain({
   contracts: {
     // blobTo: { address: '0x9FC2d50067AC5B732cA4D02a2d1A8F286882D909' },
     // blobTo: { address: zeroAddress },
-    blobTo: { address: '0xCC0BC5927905ba756659A0c4e90A6dcD626416ee' },
+    blobTo: { address: '0x3318d37C7160dC5582946C80765A61Daa20ff755' },
   },
   custom: {
     bridgeUrl: 'https://bridge-testnet.ethda.io',
