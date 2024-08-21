@@ -1,4 +1,4 @@
-name: Build docker image
+name: docker deploy
 on:
   workflow_dispatch:
   push:
@@ -34,4 +34,10 @@ jobs:
           docker login -u ${{ secrets.DOCKER_HUB_USER_NAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
           docker push crustio/ethda-home:latest
       - name: Update docker compose
-        run: ${{ secrets.RUN_CMD }}
+        uses: fifsky/ssh-action@master
+        with:
+          command: ${{ secrets.RUN_CMD }}
+          host: ${{ secrets.SSH_HOST }}
+          user: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
