@@ -1,4 +1,5 @@
 import { Header } from '@/components/Header'
+import { docsURL } from '@/constants'
 import Link from 'next/link'
 
 export const Banner = () => {
@@ -15,7 +16,7 @@ export const Banner = () => {
             <div className={'text-[70px] mo:text-[38px] md:text-[60px]'}>Availability Layer2</div>
             <div className='mo:flex justify-center'>
               <Link
-                href={'https://docs.ethda.io/'}
+                href={docsURL()}
                 target={'_blank'}
                 className={
                   'flex items-center justify-center w-[200px] h-[58px] border border-white rounded-[12px] font-semibold text-[20px] mo:text-2xl mt-8'

@@ -5,18 +5,19 @@ import { AToastFull } from '@/components/AToast'
 import { Header } from '@/components/Header'
 import { ContentBox, DivBox, StyledButton } from '@/components/StyleButton'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/dropdown-menu'
+import { withClient } from '@/components/withClient'
+import { docsURL } from '@/constants'
 import { EncodeBlobs, createMetaDataForBlobs, formatEthereumAddress, scrollToTop, shortStr, sleep } from '@/utils'
 import { ethda } from '@/utils/wagmi'
 import { Common } from '@ethereumjs/common'
 import { BlobEIP4844Transaction } from '@ethereumjs/tx'
 import { CrossCircledIcon } from '@radix-ui/react-icons'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { ChangeEvent, Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { Address, WalletClient, bytesToHex, createWalletClient, http, parseEther, parseTransaction, stringToHex } from 'viem'
-import { useAccount, useDisconnect, usePublicClient, useSendTransaction, useWalletClient } from 'wagmi'
+import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
+import { useAccount, useDisconnect, usePublicClient, useSendTransaction } from 'wagmi'
 import { openTo } from '../../utils/common'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-import { withClient } from '@/components/withClient'
-import { generateMnemonic, mnemonicToAccount, english } from 'viem/accounts'
 
 function ConnnectBtn(p: { onClick?: () => void }) {
   const modal = useConnectModal()
@@ -369,7 +370,7 @@ const BlobTX = () => {
     openTo(ethda.custom.bridgeUrl)
   }
   const onClickAddNet = () => {
-    openTo('https://docs.ethda.io/resources/network-configuration/add-ethda-network/')
+    openTo(`${docsURL()}/resources/network-configuration/add-ethda-network/`)
   }
 
   useEffect(() => {

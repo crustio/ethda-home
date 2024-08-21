@@ -8,6 +8,7 @@ import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi'
 import classNames from 'classnames'
 import FullModal from './FullModal'
 import { ethda } from '@/utils/wagmi'
+import { docsURL } from '@/constants'
 
 type HeaderType = {
   logo?: string
@@ -84,7 +85,7 @@ export const Header: FC<HeaderType> = ({
 
     {
       text: 'Document',
-      to: 'https://docs.ethda.io/',
+      to: docsURL(),
     },
   ]
 
@@ -139,7 +140,7 @@ export const Header: FC<HeaderType> = ({
                 <div onClick={() => onSwitchTo('blobtx')} className={`nav-item ${pathname === '/blobtx' ? 'active' : ''}`}>
                   Try BlobTx
                 </div>
-                <Link href={'https://docs.ethda.io/'} target={'_blank'} className={`block nav-item`}>
+                <Link href={docsURL()} target={'_blank'} className={`block nav-item`}>
                   Document
                 </Link>
               </div>

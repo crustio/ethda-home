@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Header } from '../Header'
+import { docsURL } from '@/constants'
 
 const Typewriter = ({ phrases }: any) => {
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0)
@@ -94,7 +95,7 @@ const ABanner = () => {
         <div className='mt-auto mb-5 w-full '>
           <div className='flex justify-center rounded-sm '>
             <button
-              onClick={() => window.open('https://docs.ethda.io/')}
+              onClick={() => window.open(docsURL())}
               style={{
                 background: 'linear-gradient(90deg, rgba(222, 149, 25, 0.6) 0%, rgba(142, 70, 24, 0.6) 100%)',
                 //   backgroundImage: 'linear-gradient(90deg, rgba(222, 149, 25, 0.6) 0%, rgba(142, 70, 24, 0.6) 100%)',
