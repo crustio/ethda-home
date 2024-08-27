@@ -4,27 +4,27 @@ import { createConfig, http } from 'wagmi'
 import { defineChain } from 'viem/utils'
 const walletConnectProjectId = '08655efd533e1054791755a0c58862c4'
 
-export const ethda = defineChain({
+export const ethda = () => defineChain({
   id: 2832,
   network: 'EthDA Testnet',
   name: 'EthDA Testnet',
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
   rpcUrls: {
     default: {
-      http: ['https://rpc-testnet.ethda.io'],
+      http: [`https://rpc-testnet.${DomainRef.value}`],
     },
     public: {
-      http: ['https://rpc-testnet.ethda.io'],
+      http: [`https://rpc-testnet.${DomainRef.value}`],
     },
   },
   blockExplorers: {
     default: {
       name: 'Blockscan',
-      url: 'https://scan-testnet.ethda.io',
+      url: `https://scan-testnet.${DomainRef.value}`,
     },
     blobs: {
       name: 'Blobscan',
-      url: 'https://blobscan-testnet.ethda.io',
+      url: `https://blobscan-testnet.${DomainRef.value}`,
     },
   },
   contracts: {
@@ -33,32 +33,14 @@ export const ethda = defineChain({
     blobTo: { address: '0xC23fD87AB80750075Ed34D0aAa6d302C9df4a7f9' },
   },
   custom: {
-    bridgeUrl: 'https://bridge-testnet.ethda.io',
+    bridgeUrl: `https://bridge-testnet.${DomainRef.value}`,
   },
 
-  // id: 1001,
-  // network: 'EthDA Testnet',
-  // name: 'EthDA Testnet',
-  // nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-  // rpcUrls: {
-  //   default: {
-  //     http: ['https://rpc-devnet2.ethda.io'],
-  //   },
-  //   public: {
-  //     http: ['https://rpc-devnet2.ethda.io'],
-  //   },
-  // },
-  // blockExplorers: {
-  //   default: {
-  //     name: 'Blockscan',
-  //     url: 'https://scan-testnet.ethda.io',
-  //   },
-  // },
-  // contracts: {},
 })
 
 import { metaMaskWallet, tokenPocketWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets'
 import { createClient, zeroAddress } from 'viem'
+import { DomainRef } from '@/hooks/useConfigDomain'
 const connectors = connectorsForWallets([{ groupName: 'Suggested', wallets: [metaMaskWallet, tokenPocketWallet, walletConnectWallet] }], {
   appName: 'EthDA',
   appUrl: 'https://ethda.io',
@@ -66,9 +48,9 @@ const connectors = connectorsForWallets([{ groupName: 'Suggested', wallets: [met
   projectId: walletConnectProjectId,
 })
 console.info('connectors', connectors)
-const config = createConfig({
+const config = () => createConfig({
   connectors,
-  chains: [ethda] as any,
+  chains: [ethda()] as any,
   client({ chain }) {
     return createClient({ chain, transport: http() })
   },

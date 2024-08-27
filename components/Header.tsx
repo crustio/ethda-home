@@ -64,7 +64,7 @@ export const Header: FC<HeaderType> = ({
       document.body.classList.remove('overflow-hidden')
     }
   }, [isShow])
-
+  const ethdaNet = ethda()
   const currentMenus = [
     {
       text: 'Home',
@@ -72,11 +72,11 @@ export const Header: FC<HeaderType> = ({
     },
     {
       text: 'Explorer',
-      to: ethda.blockExplorers.default.url,
+      to: ethdaNet.blockExplorers.default.url,
     },
     {
       text: 'Blobscan',
-      to: ethda.blockExplorers.blobs.url,
+      to: ethdaNet.blockExplorers.blobs.url,
     },
     {
       text: 'Try BlobTX',
@@ -126,13 +126,13 @@ export const Header: FC<HeaderType> = ({
                   Home
                 </div>
                 <div
-                  onClick={() => onSwitchTo(ethda.blockExplorers.default.url)}
+                  onClick={() => onSwitchTo(ethdaNet.blockExplorers.default.url)}
                   className={`nav-item ${pathname === '/Explorer' ? 'active' : ''}`}
                 >
                   Explorer
                 </div>
                 <div
-                  onClick={() => onSwitchTo(ethda.blockExplorers.blobs.url)}
+                  onClick={() => onSwitchTo(ethdaNet.blockExplorers.blobs.url)}
                   className={`nav-item ${pathname === '/Blobscan' ? 'active' : ''}`}
                 >
                   Blobscan
