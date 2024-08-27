@@ -4,7 +4,7 @@ export const DomainRef = {
   value: 'ethda.io',
 }
 
-const supportDomain = ['ethda.io', 'ethda.xyz', 'ethda.com']
+const supportDomain = ['ethda.io', 'ethda.app']
 
 export const getAvilableDomain = () => {
   if (location.hostname == 'localhost') return supportDomain[0]
