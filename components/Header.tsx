@@ -79,11 +79,6 @@ export const Header: FC<HeaderType> = ({
       to: ethdaNet.blockExplorers.blobs.url,
     },
     {
-      text: 'Try BlobTX',
-      to: '/blobtx',
-    },
-
-    {
       text: 'Document',
       to: docsURL(),
     },
@@ -136,9 +131,6 @@ export const Header: FC<HeaderType> = ({
                   className={`nav-item ${pathname === '/Blobscan' ? 'active' : ''}`}
                 >
                   Blobscan
-                </div>
-                <div onClick={() => onSwitchTo('blobtx')} className={`nav-item ${pathname === '/blobtx' ? 'active' : ''}`}>
-                  Try BlobTx
                 </div>
                 <Link href={docsURL()} target={'_blank'} className={`block nav-item`}>
                   Document
